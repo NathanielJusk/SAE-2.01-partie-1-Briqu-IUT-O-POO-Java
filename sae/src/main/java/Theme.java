@@ -8,8 +8,10 @@ public class Theme {
     private Theme themePere;
 }
 
-public boolean estParent(){
 
+
+public boolean estParent(){
+return true;
 }
 
 public List<Boite> rechercherBoitesParTheme(){

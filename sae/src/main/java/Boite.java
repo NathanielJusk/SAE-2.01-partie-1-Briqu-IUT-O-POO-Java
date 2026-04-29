@@ -5,7 +5,9 @@ public class Boite  {
     private int annee;
 
     public Boite(String numero, int nbPiece, String nom, int annee){
-
+        this.numero = numero;
+        this.nbPiece = nbPiece;
+        this.annee = annee;
     }   
 
     public void afficherStatistiques(){
@@ -13,6 +15,6 @@ public class Boite  {
     }
     
     public boolean estComplete(){
-
+        return false;
     }
 }
