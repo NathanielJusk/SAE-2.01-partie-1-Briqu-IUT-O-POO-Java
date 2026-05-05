@@ -1,4 +1,7 @@
 package fr.univorleans.iut45.briquiuto;
+
+import java.util.List;
+
 public class BoitePersonnalisee extends Boite{
 
     public BoitePersonnalisee(String numero, int nbPiece, String nom, int annee) {
@@ -11,6 +14,9 @@ public class BoitePersonnalisee extends Boite{
     } 
     public void CalculerTotalPieces(){
 
+    }
+    public Boite composerBoitePersonnalisee(String nom, List<Piece> pieces){
+        return pieces;
     }
 
 }
