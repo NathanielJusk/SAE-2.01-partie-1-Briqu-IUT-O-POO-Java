@@ -29,6 +29,7 @@ public class Piece {
         return categorie;
     }
     
-
-    
+    public void setCategorie(Categorie categorie) {
+        this.categorie = categorie;
+    }
 }
