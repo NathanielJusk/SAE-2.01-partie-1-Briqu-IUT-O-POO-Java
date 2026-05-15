@@ -7,21 +7,38 @@ public class Theme {
     private String nom;
     private List<Theme> sousThemes;
     private Theme themePere;
+    private boolean estParent;
 
 
 public Theme(int idTheme, String nom){
     this.idTheme = idTheme;
     this.nom = nom;
     this.sousThemes = new ArrayList<>();
+    this.estParent = false;
+    this.themePere = null;
+}
+
+public Theme(int idTheme, String nom, Theme themePere){
+    this.idTheme = idTheme;
+    this.nom = nom;
+    this.sousThemes = new ArrayList<>();
+    this.estParent = false;
+    this.themePere = themePere;
+    if (themePere != null) {
+        themePere.ajouterSousTheme(this);
+    }
+}
+
+public void ajouterSousTheme(Theme sousTheme){
+    this.sousThemes.add(sousTheme);
+    this.estParent = true;
 }
 
 public boolean estParent(){
-return true;
+return this.estParent;
 }
 
-public List<Boite> rechercherBoitesParTheme(){
- return null;
-}
+
 
 public int getIdTheme() {
     return idTheme;
@@ -54,6 +71,6 @@ public Theme getThemePere() {
 public void setThemePere(Theme themePere) {
     this.themePere = themePere;
 }
-
-
+public void setEstParent(boolean estParent) {
+    this.estParent = estParent;
 }
