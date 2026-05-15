@@ -4,9 +4,14 @@ public class Figurine {
     private String nomFig;
     private int nbParties;
 
-    public Figurine(String nomFig, int idFig, int nbParties) {
+    public Figurine( int idFig, String nomFig, int nbParties) {
         this.nomFig = nomFig;
         this.idFig = idFig;
+        this.nbParties = nbParties;
+    }
+    public Figurine(String nomFig, int nbParties) {
+        this.nomFig = nomFig;
+        this.idFig = 0;
         this.nbParties = nbParties;
     }
 
@@ -34,6 +39,10 @@ public class Figurine {
         this.nbParties = nbParties;
     }
 
-    
-
+    @Override
+    public String toString() {
+        return "Figurine{id=" + idFig +
+               ", nom='" + nomFig + "'" +
+               ", nbParties=" + nbParties + "}";
+    }
 }

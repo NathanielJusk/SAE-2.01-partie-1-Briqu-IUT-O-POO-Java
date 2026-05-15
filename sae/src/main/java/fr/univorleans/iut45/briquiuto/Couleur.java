@@ -12,6 +12,12 @@ public class Couleur {
         this.rgb = rgb;
         this.transparent = transparent;
     }
+    public Couleur(String nomCoul, String rgb, boolean transparent) {
+        this.idCoul      = 0;
+        this.nomCoul     = nomCoul;
+        this.rgb         = rgb;
+        this.transparent = transparent;
+    }
 
     public int getIdCoul() {
         return idCoul;
