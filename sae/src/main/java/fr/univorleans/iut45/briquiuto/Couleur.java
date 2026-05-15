@@ -45,5 +45,11 @@ public class Couleur {
         this.transparent = transparent;
     }
 
-    
+    @Override
+    public String toString() {
+        return "Couleur{id=" + idCoul +
+               ", nom='" + nomCoul + "'" +
+               ", rgb='" + rgb + "'" +
+               ", transparent=" + transparent + "}";
+    }
 }

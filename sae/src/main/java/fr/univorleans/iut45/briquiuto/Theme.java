@@ -74,3 +74,12 @@ public void setThemePere(Theme themePere) {
 public void setEstParent(boolean estParent) {
     this.estParent = estParent;
 }
+
+@Override
+public String toString() {
+    return "Theme{id=" + idTheme +
+           ", nom='" + nom + "'" +
+           ", estParent=" + estParent +
+           ", themePere=" + (themePere != null ? themePere.getNom() : "null") +
+           ", sousThemes=" + sousThemes.size() + "}";
+}
