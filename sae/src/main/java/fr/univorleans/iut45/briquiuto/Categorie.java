@@ -8,6 +8,10 @@ public class Categorie {
         this.idCat = idCat;
         this.nomCat = nomCat;
     }
+    public Categorie(String nomCat) {
+        this.idCat = 0;
+        this.nomCat = nomCat;
+    }
 
     public int getIdCat() {
         return idCat;

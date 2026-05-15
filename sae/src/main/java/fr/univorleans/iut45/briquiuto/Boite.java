@@ -1,23 +1,34 @@
 package fr.univorleans.iut45.briquiuto;
 
-public class Boite  {
+public abstract class Boite  {
     private String numero;
     private int nbPiece;
     private String nom;
     private int annee;
+    private boolean possedee;
     private Theme theme;
     private Contenu contenu;
 
+    public Boite(String numero, int nbPiece, String nom, int annee, boolean possedee){
+        this.numero = numero;
+        this.nom = nom;
+        this.nbPiece = nbPiece;
+        this.annee = annee;
+        this.theme = null;
+        this.contenu = null;
+        this.possedee = possedee;
+    } 
     public Boite(String numero, int nbPiece, String nom, int annee){
         this.numero = numero;
         this.nom = nom;
         this.nbPiece = nbPiece;
         this.annee = annee;
-    }   
+        this.possedee = false;
+        this.theme = null;
+        this.contenu = null;
+    }  
 
-    public void afficherStatistiques(){
-
-    }
+    public abstract void afficherStatistiques();
     
     public boolean estComplete(){
         return false;
@@ -71,7 +82,19 @@ public class Boite  {
         this.contenu = contenu;
     }
 
-    
-
+    public boolean isPossedee() {
+        return possedee;
+    }
+    public void setPossedee(boolean possedee) {
+        this.possedee = possedee;
+    }
+    @Override
+    public String toString() {
+        return "Boite{num='" + numero + "'" +
+               ", nom='" + nom + "'" +
+               ", annee=" + annee +
+               ", nbPiece=" + nbPiece +
+               ", possedee=" + possedee + "}";
+    }
 
 }
