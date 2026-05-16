@@ -5,4 +5,9 @@ public class BoiteComposee extends Boite{
         super(numero, nbPiece, nom, annee);
         
     }
+
+    @Override
+    public void afficherStatistiques() {
+        // Implémentation
+    }
 }

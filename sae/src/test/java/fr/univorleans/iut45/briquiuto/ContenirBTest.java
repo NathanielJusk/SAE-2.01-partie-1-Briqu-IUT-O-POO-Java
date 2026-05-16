@@ -8,7 +8,7 @@ public class ContenirBTest {
     @Test
     public void testSetGetBoite() {
         ContenirB contenirB = new ContenirB();
-        Boite boite = new Boite("B001", 500, "Boîte Test", 2022);
+        Boite boite = new BoiteComposee("B001", 500, "Boîte Test", 2022);
         contenirB.setBoite(boite);
         assertEquals(boite, contenirB.getBoite());
     }

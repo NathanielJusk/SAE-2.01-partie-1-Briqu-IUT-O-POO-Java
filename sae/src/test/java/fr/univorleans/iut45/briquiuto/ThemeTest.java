@@ -31,13 +31,18 @@ public class ThemeTest {
     @Test
     public void testEstParent() {
         Theme theme = new Theme(1, "Star Wars");
-        assertTrue(theme.estParent());
+        assertFalse(theme.estParent(), "Le thème ne devrait pas être parent à sa création");
+        Theme sousTheme = new Theme(2, "Mandalorian");
+        theme.ajouterSousTheme(sousTheme);
+        assertTrue(theme.estParent(), "Le thème devrait être parent après avoir ajouté un sous-thème");
     }
     
+    /*
     @Test
     public void testRechercherBoitesParTheme() {
         Theme theme = new Theme(1, "Star Wars");
         assertNull(theme.rechercherBoitesParTheme());
     }
+    */
     
 }

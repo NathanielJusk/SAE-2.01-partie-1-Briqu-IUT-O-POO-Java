@@ -8,7 +8,7 @@ public class ContenirFTest {
     @Test
     public void testSetGetFigurine() {
         ContenirF contenirF = new ContenirF();
-        Figurine figurine = new Figurine("Soldat", 1, 5);
+        Figurine figurine = new Figurine(1, "Soldat", 5);
         contenirF.setFigurine(figurine);
         assertEquals(figurine, contenirF.getFigurine());
     }

@@ -15,8 +15,14 @@ public class BoitePersonnalisee extends Boite{
     public void CalculerTotalPieces(){
 
     }
+
+    @Override
+    public void afficherStatistiques() {
+        // Implémentation
+    }
+
     public Boite composerBoitePersonnalisee(String nom, List<Piece> pieces, int annee){
-        Boite boite = new Boite(creeIdentifiantUnique(), pieces.size(), nom, annee);
+        Boite boite = new BoitePersonnalisee(creeIdentifiantUnique(), pieces.size(), nom, annee);
         return boite;
     }
 
