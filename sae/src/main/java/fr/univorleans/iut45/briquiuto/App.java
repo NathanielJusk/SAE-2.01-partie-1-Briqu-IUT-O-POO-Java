@@ -28,3 +28,4 @@ public class App extends Application {
     }
 
 }
+//Cette classe n'existe pas dans le diagramme de classe

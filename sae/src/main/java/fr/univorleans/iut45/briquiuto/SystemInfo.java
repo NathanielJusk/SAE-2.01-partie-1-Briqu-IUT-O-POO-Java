@@ -11,3 +11,4 @@ public class SystemInfo {
     }
 
 }
+//Cette classe n'existe pas dans le diagramme de classe
