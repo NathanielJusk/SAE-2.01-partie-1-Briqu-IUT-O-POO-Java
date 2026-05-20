@@ -1,6 +1,6 @@
 package fr.univorleans.iut45.briquiuto;
 
-public class Administrateur {
+public class Administrateur implements utilisateur {
     public void ajouterBoite(Boite boite) {
         // Implémentation pour ajouter une boîte à la collection
     }
