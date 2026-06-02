@@ -50,6 +50,19 @@ public class Couleur {
     public void setTransparent(boolean transparent) {
         this.transparent = transparent;
     }
+    @Override
+    public int hashCode() {
+        return Integer.hashCode(idCoul);
+    }
+    
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null)return false;
+        if (!(o instanceof Couleur)) return false;
+        Couleur couleur = (Couleur) o;
+        return idCoul == couleur.idCoul;
+    }
 
     @Override
     public String toString() {

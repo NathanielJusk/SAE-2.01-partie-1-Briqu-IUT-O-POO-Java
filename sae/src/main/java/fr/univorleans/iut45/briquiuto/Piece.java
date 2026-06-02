@@ -38,6 +38,20 @@ public class Piece {
     public void setCategorie(Categorie categorie) {
         this.categorie = categorie;
     }
+    @Override
+    public int hashCode() {
+        return Integer.hashCode(numPiece.hashCode());
+    }
+    
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null)return false;
+        if (!(o instanceof Piece)) return false;
+        Piece piece = (Piece) o;
+        return numPiece.equals(piece.numPiece);
+    }
+    @Override
     public String toString() {
         return "Piece{num='" + numPiece + "'" +
                ", nom='" + nomPiece + "'" +

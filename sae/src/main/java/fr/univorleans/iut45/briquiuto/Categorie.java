@@ -28,5 +28,20 @@ public class Categorie {
     public void setNomCat(String nomCat) {
         this.nomCat = nomCat;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null)return false;
+        if (!(o instanceof Categorie)) return false;
+        Categorie categorie = (Categorie) o;
+        return idCat == categorie.idCat;
+    }   
+    @Override
+    public String toString() {
+        return "Categorie{id=" + idCat +
+               ", nom='" + nomCat + "'" +
+               "}";
+    }
     
 }

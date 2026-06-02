@@ -40,6 +40,20 @@ public class Figurine {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null)return false;
+        if (!(o instanceof Figurine)) return false;
+        Figurine figurine = (Figurine) o;
+        return idFig == figurine.idFig;
+    }
+
+    @Override
+    public int hashCode() {
+        return Integer.hashCode(idFig);
+    }
+    
+    @Override
     public String toString() {
         return "Figurine{id=" + idFig +
                ", nom='" + nomFig + "'" +
