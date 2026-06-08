@@ -7,6 +7,12 @@ public class ContenirP {
     private int quantiteP;
     private boolean estSupplement;
 
+        public ContenirP(Couleur couleur, Piece piece, int quantiteP, boolean estSupplement) {
+            this.couleur = couleur;
+            this.piece = piece;
+            this.quantiteP = quantiteP;
+            this.estSupplement = estSupplement;
+        }
     
     public Couleur getCouleur() {
         return couleur;
@@ -22,7 +28,12 @@ public class ContenirP {
     }
     public int getQuantiteP() {
         return quantiteP;
+
     }
+    public int setQuantiteP() {
+        return this.quantiteP;
+    }
+
     public void setQuantiteP(int quantiteP) {
         this.quantiteP = quantiteP;
     }

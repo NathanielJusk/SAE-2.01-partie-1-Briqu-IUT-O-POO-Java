@@ -1,65 +1,100 @@
+package fr.univorleans.iut45.briquiuto;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class BriqueCollectionManager{
+
+    private List<Boite> catalogueBoites;
+    private List<Piece> cataloguePieces;
+    private List<Theme> catalogueThemes;
+    private List<Figurine> catalogueFigurines;
+
     public BriqueCollectionManager() {
         // Constructeur
+        this.catalogueBoites = new ArrayList<>();
+        this.cataloguePieces = new ArrayList<>();
+        this.catalogueThemes = new ArrayList<>();
+        this.catalogueFigurines = new ArrayList<>();
     }
     public List<Boite> getCatalogueBoites() {
-        // Implémentation pour récupérer le catalogue de boîtes
-        return new ArrayList<>();
+        return catalogueBoites;
     }
     public List<Piece> getCataloguePieces() {
-        // Implémentation pour récupérer le catalogue de pièces
-        return new ArrayList<>();
+        return cataloguePieces;
     }
     public List<Theme> getCatalogueThemes() {
-        // Implémentation pour récupérer le catalogue de thèmes
-        return new ArrayList<>();
+
+        return catalogueThemes;
     }
     public List<Figurine> getCatalogueFigurines() {
-        // Implémentation pour récupérer le catalogue de figurines
-        return new ArrayList<>();
+        return catalogueFigurines;
     }
     public Boite rechercherBoiteParNumero(String numero) {
-        // Implémentation pour rechercher une boîte par son numéro
-        return null;
+
+        for (Boite boite : catalogueBoites) {
+            if (boite.getNumero().equals(numero)) {
+                return boite;
+            }
+        }
+        return null; 
     }
     public Boite rechercherBoiteParNom(String nom) {
-        // Implémentation pour rechercher une boîte par son nom
+        for (Boite boite : catalogueBoites) {
+            if (boite.getNom().equals(nom)) {
+                return boite;
+            }
+        }
+        return null; 
+    }
+    public Boite rechercherBoiteParTheme(Theme theme) {
+        for (Boite boite : catalogueBoites) {
+            if (boite.getTheme() != null && boite.getTheme().getNom().equals(theme.getNom())) {
+                return boite;
+            }
+        }
         return null;
     }
-    public Boite rechercherBoiteParTheme(String theme) {
-        // Implémentation pour rechercher une boîte par thème
-        return null;
-    }
-    public Boite rechercherBoiteParPiece(String piece) {
-        // Implémentation pour rechercher une boîte par pièce
+    public Boite rechercherBoiteParPiece(Piece piece) {
+
+        for (Boite boite : catalogueBoites) {
+            if (boite.getContenu() != null && boite.getContenu().getContenirPieces() != null) {
+                for (ContenirP p : boite.getContenu().getContenirPieces()) {
+                    if (p.getPiece().equals(piece)) {
+                        return boite;
+                    }
+                }
+            }
+        }
         return null;
     }
     public BoitePersonnalisee creerBoiteComposee(String numero, String nom, int annee, Theme theme, List<Boite> sousBoites) {
         // Implémentation pour créer une boîte composée
-        return null;
+        return new BoitePersonnalisee(numero, nom, annee, theme, sousBoites);
     }
     public void ajouterACollectionPersonnelle(Boite boite) {
         // Implémentation pour ajouter une boîte à la collection personnelle
     }
     public void ajouterBoite(Boite boite) {
         // Implémentation pour ajouter une boîte à la collection
+        catalogueBoites.add(boite);
     }
     public void ajouterPiece(String numPiece, String nomPiece, Categorie categorie) {
         // Implémentation pour ajouter une pièce à la collection
+        Piece piece = new Piece(numPiece, nomPiece, categorie);
+        cataloguePieces.add(piece);
     }
-    public Theme creerTheme(String nomTheme) {
+    public Theme creerTheme(int id, String nomTheme) {
         // Implémentation pour créer un thème
-        return new Theme(nomTheme);
+        return new Theme(id,nomTheme);
     }
     public void creerSousTheme(String nomTheme, Theme parent) {
         // Implémentation pour créer un sous-thème
-        Theme sousTheme = new Theme(nomTheme);
+        Theme sousTheme = new Theme( parent.getIdTheme() + 1, nomTheme);
         parent.ajouterSousTheme(sousTheme);
     }
     public void mettreAJourContenu(Boite boite, Contenu contenu) {
         // Implémentation pour mettre à jour le contenu d'une boîte
+        boite.setContenu(contenu);
     }
 }

@@ -4,6 +4,11 @@ public class ContenirB {
     private Boite  boite;
     private int quantiteB;
 
+    public ContenirB(Boite boite, int quantiteB) {
+        this.boite = boite;
+        this.quantiteB = quantiteB;
+    }
+    
     public Boite getBoite() {
         return boite;
     }

@@ -56,6 +56,29 @@ public class Contenu {
     public void setContenirFigurines(List<ContenirF> contenirFigurines) {
         this.contenirFigurines = contenirFigurines;
     }
+    @Override
+    public int hashCode() {
+        return Integer.hashCode(idContenu);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null)return false;
+        if (!(o instanceof Contenu)) return false;
+        Contenu contenu = (Contenu) o;
+        return idContenu == contenu.idContenu;
+    }
+
+    @Override
+    public String toString() {
+        return "Contenu{id=" + idContenu +
+               ", version=" + version +
+               ", nbBoites=" + contenirBoites.size() +
+               ", nbPieces=" + contenirPieces.size() +
+               ", nbFigurines=" + contenirFigurines.size() +
+               "}";
+    }
 
     
 }  
