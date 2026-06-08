@@ -8,20 +8,39 @@ public class Collectionneur implements Utilisateur {
     private List<Boite> collectionPersonnelle;
     private BriqueCollectionManager manager;
 
-    public Collectionneur() {
+    public Collectionneur(BriqueCollectionManager manager) {
+        this.manager = manager;
         this.collectionPersonnelle = new ArrayList<>();
-        this.manager = new BriqueCollectionManager();
     }
 
     public List<Boite> rechercherBoitesParTheme(Theme theme) {
         List<Boite> boites = new ArrayList<>();
         for (Boite boite : manager.getCatalogueBoites()) {
-            if (boite.getTheme() == theme) {
+            if (boite.getTheme() != null && boite.getTheme().equals(theme)) {
                 boites.add(boite);
             }
         }
         return boites;
     }
+
+    public BoitePersonnalisee composerBoitePersonnalisee(String nom, int annee,
+            Theme theme, List<Boite> sousBoites) {
+        String numero = BoitePersonnalisee.creeIdentifiantUnique();
+        BoitePersonnalisee boite = new BoitePersonnalisee(numero, nom, annee, theme, sousBoites);
+        manager.ajouterBoite(boite);
+        return boite;
+    }
+
+    public void ajouterCollection(Boite boite) {
+        if (boite != null && !collectionPersonnelle.contains(boite)) {
+            collectionPersonnelle.add(boite);
+        }
+    }
+
+    public List<Boite> getCollectionPersonnelle() {
+        return collectionPersonnelle;
+    }
+
     @Override
     public void afficherMenu() {
         System.out.println("=== Menu Collectionneur ===");
@@ -29,14 +48,5 @@ public class Collectionneur implements Utilisateur {
         System.out.println("2. Composer une boîte personnalisée");
         System.out.println("3. Ajouter à ma collection");
         System.out.println("4. Afficher ma collection");
-    }
-
-    public void composerBoitePersonnalisee(String numero, String nom, int annee, Theme theme, List<Boite> sousBoites) {
-        BoitePersonnalisee boitePersonnalisee = new BoitePersonnalisee(numero, nom, annee, theme, sousBoites);
-        manager.ajouterBoite(boitePersonnalisee);
-    }
-
-    public void ajouterCollection(Boite boite) {
-        collectionPersonnelle.add(boite);
     }
 }

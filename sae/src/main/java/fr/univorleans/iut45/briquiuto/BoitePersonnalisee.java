@@ -14,7 +14,7 @@ public class BoitePersonnalisee extends Boite{
 
     }
 
-    public String creeIdentifiantUnique() {
+    public static String creeIdentifiantUnique() {
         return "PERSO-" + UUID.randomUUID().toString().substring(0, 8).toUpperCase();
     }
 
