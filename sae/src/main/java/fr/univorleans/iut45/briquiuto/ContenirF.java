@@ -5,6 +5,10 @@ public class ContenirF {
     private Figurine figurine;
     private int quantiteF;
 
+    public ContenirF(Figurine figurine, int quantiteF) {
+        this.figurine = figurine;
+        this.quantiteF = quantiteF;
+    }
     
     public Figurine getFigurine() {
         return figurine;

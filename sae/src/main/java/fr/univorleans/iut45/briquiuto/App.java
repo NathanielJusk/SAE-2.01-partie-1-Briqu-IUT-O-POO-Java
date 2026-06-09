@@ -1,17 +1,65 @@
 package fr.univorleans.iut45.briquiuto;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import fr.univorleans.iut45.briquiuto.JDBC.ConnexionBD;
+import fr.univorleans.iut45.briquiuto.JDBC.RequetesLEGO;
 
 public class App {
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
+        ConnexionBD connexion = null;
+
+        // ── Connexion à la base (style LoginBD du TP9) ────────────────────
+        try {
+            connexion = new ConnexionBD();
+        } catch (ClassNotFoundException e) {
+            System.out.println("Driver MariaDB non trouve !!!");
+            System.exit(1);
+        }
+
+        System.out.println("=== Connexion a la base de donnees ===");
+        System.out.println("Appuyez sur Entree pour garder la valeur par defaut.");
+        System.out.print("Serveur [localhost] : ");
+        String serveur = scanner.nextLine();
+        if (serveur.isEmpty()) serveur = "localhost";
+        System.out.print("Base de donnees : ");
+        String base = scanner.nextLine();
+        System.out.print("Login : ");
+        String login = scanner.nextLine();
+        System.out.print("Mot de passe : ");
+        String mdp = scanner.nextLine();
+
+        try {
+            connexion.connecter(serveur, base, login, mdp);
+            System.out.println("Connexion reussie !");
+        } catch (SQLException e) {
+            System.out.println("Echec de connexion : " + e.getMessage());
+            System.exit(1);
+        }
+
+        // ── Initialisation ────────────────────────────────────────────────
+        RequetesLEGO requetes = new RequetesLEGO(connexion);
         BriqueCollectionManager manager = new BriqueCollectionManager();
+
+        try {
+            for (Boite b : requetes.getAllBoites()) {
+                manager.getCatalogueBoites().add(b);
+            }
+            for (Theme t : requetes.getAllThemes()) {
+                manager.getCatalogueThemes().add(t);
+            }
+        } catch (SQLException e) {
+            System.out.println("Erreur chargement donnees : " + e.getMessage());
+        }
+
         Administrateur admin = new Administrateur(manager);
         Collectionneur collectionneur = new Collectionneur(manager);
 
+        // ── Menu principal ────────────────────────────────────────────────
         int choix;
         do {
             System.out.println("\n=== Menu Principal ===");
@@ -23,24 +71,24 @@ public class App {
             scanner.nextLine();
 
             if (choix == 1) {
-                menuAdmin(scanner, admin, manager);
+                menuAdmin(scanner, admin, manager, requetes);
             } else if (choix == 2) {
-                menuCollectionneur(scanner, collectionneur, manager);
+                menuCollectionneur(scanner, collectionneur, manager, requetes);
             } else if (choix == 0) {
                 System.out.println("Au revoir !");
             } else {
                 System.out.println("Choix invalide.");
             }
-
         } while (choix != 0);
 
+        try { connexion.close(); } catch (SQLException e) { }
         scanner.close();
     }
 
     // ── Menu Administrateur ───────────────────────────────────────────────
 
     public static void menuAdmin(Scanner scanner, Administrateur admin,
-                                  BriqueCollectionManager manager) {
+                                  BriqueCollectionManager manager, RequetesLEGO requetes) {
         int choix;
         do {
             System.out.println("\n=== Menu Administrateur ===");
@@ -48,6 +96,8 @@ public class App {
             System.out.println("2. Ajouter une piece");
             System.out.println("3. Creer un theme");
             System.out.println("4. Afficher le catalogue");
+            System.out.println("5. Lister les boites par theme");
+            System.out.println("6. Lister les pieces d'une boite");
             System.out.println("0. Retour");
             System.out.print("Votre choix : ");
             choix = scanner.nextInt();
@@ -63,8 +113,14 @@ public class App {
                 System.out.print("Nb pieces : ");
                 int nbPieces = scanner.nextInt();
                 scanner.nextLine();
-                admin.ajouterBoite(new BoiteComposee(numero, nbPieces, nom, annee));
-                System.out.println("Boite ajoutee !");
+                Boite b = new BoiteComposee(numero, nbPieces, nom, annee);
+                admin.ajouterBoite(b);
+                try {
+                    requetes.ajouterBoite(b);
+                    System.out.println("Boite ajoutee en base !");
+                } catch (SQLException e) {
+                    System.out.println("Erreur SQL : " + e.getMessage());
+                }
 
             } else if (choix == 2) {
                 System.out.print("Numero piece : ");
@@ -72,7 +128,12 @@ public class App {
                 System.out.print("Nom piece : ");
                 String nom = scanner.nextLine();
                 admin.ajouterPiece(num, nom, null);
-                System.out.println("Piece ajoutee !");
+                try {
+                    requetes.ajouterPiece(new Piece(num, nom));
+                    System.out.println("Piece ajoutee en base !");
+                } catch (SQLException e) {
+                    System.out.println("Erreur SQL : " + e.getMessage());
+                }
 
             } else if (choix == 3) {
                 System.out.print("ID theme : ");
@@ -80,8 +141,13 @@ public class App {
                 scanner.nextLine();
                 System.out.print("Nom theme : ");
                 String nom = scanner.nextLine();
-                admin.creerTheme(id, nom);
-                System.out.println("Theme cree !");
+                Theme t = admin.creerTheme(id, nom);
+                try {
+                    requetes.ajouterTheme(t);
+                    System.out.println("Theme cree en base !");
+                } catch (SQLException e) {
+                    System.out.println("Erreur SQL : " + e.getMessage());
+                }
 
             } else if (choix == 4) {
                 List<Boite> catalogue = manager.getCatalogueBoites();
@@ -94,6 +160,25 @@ public class App {
                             + b.getNom() + " (" + b.getAnnee() + ")");
                     }
                 }
+
+            } else if (choix == 5) {
+                System.out.print("ID du theme : ");
+                int id = scanner.nextInt();
+                scanner.nextLine();
+                try {
+                    System.out.println(requetes.listerBoitesParTheme(id));
+                } catch (SQLException e) {
+                    System.out.println("Erreur SQL : " + e.getMessage());
+                }
+
+            } else if (choix == 6) {
+                System.out.print("Numero de la boite : ");
+                String num = scanner.nextLine();
+                try {
+                    System.out.println(requetes.listerPiecesBoite(num));
+                } catch (SQLException e) {
+                    System.out.println("Erreur SQL : " + e.getMessage());
+                }
             }
 
         } while (choix != 0);
@@ -102,13 +187,14 @@ public class App {
     // ── Menu Collectionneur ───────────────────────────────────────────────
 
     public static void menuCollectionneur(Scanner scanner, Collectionneur collectionneur,
-                                           BriqueCollectionManager manager) {
+                                           BriqueCollectionManager manager, RequetesLEGO requetes) {
         int choix;
         do {
             System.out.println("\n=== Menu Collectionneur ===");
             System.out.println("1. Composer une boite personnalisee");
             System.out.println("2. Ajouter une boite a ma collection");
             System.out.println("3. Afficher ma collection");
+            System.out.println("4. Rechercher boites par theme");
             System.out.println("0. Retour");
             System.out.print("Votre choix : ");
             choix = scanner.nextInt();
@@ -124,7 +210,12 @@ public class App {
                     nom, annee, null, new ArrayList<>()
                 );
                 collectionneur.ajouterCollection(boite);
-                System.out.println("Boite creee ! Numero : " + boite.getNumero());
+                try {
+                    requetes.ajouterBoite(boite);
+                    System.out.println("Boite creee ! Numero : " + boite.getNumero());
+                } catch (SQLException e) {
+                    System.out.println("Erreur SQL : " + e.getMessage());
+                }
 
             } else if (choix == 2) {
                 System.out.print("Numero de la boite : ");
@@ -147,6 +238,16 @@ public class App {
                         System.out.println("- [" + b.getNumero() + "] "
                             + b.getNom() + " (" + b.getAnnee() + ")");
                     }
+                }
+
+            } else if (choix == 4) {
+                System.out.print("ID du theme : ");
+                int id = scanner.nextInt();
+                scanner.nextLine();
+                try {
+                    System.out.println(requetes.listerBoitesParTheme(id));
+                } catch (SQLException e) {
+                    System.out.println("Erreur SQL : " + e.getMessage());
                 }
             }
 

@@ -1,25 +1,25 @@
 package fr.univorleans.iut45.briquiuto;
 public class Figurine {
-    private int idFig;
+    private String idFig;
     private String nomFig;
     private int nbParties;
 
-    public Figurine( int idFig, String nomFig, int nbParties) {
+    public Figurine( String idFig, String nomFig, int nbParties) {
         this.nomFig = nomFig;
         this.idFig = idFig;
         this.nbParties = nbParties;
     }
     public Figurine(String nomFig, int nbParties) {
         this.nomFig = nomFig;
-        this.idFig = 0;
+        this.idFig = "0";
         this.nbParties = nbParties;
     }
 
-    public int getIdFig() {
+    public String getIdFig() {
         return idFig;
     }
 
-    public void setIdFig(int idFig) {
+    public void setIdFig(String idFig) {
         this.idFig = idFig;
     }
 
@@ -45,12 +45,12 @@ public class Figurine {
         if (o == null)return false;
         if (!(o instanceof Figurine)) return false;
         Figurine figurine = (Figurine) o;
-        return idFig == figurine.idFig;
+        return idFig.equals(figurine.idFig);
     }
 
     @Override
     public int hashCode() {
-        return Integer.hashCode(idFig);
+        return idFig.hashCode();
     }
     
     @Override
