@@ -23,9 +23,6 @@ public class App {
 
         System.out.println("=== Connexion a la base de donnees ===");
         System.out.println("Appuyez sur Entree pour garder la valeur par defaut.");
-        System.out.print("Serveur [localhost] : ");
-        String serveur = scanner.nextLine();
-        if (serveur.isEmpty()) serveur = "localhost";
         System.out.print("Base de donnees : ");
         String base = scanner.nextLine();
         System.out.print("Login : ");
@@ -34,7 +31,7 @@ public class App {
         String mdp = scanner.nextLine();
 
         try {
-            connexion.connecter(serveur, base, login, mdp);
+            connexion.connecter("servinfo-maria", base, login, mdp);
             System.out.println("Connexion reussie !");
         } catch (SQLException e) {
             System.out.println("Echec de connexion : " + e.getMessage());
@@ -42,7 +39,7 @@ public class App {
         }
 
         // ── Initialisation ────────────────────────────────────────────────
-        RequetesLEGO requetes = new RequetesLEGO(connexion);
+        RequetesLEGO requetes = new RequetesLEGO(connexion, null);
         BriqueCollectionManager manager = new BriqueCollectionManager();
 
         try {
@@ -81,14 +78,17 @@ public class App {
             }
         } while (choix != 0);
 
-        try { connexion.close(); } catch (SQLException e) { }
+        try {
+            connexion.close();
+        } catch (SQLException e) {
+        }
         scanner.close();
     }
 
     // ── Menu Administrateur ───────────────────────────────────────────────
 
     public static void menuAdmin(Scanner scanner, Administrateur admin,
-                                  BriqueCollectionManager manager, RequetesLEGO requetes) {
+            BriqueCollectionManager manager, RequetesLEGO requetes) {
         int choix;
         do {
             System.out.println("\n=== Menu Administrateur ===");
@@ -157,7 +157,7 @@ public class App {
                     System.out.println("=== Catalogue ===");
                     for (Boite b : catalogue) {
                         System.out.println("- [" + b.getNumero() + "] "
-                            + b.getNom() + " (" + b.getAnnee() + ")");
+                                + b.getNom() + " (" + b.getAnnee() + ")");
                     }
                 }
 
@@ -187,7 +187,7 @@ public class App {
     // ── Menu Collectionneur ───────────────────────────────────────────────
 
     public static void menuCollectionneur(Scanner scanner, Collectionneur collectionneur,
-                                           BriqueCollectionManager manager, RequetesLEGO requetes) {
+            BriqueCollectionManager manager, RequetesLEGO requetes) {
         int choix;
         do {
             System.out.println("\n=== Menu Collectionneur ===");
@@ -207,8 +207,7 @@ public class App {
                 int annee = scanner.nextInt();
                 scanner.nextLine();
                 BoitePersonnalisee boite = collectionneur.composerBoitePersonnalisee(
-                    nom, annee, null, new ArrayList<>()
-                );
+                        nom, annee, null, new ArrayList<>());
                 collectionneur.ajouterCollection(boite);
                 try {
                     requetes.ajouterBoite(boite);
@@ -236,7 +235,7 @@ public class App {
                     System.out.println("=== Ma collection ===");
                     for (Boite b : collection) {
                         System.out.println("- [" + b.getNumero() + "] "
-                            + b.getNom() + " (" + b.getAnnee() + ")");
+                                + b.getNom() + " (" + b.getAnnee() + ")");
                     }
                 }
 

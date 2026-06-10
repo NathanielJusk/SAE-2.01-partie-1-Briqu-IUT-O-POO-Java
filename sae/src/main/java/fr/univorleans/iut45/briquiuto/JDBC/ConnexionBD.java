@@ -18,9 +18,13 @@ public class ConnexionBD {
         this.mysql = null;
         this.connecte = false;
         this.mysql = DriverManager.getConnection(
-                "jdbc:mariadb://" + nomServeur + ":3306/" + nomBase, 
+                "jdbc:mariadb://" + "servinfo-maria" + ":3306/" + nomBase,
                 nomLogin, motDePasse);
         this.connecte = true;
+    }
+
+    public Connection getConnection() {   
+        return this.mysql;
     }
 
     public void close() throws SQLException {
