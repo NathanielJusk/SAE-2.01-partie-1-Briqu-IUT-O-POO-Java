@@ -186,4 +186,9 @@ public class RequetesLEGO {
         ps.close();
         return res.isEmpty() ? "Aucune piece trouvee." : res;
     }
+    // adil : a faire
+    // public String listerSousBoite(String numBoite) throws SQLException{
+
+    // }
+
 }
