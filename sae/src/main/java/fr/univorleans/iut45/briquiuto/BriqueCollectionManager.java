@@ -91,13 +91,13 @@ public class BriqueCollectionManager {
         return null;
     }
 
-    public Boite rechercherBoiteParTheme(Theme theme) {
-        for (Boite boite : catalogueBoites) {
-            if (boite.getTheme() != null && boite.getTheme().equals(theme))
-                return boite;
-        }
-        return null;
-    }
+    // public Boite rechercherBoiteParTheme(Theme theme) {
+    //     for (Boite boite : catalogueBoites) {
+    //         if (boite.getTheme() != null && boite.getTheme().equals(theme))
+    //             return boite;
+    //     }
+    //     return null;
+    // }
 
     public Boite rechercherBoiteParPiece(Piece piece) {
         for (Boite boite : catalogueBoites) {

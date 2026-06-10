@@ -191,4 +191,9 @@ public class RequetesLEGO {
 
     // }
 
+    //mourad : a faire
+    // public String listerFigurinesBoite(String numBoite) throws SQLException {
+
+    // }
+
 }
