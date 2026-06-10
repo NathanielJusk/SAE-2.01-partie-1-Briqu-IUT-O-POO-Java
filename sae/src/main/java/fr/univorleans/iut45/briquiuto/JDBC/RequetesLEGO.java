@@ -186,10 +186,28 @@ public class RequetesLEGO {
         ps.close();
         return res.isEmpty() ? "Aucune piece trouvee." : res;
     }
-    // adil : a faire
-    // public String listerSousBoite(String numBoite) throws SQLException{
 
-    // }
+    public String listerSousBoite(String numBoite) throws SQLException {
+        PreparedStatement ps = laConnexion.prepareStatement(
+                "SELECT b.nomboite, b.annee, cb.quantiteb " +
+                        "FROM BOITE b " +
+                        "JOIN CONTENIRB cb ON cb.numboite = b.numboite " +
+                        "JOIN CONTENU c ON cb.idcont = c.idcont " +
+                        "WHERE c.numboite = ?");
+        ps.setString(1, numBoite);
+        ResultSet rs = ps.executeQuery();
+        StringBuilder res = new StringBuilder();
+        while (rs.next()) {
+            res.append("- ")
+                    .append(rs.getString("nomboite"))
+                    .append(" | Quantite : ")
+                    .append(rs.getInt("quantiteb"))
+                    .append("\n");
+        }
+        rs.close();
+        ps.close();
+        return res.length() == 0 ? "Aucune sous-boite trouvee." : res.toString();
+    }
 
     //mourad : a faire
     // public String listerFigurinesBoite(String numBoite) throws SQLException {
