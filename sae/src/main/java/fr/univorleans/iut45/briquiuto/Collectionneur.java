@@ -13,16 +13,6 @@ public class Collectionneur implements Utilisateur {
         this.collectionPersonnelle = new ArrayList<>();
     }
 
-    public List<Boite> rechercherBoitesParTheme(Theme theme) {
-        List<Boite> boites = new ArrayList<>();
-        for (Boite boite : manager.getCatalogueBoites()) {
-            if (boite.getTheme() != null && boite.getTheme().equals(theme)) {
-                boites.add(boite);
-            }
-        }
-        return boites;
-    }
-
     public BoitePersonnalisee composerBoitePersonnalisee(String nom, int annee,
             Theme theme, List<Boite> sousBoites) {
         String numero = BoitePersonnalisee.creeIdentifiantUnique();
