@@ -191,9 +191,29 @@ public class RequetesLEGO {
 
     // }
 
-    //mourad : a faire
-    // public String listerFigurinesBoite(String numBoite) throws SQLException {
+    
+    public String listerFigurinesBoite(String numBoite) throws SQLException {
+        PreparedStatement ps = laConnexion.prepareStatement(
+                "SELECT f.nomfig, co.nomcoul, cf.quantitef " +
+                        "FROM FIGURINE f " +
+                        "JOIN CONTENIRF cf ON f.idfig = cf.idfig " +
+                        "JOIN CONTENU c ON cf.idcont = c.idcont " +
+                        "JOIN COULEUR co ON cf.idcoul = co.idcoul " +
+                        "WHERE c.numboite = ?");
+        ps.setString(1, numBoite);
+        ResultSet rs = ps.executeQuery();
+        String res = "";
+        while (rs.next()) {
+            res += "- " + rs.getString("nomfig")
+                    + " | Couleur : " + rs.getString("nomcoul")
+                    + " | Quantite : " + rs.getInt("quantitef")
+                    + "\n";
+        }
+        rs.close();
+        ps.close();
+        return res.isEmpty() ? "Aucune figurine trouvee." : res;
 
-    // }
+
+    }
 
 }
