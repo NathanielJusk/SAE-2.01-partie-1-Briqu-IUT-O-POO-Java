@@ -6,11 +6,22 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Exécute les requêtes SQL pour le projet LEGO.
+ * Cette classe permet d'ajouter et de lire des boîtes, des pièces et des thèmes
+ * dans la base de données.
+ */
 public class RequetesLEGO {
 
     private ConnexionBD laConnexion;
     private BriqueCollectionManager manager;
 
+    /**
+     * Crée un objet de requêtes avec une connexion et un manager.
+     *
+     * @param laConnexion connexion à la base de données
+     * @param manager gestionnaire de collection (peut être null)
+     */
     public RequetesLEGO(ConnexionBD laConnexion, BriqueCollectionManager manager) {
         this.laConnexion = laConnexion;
         this.manager = manager;
@@ -18,6 +29,12 @@ public class RequetesLEGO {
 
     // ── THEME ─────────────────────────────────────────────────────────────
 
+    /**
+     * Ajoute un thème dans la base de données.
+     *
+     * @param theme thème à ajouter
+     * @throws SQLException si la requête SQL échoue
+     */
     public void ajouterTheme(Theme theme) throws SQLException {
         PreparedStatement ps = laConnexion.prepareStatement(
                 "INSERT INTO THEME (idtheme, nomtheme, idtheme_pere) VALUES (?, ?, ?)");
@@ -32,6 +49,12 @@ public class RequetesLEGO {
         ps.close();
     }
 
+    /**
+     * Récupère tous les thèmes dans la base.
+     *
+     * @return liste des thèmes
+     * @throws SQLException si la requête SQL échoue
+     */
     public List<Theme> getAllThemes() throws SQLException {
         List<Theme> themes = new ArrayList<>();
         Statement st = laConnexion.createStatement();
@@ -49,6 +72,12 @@ public class RequetesLEGO {
 
     // ── BOITE ─────────────────────────────────────────────────────────────
 
+    /**
+     * Ajoute une boîte dans la base de données.
+     *
+     * @param boite boîte à ajouter
+     * @throws SQLException si la requête SQL échoue
+     */
     public void ajouterBoite(Boite boite) throws SQLException {
         PreparedStatement ps = laConnexion.prepareStatement(
                 "INSERT INTO BOITE (numboite, nomboite, annee, nbpieces, idtheme) VALUES (?, ?, ?, ?, ?)");
@@ -61,6 +90,13 @@ public class RequetesLEGO {
         ps.close();
     }
 
+    /**
+     * Recherche une boîte dans la base par son nom partiel.
+     *
+     * @param nom nom de la boîte à chercher
+     * @return boîte trouvée ou null
+     * @throws SQLException si la requête SQL échoue
+     */
     public Boite rechercherBoiteParNom(String nom) throws SQLException {
         PreparedStatement ps = laConnexion.prepareStatement(
                 "SELECT * FROM BOITE WHERE nomboite LIKE ?");
@@ -81,6 +117,12 @@ public class RequetesLEGO {
         return null;
     }
 
+    /**
+     * Récupère toutes les boîtes de la base.
+     *
+     * @return liste de boîtes
+     * @throws SQLException si la requête SQL échoue
+     */
     public List<Boite> getAllBoites() throws SQLException {
         List<Boite> boites = new ArrayList<>();
         Statement st = laConnexion.createStatement();
@@ -98,6 +140,13 @@ public class RequetesLEGO {
         return boites;
     }
 
+    /**
+     * Recherche une boîte par son numéro exact.
+     *
+     * @param numero numéro de la boîte
+     * @return boîte trouvée ou null
+     * @throws SQLException si la requête SQL échoue
+     */
     public Boite rechercherBoiteParNumero(String numero) throws SQLException {
         PreparedStatement ps = laConnexion.prepareStatement(
                 "SELECT * FROM BOITE WHERE numboite = ?");
@@ -120,6 +169,12 @@ public class RequetesLEGO {
 
     // ── PIECE ─────────────────────────────────────────────────────────────
 
+    /**
+     * Ajoute une pièce dans la base de données.
+     *
+     * @param piece pièce à ajouter
+     * @throws SQLException si la requête SQL échoue
+     */
     public void ajouterPiece(Piece piece) throws SQLException {
         PreparedStatement ps = laConnexion.prepareStatement(
                 "INSERT INTO PIECE (numpiece, nompiece, idcat) VALUES (?, ?, ?)");
@@ -130,6 +185,12 @@ public class RequetesLEGO {
         ps.close();
     }
 
+    /**
+     * Récupère toutes les pièces de la base.
+     *
+     * @return liste de pièces
+     * @throws SQLException si la requête SQL échoue
+     */
     public List<Piece> getAllPieces() throws SQLException {
         List<Piece> pieces = new ArrayList<>();
         Statement st = laConnexion.createStatement();
@@ -147,6 +208,13 @@ public class RequetesLEGO {
 
     // ── AFFICHAGES ────────────────────────────────────────────────────────
 
+    /**
+     * Retourne les boîtes qui appartiennent à un thème.
+     *
+     * @param idTheme identifiant du thème
+     * @return texte listant les boîtes trouvées
+     * @throws SQLException si la requête SQL échoue
+     */
     public String listerBoitesParTheme(int idTheme) throws SQLException {
         PreparedStatement ps = laConnexion.prepareStatement(
                 "SELECT numboite, nomboite, annee FROM BOITE WHERE idtheme = ?");
@@ -163,6 +231,13 @@ public class RequetesLEGO {
         return res.isEmpty() ? "Aucune boite trouvee." : res;
     }
 
+    /**
+     * Retourne les pièces présentes dans une boîte.
+     *
+     * @param numBoite numéro de la boîte
+     * @return texte listant les pièces trouvées
+     * @throws SQLException si la requête SQL échoue
+     */
     public String listerPiecesBoite(String numBoite) throws SQLException {
         PreparedStatement ps = laConnexion.prepareStatement(
                 "SELECT p.nompiece, co.nomcoul, cp.quantitep, cp.en_supplement " +
@@ -187,6 +262,13 @@ public class RequetesLEGO {
         return res.isEmpty() ? "Aucune piece trouvee." : res;
     }
 
+    /**
+     * Retourne les sous-boîtes contenues dans une boîte.
+     *
+     * @param numBoite numéro de la boîte
+     * @return texte listant les sous-boîtes trouvées
+     * @throws SQLException si la requête SQL échoue
+     */
     public String listerSousBoite(String numBoite) throws SQLException {
         PreparedStatement ps = laConnexion.prepareStatement(
                 "SELECT b.nomboite, b.annee, cb.quantiteb " +
@@ -210,6 +292,13 @@ public class RequetesLEGO {
     }
 
     
+    /**
+     * Retourne les figurines présentes dans une boîte.
+     *
+     * @param numBoite numéro de la boîte
+     * @return texte listant les figurines trouvées
+     * @throws SQLException si la requête SQL échoue
+     */
     public String listerFigurinesBoite(String numBoite) throws SQLException {
         PreparedStatement ps = laConnexion.prepareStatement(
                 "SELECT f.nomfig, co.nomcoul, cf.quantitef " +
