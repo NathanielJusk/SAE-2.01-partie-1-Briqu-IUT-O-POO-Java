@@ -322,5 +322,40 @@ public class RequetesLEGO {
 
 
     }
+    public void ajouterPieceDansBoite(String numBoite, String numPiece, int idCouleur, int quantite, boolean enSupplement) throws SQLException {
+        PreparedStatement ps = laConnexion.prepareStatement(
+                "INSERT INTO CONTENIRP (idcont, numpiece, idcoul, quantitep, en_supplement) " +
+                        "VALUES ((SELECT idcont FROM CONTENU WHERE numboite = ?), ?, ?, ?, ?)");
+        ps.setString(1, numBoite);
+        ps.setString(2, numPiece);
+        ps.setInt(3, idCouleur);
+        ps.setInt(4, quantite);
+        ps.setString(5, enSupplement ? "O" : "N");
+        ps.executeUpdate();
+        ps.close();
+    }
+
+    public void ajouterFigurineDansBoite(String numBoite, int idFig, int idCouleur, int quantite) throws SQLException {
+        PreparedStatement ps = laConnexion.prepareStatement(
+                "INSERT INTO CONTENIRF (idcont, idfig, idcoul, quantitef) " +
+                        "VALUES ((SELECT idcont FROM CONTENU WHERE numboite = ?), ?, ?, ?)");
+        ps.setString(1, numBoite);
+        ps.setInt(2, idFig);
+        ps.setInt(3, idCouleur);
+        ps.setInt(4, quantite);
+        ps.executeUpdate();
+        ps.close();
+    }
+
+    public void ajouterSousBoiteDansBoite(String numBoiteParent, String numSousBoite, int quantite) throws SQLException {
+        PreparedStatement ps = laConnexion.prepareStatement(
+                "INSERT INTO CONTENIRB (idcont, numboite, quantiteb) " +
+                        "VALUES ((SELECT idcont FROM CONTENU WHERE numboite = ?), ?, ?)");
+        ps.setString(1, numBoiteParent);
+        ps.setString(2, numSousBoite);
+        ps.setInt(3, quantite);
+        ps.executeUpdate();
+        ps.close();
+    }
 
 }
