@@ -20,7 +20,7 @@ public class RequetesLEGO {
      * Crée un objet de requêtes avec une connexion et un manager.
      *
      * @param laConnexion connexion à la base de données
-     * @param manager gestionnaire de collection (peut être null)
+     * @param manager     gestionnaire de collection (peut être null)
      */
     public RequetesLEGO(ConnexionBD laConnexion, BriqueCollectionManager manager) {
         this.laConnexion = laConnexion;
@@ -291,7 +291,6 @@ public class RequetesLEGO {
         return res.length() == 0 ? "Aucune sous-boite trouvee." : res.toString();
     }
 
-    
     /**
      * Retourne les figurines présentes dans une boîte.
      *
@@ -301,28 +300,61 @@ public class RequetesLEGO {
      */
     public String listerFigurinesBoite(String numBoite) throws SQLException {
         PreparedStatement ps = laConnexion.prepareStatement(
-                "SELECT f.nomfig, co.nomcoul, cf.quantitef " +
+                "SELECT f.nomfig, cf.quantitef " +
                         "FROM FIGURINE f " +
                         "JOIN CONTENIRF cf ON f.idfig = cf.idfig " +
                         "JOIN CONTENU c ON cf.idcont = c.idcont " +
-                        "JOIN COULEUR co ON cf.idcoul = co.idcoul " +
                         "WHERE c.numboite = ?");
         ps.setString(1, numBoite);
         ResultSet rs = ps.executeQuery();
         String res = "";
         while (rs.next()) {
             res += "- " + rs.getString("nomfig")
-                    + " | Couleur : " + rs.getString("nomcoul")
                     + " | Quantite : " + rs.getInt("quantitef")
                     + "\n";
         }
         rs.close();
         ps.close();
         return res.isEmpty() ? "Aucune figurine trouvee." : res;
-
-
     }
-    public void ajouterPieceDansBoite(String numBoite, String numPiece, int idCouleur, int quantite, boolean enSupplement) throws SQLException {
+
+    /**
+     * Retourne les boîtes appartenant à un thème et à tous ses sous-thèmes.
+     *
+     * @param idTheme identifiant du thème racine
+     * @return texte listant les boîtes trouvées
+     * @throws SQLException si la requête SQL échoue
+     */
+    public String listerBoitesParThemeAvecSousThemes(int idTheme) throws SQLException {
+        PreparedStatement ps = laConnexion.prepareStatement(
+                "SELECT numboite, nomboite, annee FROM BOITE " +
+                        "WHERE idtheme = ? " +
+                        "OR idtheme IN (SELECT idtheme FROM THEME WHERE idtheme_pere = ?)");
+        ps.setInt(1, idTheme);
+        ps.setInt(2, idTheme);
+        ResultSet rs = ps.executeQuery();
+        String res = "";
+        while (rs.next()) {
+            res += "[" + rs.getString("numboite") + "] "
+                    + rs.getString("nomboite")
+                    + " (" + rs.getInt("annee") + ")\n";
+        }
+        rs.close();
+        ps.close();
+        return res.isEmpty() ? "Aucune boite trouvee." : res;
+    }
+    /**
+     * Ajoute une pièce dans une boîte.
+     *
+     * @param numBoite numéro de la boîte
+     * @param numPiece numéro de la pièce
+     * @param idCouleur identifiant de la couleur
+     * @param quantite quantité à ajouter
+     * @param enSupplement vrai si la pièce est en supplément
+     * @throws SQLException si la requête SQL échoue
+     */
+    public void ajouterPieceDansBoite(String numBoite, String numPiece, int idCouleur, int quantite,
+            boolean enSupplement) throws SQLException {
         PreparedStatement ps = laConnexion.prepareStatement(
                 "INSERT INTO CONTENIRP (idcont, numpiece, idcoul, quantitep, en_supplement) " +
                         "VALUES ((SELECT idcont FROM CONTENU WHERE numboite = ?), ?, ?, ?, ?)");
@@ -334,20 +366,35 @@ public class RequetesLEGO {
         ps.executeUpdate();
         ps.close();
     }
-
-    public void ajouterFigurineDansBoite(String numBoite, int idFig, int idCouleur, int quantite) throws SQLException {
+    /**
+     * Ajoute une figurine dans une boîte.
+     *
+     * @param numBoite numéro de la boîte
+     * @param idFig identifiant de la figurine
+     * @param quantite quantité à ajouter
+     * @throws SQLException si la requête SQL échoue
+     */
+    public void ajouterFigurineDansBoite(String numBoite, String idFig, int quantite)
+            throws SQLException {
         PreparedStatement ps = laConnexion.prepareStatement(
-                "INSERT INTO CONTENIRF (idcont, idfig, idcoul, quantitef) " +
-                        "VALUES ((SELECT idcont FROM CONTENU WHERE numboite = ?), ?, ?, ?)");
+                "INSERT INTO CONTENIRF (idcont, idfig, quantitef) " +
+                        "VALUES ((SELECT idcont FROM CONTENU WHERE numboite = ?), ?, ?)");
         ps.setString(1, numBoite);
-        ps.setInt(2, idFig);
-        ps.setInt(3, idCouleur);
-        ps.setInt(4, quantite);
+        ps.setString(2, idFig);
+        ps.setInt(3, quantite);
         ps.executeUpdate();
         ps.close();
     }
-
-    public void ajouterSousBoiteDansBoite(String numBoiteParent, String numSousBoite, int quantite) throws SQLException {
+    /**
+     * Ajoute une sous-boîte dans une boîte.
+     *
+     * @param numBoiteParent numéro de la boîte parent
+     * @param numSousBoite numéro de la sous-boîte
+     * @param quantite quantité à ajouter
+     * @throws SQLException si la requête SQL échoue
+     */
+    public void ajouterSousBoiteDansBoite(String numBoiteParent, String numSousBoite, int quantite)
+            throws SQLException {
         PreparedStatement ps = laConnexion.prepareStatement(
                 "INSERT INTO CONTENIRB (idcont, numboite, quantiteb) " +
                         "VALUES ((SELECT idcont FROM CONTENU WHERE numboite = ?), ?, ?)");

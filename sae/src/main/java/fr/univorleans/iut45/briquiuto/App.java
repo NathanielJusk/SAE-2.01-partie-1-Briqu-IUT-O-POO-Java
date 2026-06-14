@@ -13,7 +13,6 @@ public class App {
         Scanner scanner = new Scanner(System.in);
         ConnexionBD connexion = null;
 
-        // ── Connexion à la base (style LoginBD du TP9) ────────────────────
         try {
             connexion = new ConnexionBD();
         } catch (ClassNotFoundException e) {
@@ -22,41 +21,39 @@ public class App {
         }
 
         System.out.println("=== Connexion a la base de donnees ===");
-        System.out.println("Appuyez sur Entree pour garder la valeur par defaut.");
-        System.out.print("Base de donnees : ");
+        System.out.println("Serveur : localhost (fixe)");
+        System.out.print("Base de donnees [LEGO] : ");
         String base = scanner.nextLine();
+        if (base.isEmpty()) base = "lego"; 
+
         System.out.print("Login : ");
         String login = scanner.nextLine();
         System.out.print("Mot de passe : ");
         String mdp = scanner.nextLine();
 
         try {
-            connexion.connecter("servinfo-maria", base, login, mdp);
+            connexion.connecter("localhost", base, login, mdp);
             System.out.println("Connexion reussie !");
         } catch (SQLException e) {
             System.out.println("Echec de connexion : " + e.getMessage());
             System.exit(1);
         }
 
-        // ── Initialisation ────────────────────────────────────────────────
-        RequetesLEGO requetes = new RequetesLEGO(connexion, null);
         BriqueCollectionManager manager = new BriqueCollectionManager();
+        RequetesLEGO requetes = new RequetesLEGO(connexion, manager);
 
         try {
-            for (Boite b : requetes.getAllBoites()) {
-                manager.getCatalogueBoites().add(b);
-            }
             for (Theme t : requetes.getAllThemes()) {
                 manager.getCatalogueThemes().add(t);
             }
+            System.out.println(manager.getCatalogueThemes().size() + " themes charges.");
         } catch (SQLException e) {
-            System.out.println("Erreur chargement donnees : " + e.getMessage());
+            System.out.println("Erreur chargement themes : " + e.getMessage());
         }
 
         Administrateur admin = new Administrateur(manager);
         Collectionneur collectionneur = new Collectionneur(manager);
 
-        // ── Menu principal ────────────────────────────────────────────────
         int choix;
         do {
             System.out.println("\n=== Menu Principal ===");
@@ -64,8 +61,8 @@ public class App {
             System.out.println("2. Collectionneur");
             System.out.println("0. Quitter");
             System.out.print("Votre choix : ");
-            choix = scanner.nextInt();
-            scanner.nextLine();
+            
+            choix = lireEntierSecurise(scanner);  
 
             if (choix == 1) {
                 menuAdmin(scanner, admin, manager, requetes);
@@ -79,8 +76,9 @@ public class App {
         } while (choix != 0);
 
         try {
-            connexion.close();
+            if (connexion.isConnecte()) connexion.close();
         } catch (SQLException e) {
+            System.out.println("Erreur fermeture connexion : " + e.getMessage());
         }
         scanner.close();
     }
@@ -95,13 +93,16 @@ public class App {
             System.out.println("1. Ajouter une boite");
             System.out.println("2. Ajouter une piece");
             System.out.println("3. Creer un theme");
-            System.out.println("4. Afficher le catalogue");
-            System.out.println("5. Lister les boites par theme");
-            System.out.println("6. Lister les pieces d'une boite");
+            System.out.println("4. Lister les boites par theme");
+            System.out.println("5. Lister les pieces d'une boite");
+            System.out.println("6. Lister les figurines d'une boite");
+            System.out.println("7. Lister les sous-boites d'une boite");
+            System.out.println("8. Rechercher une boite par numero");
+            System.out.println("9. Rechercher une boite par nom");
             System.out.println("0. Retour");
             System.out.print("Votre choix : ");
-            choix = scanner.nextInt();
-            scanner.nextLine();
+            
+            choix = lireEntierSecurise(scanner);  
 
             if (choix == 1) {
                 System.out.print("Numero : ");
@@ -109,10 +110,10 @@ public class App {
                 System.out.print("Nom : ");
                 String nom = scanner.nextLine();
                 System.out.print("Annee : ");
-                int annee = scanner.nextInt();
+                int annee = lireEntierSecurise(scanner);  
                 System.out.print("Nb pieces : ");
-                int nbPieces = scanner.nextInt();
-                scanner.nextLine();
+                int nbPieces = lireEntierSecurise(scanner);  
+                
                 Boite b = new BoiteComposee(numero, nbPieces, nom, annee);
                 admin.ajouterBoite(b);
                 try {
@@ -137,8 +138,7 @@ public class App {
 
             } else if (choix == 3) {
                 System.out.print("ID theme : ");
-                int id = scanner.nextInt();
-                scanner.nextLine();
+                int id = lireEntierSecurise(scanner);  
                 System.out.print("Nom theme : ");
                 String nom = scanner.nextLine();
                 Theme t = admin.creerTheme(id, nom);
@@ -150,23 +150,19 @@ public class App {
                 }
 
             } else if (choix == 4) {
-                List<Boite> catalogue = manager.getCatalogueBoites();
-                if (catalogue.isEmpty()) {
-                    System.out.println("Le catalogue est vide.");
-                } else {
-                    System.out.println("=== Catalogue ===");
-                    for (Boite b : catalogue) {
-                        System.out.println("- [" + b.getNumero() + "] "
-                                + b.getNom() + " (" + b.getAnnee() + ")");
-                    }
+                System.out.print("ID du theme : ");
+                int id = lireEntierSecurise(scanner);  
+                try {
+                    System.out.println(requetes.listerBoitesParTheme(id));
+                } catch (SQLException e) {
+                    System.out.println("Erreur SQL : " + e.getMessage());
                 }
 
             } else if (choix == 5) {
-                System.out.print("ID du theme : ");
-                int id = scanner.nextInt();
-                scanner.nextLine();
+                System.out.print("Numero de la boite : ");
+                String num = scanner.nextLine();
                 try {
-                    System.out.println(requetes.listerBoitesParTheme(id));
+                    System.out.println(requetes.listerPiecesBoite(num));
                 } catch (SQLException e) {
                     System.out.println("Erreur SQL : " + e.getMessage());
                 }
@@ -175,7 +171,46 @@ public class App {
                 System.out.print("Numero de la boite : ");
                 String num = scanner.nextLine();
                 try {
-                    System.out.println(requetes.listerPiecesBoite(num));
+                    System.out.println(requetes.listerFigurinesBoite(num));
+                } catch (SQLException e) {
+                    System.out.println("Erreur SQL : " + e.getMessage());
+                }
+
+            } else if (choix == 7) {
+                System.out.print("Numero de la boite : ");
+                String num = scanner.nextLine();
+                try {
+                    System.out.println(requetes.listerSousBoite(num));
+                } catch (SQLException e) {
+                    System.out.println("Erreur SQL : " + e.getMessage());
+                }
+
+            } else if (choix == 8) {
+                System.out.print("Numero de la boite : ");
+                String num = scanner.nextLine();
+                try {
+                    Boite b = requetes.rechercherBoiteParNumero(num);
+                    if (b == null) {
+                        System.out.println("Boite introuvable.");
+                    } else {
+                        System.out.println("[" + b.getNumero() + "] "
+                                + b.getNom() + " (" + b.getAnnee() + ")");
+                    }
+                } catch (SQLException e) {
+                    System.out.println("Erreur SQL : " + e.getMessage());
+                }
+
+            } else if (choix == 9) {
+                System.out.print("Nom (partiel) : ");
+                String nom = scanner.nextLine();
+                try {
+                    Boite b = requetes.rechercherBoiteParNom(nom);
+                    if (b == null) {
+                        System.out.println("Boite introuvable.");
+                    } else {
+                        System.out.println("[" + b.getNumero() + "] "
+                                + b.getNom() + " (" + b.getAnnee() + ")");
+                    }
                 } catch (SQLException e) {
                     System.out.println("Erreur SQL : " + e.getMessage());
                 }
@@ -195,17 +230,18 @@ public class App {
             System.out.println("2. Ajouter une boite a ma collection");
             System.out.println("3. Afficher ma collection");
             System.out.println("4. Rechercher boites par theme");
+            System.out.println("5. Voir le detail d'une boite");
             System.out.println("0. Retour");
             System.out.print("Votre choix : ");
-            choix = scanner.nextInt();
-            scanner.nextLine();
+            
+            choix = lireEntierSecurise(scanner);  
 
             if (choix == 1) {
                 System.out.print("Nom de la boite : ");
                 String nom = scanner.nextLine();
                 System.out.print("Annee : ");
-                int annee = scanner.nextInt();
-                scanner.nextLine();
+                int annee = lireEntierSecurise(scanner);  
+                
                 BoitePersonnalisee boite = collectionneur.composerBoitePersonnalisee(
                         nom, annee, null, new ArrayList<>());
                 collectionneur.ajouterCollection(boite);
@@ -219,12 +255,16 @@ public class App {
             } else if (choix == 2) {
                 System.out.print("Numero de la boite : ");
                 String num = scanner.nextLine();
-                Boite boite = manager.rechercherBoiteParNumero(num);
-                if (boite == null) {
-                    System.out.println("Boite introuvable.");
-                } else {
-                    collectionneur.ajouterCollection(boite);
-                    System.out.println("Boite ajoutee a ta collection !");
+                try {
+                    Boite boite = requetes.rechercherBoiteParNumero(num);
+                    if (boite == null) {
+                        System.out.println("Boite introuvable.");
+                    } else {
+                        collectionneur.ajouterCollection(boite);
+                        System.out.println("Boite ajoutee a ta collection !");
+                    }
+                } catch (SQLException e) {
+                    System.out.println("Erreur SQL : " + e.getMessage());
                 }
 
             } else if (choix == 3) {
@@ -241,15 +281,43 @@ public class App {
 
             } else if (choix == 4) {
                 System.out.print("ID du theme : ");
-                int id = scanner.nextInt();
-                scanner.nextLine();
+                int id = lireEntierSecurise(scanner);  
                 try {
                     System.out.println(requetes.listerBoitesParTheme(id));
+                } catch (SQLException e) {
+                    System.out.println("Erreur SQL : " + e.getMessage());
+                }
+
+            } else if (choix == 5) {
+                System.out.print("Numero de la boite : ");
+                String num = scanner.nextLine();
+                try {
+                    System.out.println("--- Pieces ---");
+                    System.out.println(requetes.listerPiecesBoite(num));
+                    System.out.println("--- Figurines ---");
+                    System.out.println(requetes.listerFigurinesBoite(num));
+                    System.out.println("--- Sous-boites ---");
+                    System.out.println(requetes.listerSousBoite(num));
                 } catch (SQLException e) {
                     System.out.println("Erreur SQL : " + e.getMessage());
                 }
             }
 
         } while (choix != 0);
+    }
+
+    /**
+     * Lit une ligne complète et tente de la convertir en entier.
+     * Boucle indéfiniment tant que la saisie n'est pas un entier valide.
+     */
+    private static int lireEntierSecurise(Scanner scanner) {
+        while (true) {
+            String saisie = scanner.nextLine();
+            try {
+                return Integer.parseInt(saisie);
+            } catch (NumberFormatException e) {
+                System.out.print("Saisie invalide. Veuillez entrer un nombre entier : ");
+            }
+        }
     }
 }

@@ -35,9 +35,11 @@ public class ConnexionBD {
             String nomLogin, String motDePasse) throws SQLException {
         this.mysql = null;
         this.connecte = false;
+        
         this.mysql = DriverManager.getConnection(
-                "jdbc:mariadb://" + "servinfo-maria" + ":3306/" + nomBase,
+                "jdbc:mariadb://" + nomServeur + ":3309/" + nomBase,
                 nomLogin, motDePasse);
+                
         this.connecte = true;
     }
 
@@ -56,7 +58,9 @@ public class ConnexionBD {
      * @throws SQLException si la fermeture échoue
      */
     public void close() throws SQLException {
-        this.mysql.close();
+        if (this.mysql != null) {
+            this.mysql.close();
+        }
         this.connecte = false;
     }
 
