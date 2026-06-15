@@ -24,7 +24,7 @@ public class App {
         System.out.println("Serveur : localhost (fixe)");
         System.out.print("Base de donnees [LEGO] : ");
         String base = scanner.nextLine();
-        if (base.isEmpty()) base = "lego"; 
+        if (base.isEmpty()) base = "LEGO"; 
 
         System.out.print("Login : ");
         String login = scanner.nextLine();
