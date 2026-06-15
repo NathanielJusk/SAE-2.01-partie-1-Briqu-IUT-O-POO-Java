@@ -1,6 +1,10 @@
 package fr.univorleans.iut45.briquiuto.JDBC;
+import fr.univorleans.iut45.briquiuto.modele.Boite;
+import fr.univorleans.iut45.briquiuto.modele.BoiteComposee;
+import fr.univorleans.iut45.briquiuto.modele.BriqueCollectionManager;
+import fr.univorleans.iut45.briquiuto.modele.Piece;
+import fr.univorleans.iut45.briquiuto.modele.Theme;
 
-import fr.univorleans.iut45.briquiuto.*;
 import java.sql.*;
 
 import java.util.ArrayList;

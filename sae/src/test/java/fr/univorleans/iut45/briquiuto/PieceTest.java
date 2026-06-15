@@ -1,6 +1,10 @@
 package fr.univorleans.iut45.briquiuto;
 
 import org.junit.jupiter.api.Test;
+
+import fr.univorleans.iut45.briquiuto.modele.Categorie;
+import fr.univorleans.iut45.briquiuto.modele.Piece;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class PieceTest {

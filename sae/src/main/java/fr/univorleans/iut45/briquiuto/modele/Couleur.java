@@ -1,4 +1,4 @@
-package fr.univorleans.iut45.briquiuto;
+package fr.univorleans.iut45.briquiuto.modele;
 
 /**
  * Représente une couleur pour une pièce ou une figurine LEGO.

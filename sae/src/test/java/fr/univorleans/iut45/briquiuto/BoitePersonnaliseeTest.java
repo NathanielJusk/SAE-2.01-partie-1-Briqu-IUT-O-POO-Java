@@ -2,6 +2,15 @@ package fr.univorleans.iut45.briquiuto;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import fr.univorleans.iut45.briquiuto.modele.Boite;
+import fr.univorleans.iut45.briquiuto.modele.BoitePersonnalisee;
+import fr.univorleans.iut45.briquiuto.modele.Categorie;
+import fr.univorleans.iut45.briquiuto.modele.ContenirP;
+import fr.univorleans.iut45.briquiuto.modele.Contenu;
+import fr.univorleans.iut45.briquiuto.modele.Piece;
+import fr.univorleans.iut45.briquiuto.modele.Theme;
+
 import static org.junit.jupiter.api.Assertions.*;
 import java.util.ArrayList;
 import java.util.List;

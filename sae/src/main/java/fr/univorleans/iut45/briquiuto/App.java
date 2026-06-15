@@ -6,6 +6,14 @@ import java.util.List;
 import java.util.Scanner;
 import fr.univorleans.iut45.briquiuto.JDBC.ConnexionBD;
 import fr.univorleans.iut45.briquiuto.JDBC.RequetesLEGO;
+import fr.univorleans.iut45.briquiuto.modele.Administrateur;
+import fr.univorleans.iut45.briquiuto.modele.Boite;
+import fr.univorleans.iut45.briquiuto.modele.BoiteComposee;
+import fr.univorleans.iut45.briquiuto.modele.BoitePersonnalisee;
+import fr.univorleans.iut45.briquiuto.modele.BriqueCollectionManager;
+import fr.univorleans.iut45.briquiuto.modele.Collectionneur;
+import fr.univorleans.iut45.briquiuto.modele.Piece;
+import fr.univorleans.iut45.briquiuto.modele.Theme;
 
 public class App {
 

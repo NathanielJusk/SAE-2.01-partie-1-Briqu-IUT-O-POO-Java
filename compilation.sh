@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # ============================================================
-#  Script de compilation, génération de doc et lancement
+#  Script de compilation et lancement (Version Terminal via Hack)
 #  Projet Briqu'IUT-O — SAÉ 2.01
 # ============================================================
 
@@ -10,6 +10,9 @@ cd sae || {
   echo "Dossier 'sae' introuvable."
   exit 1
 }
+
+echo "=== Nettoyage anti-bug VS Code ==="
+rm -rf target/
 
 echo "=== Compilation du projet ==="
 mvn clean compile -q
@@ -20,14 +23,8 @@ fi
 echo "Compilation OK"
 
 echo ""
-echo "=== Generation de la JavaDoc ==="
-mvn javadoc:javadoc -q
-if [ $? -ne 0 ]; then
-  echo "ERREUR : la generation de la JavaDoc a echoue."
-  exit 1
-fi
-echo "JavaDoc generee dans : sae/target/site/apidocs/"
+echo "=== Lancement de l'application (Terminal) ==="
 
-echo ""
-echo "=== Lancement de l'application ==="
-mvn exec:java -Dexec.mainClass="fr.univorleans.iut45.briquiuto.App"
+# mvn javafx:run -Djavafx.mainClass="fr.univorleans.iut45.briquiuto.App" -q
+
+mvn javafx:run -Djavafx.mainClass="fr.univorleans.iut45.briquiuto.AppJavaFx" -q

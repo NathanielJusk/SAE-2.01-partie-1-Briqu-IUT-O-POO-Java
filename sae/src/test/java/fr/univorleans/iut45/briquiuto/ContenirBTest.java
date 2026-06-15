@@ -3,6 +3,10 @@ package fr.univorleans.iut45.briquiuto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import fr.univorleans.iut45.briquiuto.modele.Boite;
+import fr.univorleans.iut45.briquiuto.modele.BoiteComposee;
+import fr.univorleans.iut45.briquiuto.modele.ContenirB;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class ContenirBTest {

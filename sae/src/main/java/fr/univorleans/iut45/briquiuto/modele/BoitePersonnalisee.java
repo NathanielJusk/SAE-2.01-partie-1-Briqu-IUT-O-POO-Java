@@ -1,4 +1,4 @@
-package fr.univorleans.iut45.briquiuto;
+package fr.univorleans.iut45.briquiuto.modele;
 
 import java.util.List;
 import java.util.UUID;

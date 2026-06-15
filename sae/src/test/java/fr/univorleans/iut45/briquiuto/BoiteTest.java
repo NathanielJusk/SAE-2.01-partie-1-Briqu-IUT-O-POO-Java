@@ -1,6 +1,10 @@
 package fr.univorleans.iut45.briquiuto;
 
 import org.junit.jupiter.api.Test;
+
+import fr.univorleans.iut45.briquiuto.modele.Boite;
+import fr.univorleans.iut45.briquiuto.modele.BoiteComposee;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class BoiteTest {

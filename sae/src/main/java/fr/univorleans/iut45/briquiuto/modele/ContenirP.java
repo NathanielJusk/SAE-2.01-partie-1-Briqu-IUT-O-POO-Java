@@ -1,4 +1,4 @@
-package fr.univorleans.iut45.briquiuto;
+package fr.univorleans.iut45.briquiuto.modele;
 
 /**
  * Représente l'association d'une pièce avec sa couleur et sa quantité.
