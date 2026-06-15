@@ -23,9 +23,6 @@ fi
 echo "Compilation OK"
 echo ""
 
-# ---------------------------------------------------------
-# MENU DE CHOIX
-# ---------------------------------------------------------
 echo "================================================="
 echo "   Quelle version de l'application lancer ?"
 echo "   1) Version Terminal (App.java)"
@@ -34,13 +31,10 @@ echo "================================================="
 read -p "Entrez votre choix (1 ou 2) : " CHOIX
 echo ""
 
-# ---------------------------------------------------------
-# EXECUTION SELON LE CHOIX
-# ---------------------------------------------------------
+
 if [ "$CHOIX" = "1" ]; then
     echo "=== Lancement de l'application (TERMINAL) ==="
-    # On contourne Maven ! On utilise Java pur en lui donnant le chemin 
-    # de ton code compilé et de la bibliothèque MariaDB.
+
     java -cp "target/classes:$HOME/.m2/repository/org/mariadb/jdbc/mariadb-java-client/3.3.2/mariadb-java-client-3.3.2.jar" fr.univorleans.iut45.briquiuto.App
 
 elif [ "$CHOIX" = "2" ]; then
