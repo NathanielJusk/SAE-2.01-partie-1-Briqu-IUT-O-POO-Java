@@ -2,31 +2,29 @@ package fr.univorleans.iut45.briquiuto;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+// L'import manquant pour dire à Java où aller chercher votre vue
+import fr.univorleans.iut45.briquiuto.IHM.Vue.ViewNewTheme; 
 
 public class ApplicationJavaFx extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        // 1. Créer le composant racine (le conteneur principal)
-        StackPane root = new StackPane();
-        
-        // 2. Créer un texte et l'ajouter au conteneur
-        Label label = new Label("Bonjour JavaFX 100% Java !");
-        root.getChildren().add(label);
+        // 1. Instancier votre vue corrigée
+        ViewNewTheme root = new ViewNewTheme();
 
-        // 3. Créer la scène (qui contient la racine)
-        Scene scene = new Scene(root, 400, 300);
+        // 2. Créer une scène en lui donnant votre vue et des dimensions
+        Scene scene = new Scene(root, 500, 400);
 
-        // 4. Configurer la fenêtre (Stage) et l'afficher
-        primaryStage.setTitle("Ma Super Application");
+        // 3. Configurer le Stage (la fenêtre principale)
+        primaryStage.setTitle("Briqu'IUT - Nouveau Thème");
         primaryStage.setScene(scene);
+        
+        // 4. Afficher la fenêtre
         primaryStage.show();
     }
 
     public static void main(String[] args) {
-        launch(args); // Lance l'application JavaFX
+        launch(args);
     }
 }
