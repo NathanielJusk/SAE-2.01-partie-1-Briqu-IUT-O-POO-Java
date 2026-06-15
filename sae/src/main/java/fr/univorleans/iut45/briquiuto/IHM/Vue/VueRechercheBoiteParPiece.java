@@ -48,3 +48,77 @@ public class VueRechercheBoiteParPiece extends VBox {
         btnRechercher = new Button("Rechercher");
         btnRechercher.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white;");
 
+        // Ajout des éléments dans la HBox de recherche
+        zoneRecherche.getChildren().addAll(lblPiece, cbPiece, btnRechercher);
+
+        // 3. Création et configuration de la TableView
+        tableResultats = new TableView<>();
+        
+        // Configuration des colonnes (Liaison avec les attributs de la classe Boite)
+        colNumero = new TableColumn<>("Numéro");
+        colNumero.setCellValueFactory(new PropertyValueFactory<>("numero"));
+        colNumero.setPrefWidth(100);
+
+        colNom = new TableColumn<>("Nom");
+        colNom.setCellValueFactory(new PropertyValueFactory<>("nom"));
+        colNom.setPrefWidth(250);
+
+        colAnnee = new TableColumn<>("Année");
+        colAnnee.setCellValueFactory(new PropertyValueFactory<>("annee"));
+        colAnnee.setPrefWidth(100);
+
+        colNbPieces = new TableColumn<>("nbPieces");
+        colNbPieces.setCellValueFactory(new PropertyValueFactory<>("nbPiece"));
+        colNbPieces.setPrefWidth(120);
+
+        // Ajout des colonnes au tableau
+        tableResultats.getColumns().addAll(colNumero, colNom, colAnnee, colNbPieces);
+        
+        // Permettre au tableau de s'agrandir pour occuper l'espace central disponible
+        VBox.setVgrow(tableResultats, Priority.ALWAYS);
+
+        // 4. Création de la zone basse avec le bouton Retour
+        btnRetour = new Button("Retour");
+        btnRetour.setPrefWidth(100);
+        
+        // Conteneur pour aligner le bouton retour à gauche ou au centre selon tes préférences
+        HBox zoneBasse = new HBox();
+        zoneBasse.setAlignment(Pos.CENTER_LEFT);
+        zoneBasse.getChildren().add(btnRetour);
+
+        // 5. Assemblage final dans la VBox racine
+        this.getChildren().addAll(zoneRecherche, tableResultats, zoneBasse);
+    }
+
+    // ── Getters pour permettre au Contrôleur MVC d'interagir avec la vue ──
+
+    public ComboBox<Piece> getCbPiece() {
+        return cbPiece;
+    }
+
+    public Button getBtnRechercher() {
+        return btnRechercher;
+    }
+
+    public TableView<Boite> getTableResultats() {
+        return tableResultats;
+    }
+
+    public Button getBtnRetour() {
+        return btnRetour;
+    }
+
+    /**
+     * Permet de charger la liste des pièces disponibles dans le menu déroulant
+     */
+    public void alimenterListePieces(ObservableList<Piece> listePieces) {
+        cbPiece.setItems(listePieces);
+    }
+
+    /**
+     * Permet de mettre à jour les résultats affichés dans le tableau
+     */
+    public void afficherResultats(ObservableList<Boite> listeBoites) {
+        tableResultats.setItems(listeBoites);
+    }
+}
