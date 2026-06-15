@@ -236,6 +236,36 @@ public class RequetesLEGO {
     }
 
     /**
+     * Recherche un thème dans la base par son identifiant exact.
+     *
+     * @param idTheme identifiant du thème recherché
+     * @return le thème trouvé ou null s'il n'existe pas
+     * @throws SQLException si la requête SQL échoue
+     */
+    public Theme rechercherThemeParId(int idTheme) throws SQLException {
+        PreparedStatement ps = laConnexion.prepareStatement(
+                "SELECT * FROM THEME WHERE idtheme = ?");
+        ps.setInt(1, idTheme);
+        ResultSet rs = ps.executeQuery();
+        
+        if (rs.next()) {
+            // Si la base de données trouve le thème, on crée l'objet Java correspondant
+            Theme themeTrouve = new Theme(
+                    rs.getInt("idtheme"),
+                    rs.getString("nomtheme")
+            );
+            rs.close();
+            ps.close();
+            return themeTrouve;
+        }
+        
+        // Si aucun thème ne correspond à cet ID
+        rs.close();
+        ps.close();
+        return null;
+    }
+
+    /**
      * Retourne les pièces présentes dans une boîte.
      *
      * @param numBoite numéro de la boîte

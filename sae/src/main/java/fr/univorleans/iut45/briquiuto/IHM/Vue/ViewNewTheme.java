@@ -10,7 +10,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.text.Font;
 
 public class ViewNewTheme extends VBox {
     private Label titreLabel;
@@ -38,7 +37,7 @@ public class ViewNewTheme extends VBox {
 
         // Titre et bouton Home (corrigé avec un texte)
         this.titreLabel = new Label("Créer un thème ou un sous-thème");
-        this.titreLabel.setStyle("-fx-font-size: 16px; -fx-font-weight: bold;"); // Un peu de style optionnel
+        this.titreLabel.setStyle("-fx-font-size: 16px; -fx-font-weight: bold;"); 
         
         this.homeImage = new Image(getClass().getResourceAsStream("/img/70083.png"));
         ImageView homeImageView = new ImageView(this.homeImage);
@@ -50,9 +49,9 @@ public class ViewNewTheme extends VBox {
 
         // Création et configuration du GridPane
         this.grid = new GridPane();
-        this.grid.setHgap(10); // Espacement horizontal entre label et champ
-        this.grid.setVgap(10); // Espacement vertical entre les lignes
-        this.grid.setAlignment(Pos.CENTER); // Centre le formulaire
+        this.grid.setHgap(10); 
+        this.grid.setVgap(10); 
+        this.grid.setAlignment(Pos.CENTER);
 
         this.numThemeLabel = new Label("Numéro du thème :");
         this.numThemeTextField = new TextField();
@@ -68,7 +67,7 @@ public class ViewNewTheme extends VBox {
         grid.add(numThemeParentLabel, 0, 2);
         grid.add(numThemeParentTextField, 1, 2);
 
-        // Création de la HBox pour les boutons du bas
+
         this.hbox = new HBox();
         this.hbox.setAlignment(Pos.CENTER);
         this.validerButton = new Button("Valider");
@@ -76,14 +75,32 @@ public class ViewNewTheme extends VBox {
 
         this.hboxHautDePage = new HBox();
         this.hboxHautDePage.setAlignment(Pos.CENTER);
-        this.hboxHautDePage.setSpacing(100); // Espacement entre le titre et le bouton Home
+        this.hboxHautDePage.setSpacing(100); 
         this.hboxHautDePage.getChildren().addAll(titreLabel, home);
 
 
-
-        // Ajout DIRECT des composants à CETTE classe (qui est elle-même une VBox)
         this.getChildren().add(hboxHautDePage);
         this.getChildren().add(grid);
         this.getChildren().add(hbox);
+    }
+    
+    public TextField getNumThemeTextField() {
+        return numThemeTextField;
+    }
+
+    public TextField getNomThemeTextField() {
+        return nomThemeTextField;
+    }
+
+    public TextField getNumThemeParentTextField() {
+        return numThemeParentTextField;
+    }
+
+    public Button getValiderButton() {
+        return validerButton;
+    }
+
+    public Button getHomeButton() {
+        return home;
     }
 }

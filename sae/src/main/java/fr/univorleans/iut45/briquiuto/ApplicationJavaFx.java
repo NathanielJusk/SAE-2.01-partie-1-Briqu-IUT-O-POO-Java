@@ -1,27 +1,55 @@
 package fr.univorleans.iut45.briquiuto;
 
+import fr.univorleans.iut45.briquiuto.JDBC.ConnexionBD;
+import fr.univorleans.iut45.briquiuto.JDBC.RequetesLEGO;
+import fr.univorleans.iut45.briquiuto.modele.BriqueCollectionManager;
+import fr.univorleans.iut45.briquiuto.IHM.Controlleurs.AccueilControleur;
+import fr.univorleans.iut45.briquiuto.IHM.Vue.AccueilVue;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-// L'import manquant pour dire à Java où aller chercher votre vue
-import fr.univorleans.iut45.briquiuto.IHM.Vue.ViewNewTheme; 
 
 public class ApplicationJavaFx extends Application {
 
+    private RequetesLEGO requetesModel;
+    private ConnexionBD connexion;
+
+    @Override
+    public void init() throws Exception {
+        System.out.println("Initialisation du Modèle (Base de données)...");
+        try {
+            connexion = new ConnexionBD();
+            // N'oublie pas de vérifier tes identifiants locaux ici
+            connexion.connecter("localhost", "lego", "root", ""); 
+            
+            BriqueCollectionManager manager = new BriqueCollectionManager();
+            requetesModel = new RequetesLEGO(connexion, manager);
+            System.out.println("Connexion à la base de données réussie !");
+            
+        } catch (Exception e) {
+            System.out.println("Attention : Base de données non connectée. Erreur : " + e.getMessage());
+        }
+    }
+
     @Override
     public void start(Stage primaryStage) {
-        // 1. Instancier votre vue corrigée
-        ViewNewTheme root = new ViewNewTheme();
+        AccueilVue vueAccueil = new AccueilVue();
+        new AccueilControleur(vueAccueil, requetesModel, primaryStage);
 
-        // 2. Créer une scène en lui donnant votre vue et des dimensions
-        Scene scene = new Scene(root, 500, 400);
-
-        // 3. Configurer le Stage (la fenêtre principale)
-        primaryStage.setTitle("Briqu'IUT - Nouveau Thème");
-        primaryStage.setScene(scene);
+        Scene scene = new Scene(vueAccueil, 600, 500); 
         
-        // 4. Afficher la fenêtre
+        primaryStage.setTitle("Briqu'IUT-O - Accueil Principal");
+        primaryStage.setScene(scene);
+        primaryStage.setResizable(false);
         primaryStage.show();
+    }
+
+    @Override
+    public void stop() throws Exception {
+        if (connexion != null && connexion.isConnecte()) {
+            connexion.close();
+            System.out.println("Base de données déconnectée proprement. Au revoir !");
+        }
     }
 
     public static void main(String[] args) {
