@@ -8,10 +8,14 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.text.Font;
 
 public class ViewNewTheme extends VBox {
     private Label titreLabel;
     private Button home;
+    private Image homeImage;
     private GridPane grid;
     private HBox hbox;
 
@@ -21,6 +25,8 @@ public class ViewNewTheme extends VBox {
     private TextField nomThemeTextField;
     private Label numThemeParentLabel;
     private TextField numThemeParentTextField;
+
+    private HBox hboxHautDePage;
 
     private Button validerButton;
 
@@ -33,7 +39,14 @@ public class ViewNewTheme extends VBox {
         // Titre et bouton Home (corrigé avec un texte)
         this.titreLabel = new Label("Créer un thème ou un sous-thème");
         this.titreLabel.setStyle("-fx-font-size: 16px; -fx-font-weight: bold;"); // Un peu de style optionnel
-        this.home = new Button("Accueil");
+        
+        this.homeImage = new Image(getClass().getResourceAsStream("/img/70083.png"));
+        ImageView homeImageView = new ImageView(this.homeImage);
+        homeImageView.setFitWidth(30);
+        homeImageView.setFitHeight(30);
+        homeImageView.setPreserveRatio(true);
+        this.home = new Button();
+        this.home.setGraphic(homeImageView);
 
         // Création et configuration du GridPane
         this.grid = new GridPane();
@@ -61,7 +74,16 @@ public class ViewNewTheme extends VBox {
         this.validerButton = new Button("Valider");
         this.hbox.getChildren().add(validerButton);
 
+        this.hboxHautDePage = new HBox();
+        this.hboxHautDePage.setAlignment(Pos.CENTER);
+        this.hboxHautDePage.setSpacing(100); // Espacement entre le titre et le bouton Home
+        this.hboxHautDePage.getChildren().addAll(titreLabel, home);
+
+
+
         // Ajout DIRECT des composants à CETTE classe (qui est elle-même une VBox)
-        this.getChildren().addAll(titreLabel, home, grid, hbox);
+        this.getChildren().add(hboxHautDePage);
+        this.getChildren().add(grid);
+        this.getChildren().add(hbox);
     }
 }
