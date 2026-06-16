@@ -25,11 +25,7 @@ public class AccueilVue extends VBox {
     public AccueilVue() {
         this.setAlignment(Pos.CENTER);
         
-<<<<<<< HEAD
         // 1. MISE EN PLACE DU FOND D'ÉCRAN
-=======
-        // 1. MISE EN PLACE DU FOND D'Ã‰CRAN
->>>>>>> 753f8d5489a28a8820372bf5a32f7ce339a671bb
         try {
             Image fondImage = new Image(getClass().getResourceAsStream("/img/fondEcran.jpeg"));
             BackgroundSize bgSize = new BackgroundSize(100, 100, true, true, false, true); // Effet Cover
@@ -37,17 +33,6 @@ public class AccueilVue extends VBox {
             this.setBackground(new Background(bg));
         } catch (Exception e) { System.out.println("Image fondEcran.jpeg introuvable."); }
 
-<<<<<<< HEAD
-        // 2. CRÉATION DE LA CARTE BLANCHE CENTRALE (Pour la lisibilité)
-        VBox carteCentrale = new VBox(20);
-        carteCentrale.setPadding(new Insets(30));
-        carteCentrale.setAlignment(Pos.CENTER);
-        carteCentrale.setMaxWidth(450); // Empêche la carte de prendre tout l'écran
-        // Fond blanc à 90% d'opacité avec des bords arrondis et une petite ombre
-        carteCentrale.setStyle("-fx-background-color: rgba(255, 255, 255, 0.92); -fx-background-radius: 15; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.3), 15, 0, 0, 5);");
-
-        // 3. INTÉGRATION DU LOGO
-=======
         // 2. CRÃ‰ATION DE LA CARTE BLANCHE CENTRALE (Pour la lisibilitÃ©)
         VBox carteCentrale = new VBox(20);
         carteCentrale.setPadding(new Insets(30));
@@ -57,7 +42,6 @@ public class AccueilVue extends VBox {
         carteCentrale.setStyle("-fx-background-color: rgba(255, 255, 255, 0.92); -fx-background-radius: 15; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.3), 15, 0, 0, 5);");
 
         // 3. INTÃ‰GRATION DU LOGO
->>>>>>> 753f8d5489a28a8820372bf5a32f7ce339a671bb
         try {
             ImageView logoView = new ImageView(new Image(getClass().getResourceAsStream("/img/LogoPrincipale.png")));
             logoView.setFitHeight(70);
@@ -76,11 +60,7 @@ public class AccueilVue extends VBox {
             carteCentrale.getChildren().add(salutView);
         } catch (Exception e) { System.out.println("SalutPageAccueil.jpeg introuvable."); }
 
-<<<<<<< HEAD
-        Label welcomeText = new Label("Bienvenue dans votre espace ! \nGérez votre collection et composez vos boîtes personnalisées.");
-=======
         Label welcomeText = new Label("Bienvenue dans votre espace ! \nGÃ©rez votre collection et composez vos boÃ®tes personnalisÃ©es.");
->>>>>>> 753f8d5489a28a8820372bf5a32f7ce339a671bb
         welcomeText.setFont(Font.font("Arial", 14));
         welcomeText.setWrapText(true);
         welcomeText.setTextAlignment(TextAlignment.CENTER);

@@ -49,11 +49,7 @@ public class VueRechercheBoiteParPiece extends VBox {
 
         tableResultats = new TableView<>();
 
-<<<<<<< HEAD
-        colNumero = new TableColumn<>("Numéro");
-=======
         colNumero = new TableColumn<>("NumÃ©ro");
->>>>>>> 753f8d5489a28a8820372bf5a32f7ce339a671bb
         colNumero.setCellValueFactory(new PropertyValueFactory<>("numero"));
         colNumero.setPrefWidth(100);
 
