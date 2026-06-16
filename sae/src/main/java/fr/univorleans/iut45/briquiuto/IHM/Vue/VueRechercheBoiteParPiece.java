@@ -37,9 +37,9 @@ public class VueRechercheBoiteParPiece extends VBox {
         zoneRecherche.setAlignment(Pos.CENTER_LEFT);
         zoneRecherche.setPadding(new Insets(10, 0, 10, 0));
 
-        lblPiece = new Label("Pièce :");
+        lblPiece = new Label("PiÃ¨ce :");
         cbPiece = new ComboBox<>();
-        cbPiece.setPromptText("Sélectionner une pièce...");
+        cbPiece.setPromptText("SÃ©lectionner une piÃ¨ce...");
         cbPiece.setPrefWidth(250);
 
         btnRechercher = new Button("Rechercher");
@@ -49,7 +49,11 @@ public class VueRechercheBoiteParPiece extends VBox {
 
         tableResultats = new TableView<>();
 
+<<<<<<< HEAD
         colNumero = new TableColumn<>("Numéro");
+=======
+        colNumero = new TableColumn<>("NumÃ©ro");
+>>>>>>> 753f8d5489a28a8820372bf5a32f7ce339a671bb
         colNumero.setCellValueFactory(new PropertyValueFactory<>("numero"));
         colNumero.setPrefWidth(100);
 
@@ -57,12 +61,12 @@ public class VueRechercheBoiteParPiece extends VBox {
         colNom.setCellValueFactory(new PropertyValueFactory<>("nom"));
         colNom.setPrefWidth(250);
 
-        colAnnee = new TableColumn<>("Année");
+        colAnnee = new TableColumn<>("AnnÃ©e");
         // --- CORRECTION DU BOUTON RETOUR ---
         colAnnee.setCellValueFactory(new PropertyValueFactory<>("annee"));
         colAnnee.setPrefWidth(100);
 
-        colNbPieces = new TableColumn<>("Nombre de pièces");
+        colNbPieces = new TableColumn<>("Nombre de piÃ¨ces");
         colNbPieces.setCellValueFactory(new PropertyValueFactory<>("nbPiece"));
         colNbPieces.setPrefWidth(120);
 

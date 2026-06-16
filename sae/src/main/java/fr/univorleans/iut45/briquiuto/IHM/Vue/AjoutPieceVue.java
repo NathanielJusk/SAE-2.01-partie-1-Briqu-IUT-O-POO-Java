@@ -44,7 +44,7 @@ public class AjoutPieceVue extends VBox {
             this.btnHome.setGraphic(homeImageView);
             this.btnHome.setStyle("-fx-background-color: transparent; -fx-cursor: hand;");
         } catch (Exception e) {
-            this.btnHome.setText("🏠");
+            this.btnHome.setText("Acceuil");
         }
 
         Label lblTitre = new Label("Ajouter une nouvelle pièce");

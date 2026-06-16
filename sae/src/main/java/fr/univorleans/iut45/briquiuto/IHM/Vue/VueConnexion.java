@@ -17,8 +17,11 @@ import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+<<<<<<< HEAD
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+=======
+>>>>>>> 753f8d5489a28a8820372bf5a32f7ce339a671bb
 
 public class VueConnexion extends VBox {
 
@@ -30,7 +33,11 @@ public class VueConnexion extends VBox {
     public VueConnexion() {
         this.setAlignment(Pos.CENTER);
         
+<<<<<<< HEAD
         // FOND D'ÉCRAN
+=======
+        // FOND D'Ã‰CRAN
+>>>>>>> 753f8d5489a28a8820372bf5a32f7ce339a671bb
         try {
             Image fondImage = new Image(getClass().getResourceAsStream("/img/fondEcran.jpeg"));
             BackgroundSize bgSize = new BackgroundSize(100, 100, true, true, false, true);
@@ -44,7 +51,11 @@ public class VueConnexion extends VBox {
         carteCentrale.setMaxWidth(400);
         carteCentrale.setStyle("-fx-background-color: rgba(255, 255, 255, 0.95); -fx-background-radius: 15; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.3), 15, 0, 0, 5);");
 
+<<<<<<< HEAD
         // EN-TÊTE : BOUTON HOME + LOGO
+=======
+        // EN-TÃŠTE : BOUTON HOME + LOGO
+>>>>>>> 753f8d5489a28a8820372bf5a32f7ce339a671bb
         HBox header = new HBox(15);
         header.setAlignment(Pos.CENTER);
         
@@ -54,7 +65,11 @@ public class VueConnexion extends VBox {
             homeImageView.setFitWidth(30); homeImageView.setFitHeight(30); homeImageView.setPreserveRatio(true);
             this.btnHome.setGraphic(homeImageView);
             this.btnHome.setStyle("-fx-background-color: transparent; -fx-cursor: hand;");
+<<<<<<< HEAD
         } catch (Exception e) { this.btnHome.setText("🏠"); }
+=======
+        } catch (Exception e) { this.btnHome.setText("ðŸ "); }
+>>>>>>> 753f8d5489a28a8820372bf5a32f7ce339a671bb
 
         try {
             ImageView logoView = new ImageView(new Image(getClass().getResourceAsStream("/img/LogoPrincipale.png")));
