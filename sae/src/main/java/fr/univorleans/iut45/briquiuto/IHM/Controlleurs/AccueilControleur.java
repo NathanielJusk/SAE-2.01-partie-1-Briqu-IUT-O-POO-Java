@@ -22,14 +22,14 @@ public class AccueilControleur {
     }
 
     private void initialiser() {
-        // Les deux boutons ouvrent maintenant la mÃªme page de connexion !
+        // Les deux boutons ouvrent maintenant la même page de connexion !
         this.vue.getBtnCollection().setOnAction(event -> ouvrirPageConnexion());
         this.vue.getBtnAdmin().setOnAction(event -> ouvrirPageConnexion());
         
         this.vue.getBtnQuit().setOnAction(event -> actionQuitter());
     }
 
-    // MÃ©thode commune pour ouvrir le formulaire de connexion
+    // Méthode commune pour ouvrir le formulaire de connexion
     private void ouvrirPageConnexion() {
         System.out.println("Ouverture de la page de connexion...");
         
@@ -41,7 +41,7 @@ public class AccueilControleur {
     }
 
     private void actionQuitter() {
-        System.out.println("Fermeture de l'application demandÃ©e.");
+        System.out.println("Fermeture de l'application demandée.");
         Platform.exit();
     }
 }

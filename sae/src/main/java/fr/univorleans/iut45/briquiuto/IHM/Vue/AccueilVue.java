@@ -33,15 +33,15 @@ public class AccueilVue extends VBox {
             this.setBackground(new Background(bg));
         } catch (Exception e) { System.out.println("Image fondEcran.jpeg introuvable."); }
 
-        // 2. CRÃ‰ATION DE LA CARTE BLANCHE CENTRALE (Pour la lisibilitÃ©)
+        // 2. CRÉATION DE LA CARTE BLANCHE CENTRALE (Pour la lisibilité)
         VBox carteCentrale = new VBox(20);
         carteCentrale.setPadding(new Insets(30));
         carteCentrale.setAlignment(Pos.CENTER);
-        carteCentrale.setMaxWidth(450); // EmpÃªche la carte de prendre tout l'Ã©cran
-        // Fond blanc Ã  90% d'opacitÃ© avec des bords arrondis et une petite ombre
+        carteCentrale.setMaxWidth(450); // Empêche la carte de prendre tout l'écran
+        // Fond blanc à 90% d'opacité avec des bords arrondis et une petite ombre
         carteCentrale.setStyle("-fx-background-color: rgba(255, 255, 255, 0.92); -fx-background-radius: 15; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.3), 15, 0, 0, 5);");
 
-        // 3. INTÃ‰GRATION DU LOGO
+        // 3. INTÉGRATION DU LOGO
         try {
             ImageView logoView = new ImageView(new Image(getClass().getResourceAsStream("/img/LogoPrincipale.png")));
             logoView.setFitHeight(70);
@@ -60,7 +60,7 @@ public class AccueilVue extends VBox {
             carteCentrale.getChildren().add(salutView);
         } catch (Exception e) { System.out.println("SalutPageAccueil.jpeg introuvable."); }
 
-        Label welcomeText = new Label("Bienvenue dans votre espace ! \nGÃ©rez votre collection et composez vos boÃ®tes personnalisÃ©es.");
+        Label welcomeText = new Label("Bienvenue dans votre espace ! \nGérez votre collection et composez vos boîtes personnalisées.");
         welcomeText.setFont(Font.font("Arial", 14));
         welcomeText.setWrapText(true);
         welcomeText.setTextAlignment(TextAlignment.CENTER);

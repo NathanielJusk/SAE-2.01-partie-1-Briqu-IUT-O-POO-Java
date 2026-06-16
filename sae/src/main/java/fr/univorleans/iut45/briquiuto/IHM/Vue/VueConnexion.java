@@ -28,7 +28,7 @@ public class VueConnexion extends VBox {
     public VueConnexion() {
         this.setAlignment(Pos.CENTER);
         
-        // FOND D'Ã‰CRAN
+        // FOND D'ÉCRAN
         try {
             Image fondImage = new Image(getClass().getResourceAsStream("/img/fondEcran.jpeg"));
             BackgroundSize bgSize = new BackgroundSize(100, 100, true, true, false, true);
@@ -42,7 +42,7 @@ public class VueConnexion extends VBox {
         carteCentrale.setMaxWidth(400);
         carteCentrale.setStyle("-fx-background-color: rgba(255, 255, 255, 0.95); -fx-background-radius: 15; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.3), 15, 0, 0, 5);");
 
-        // EN-TÃŠTE : BOUTON HOME + LOGO
+        // EN-TÊTE : BOUTON HOME + LOGO
         HBox header = new HBox(15);
         header.setAlignment(Pos.CENTER);
         

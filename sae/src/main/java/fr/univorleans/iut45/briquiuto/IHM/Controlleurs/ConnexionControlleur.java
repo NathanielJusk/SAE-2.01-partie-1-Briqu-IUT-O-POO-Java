@@ -25,7 +25,7 @@ public class ConnexionControlleur {
     public void initialiser() {
         this.vue.getBtnSeConnecter().setOnAction(event -> actionConnexion());
         
-        // Action pour le bouton Home (l'icÃ´ne de maison)
+        // Action pour le bouton Home (l'icône de maison)
         this.vue.getBtnHome().setOnAction(event -> actionRetourAccueil());
     }
 
@@ -41,7 +41,7 @@ public class ConnexionControlleur {
 
         // 1. ROLE : ADMINISTRATEUR
         if (login.equals("admin") && mdp.equals("admin")) {
-            System.out.println("Connexion rÃ©ussie : Bienvenue Administrateur !");
+            System.out.println("Connexion réussie : Bienvenue Administrateur !");
             
             AdminHomeVue vueAdmin = new AdminHomeVue();
             new AdminHomeControleur(vueAdmin, modele, fenetrePrincipale);
@@ -49,7 +49,7 @@ public class ConnexionControlleur {
             
         // 2. ROLE : COLLECTIONNEUR
         } else if (login.equals("collec") && mdp.equals("collec")) {
-            System.out.println("Connexion rÃ©ussie : Bienvenue Collectionneur !");
+            System.out.println("Connexion réussie : Bienvenue Collectionneur !");
             
             CollectionneurHomeVue vueCollec = new CollectionneurHomeVue();
             new CollectionneurHomeControleur(vueCollec, modele, fenetrePrincipale);
