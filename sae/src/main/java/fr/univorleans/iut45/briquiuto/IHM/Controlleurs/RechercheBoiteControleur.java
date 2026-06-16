@@ -1,0 +1,76 @@
+package fr.univorleans.iut45.briquiuto.IHM.Controlleurs;
+
+import java.sql.SQLException;
+import java.util.List;
+
+import fr.univorleans.iut45.briquiuto.JDBC.RequetesLEGO;
+import fr.univorleans.iut45.briquiuto.modele.Boite;
+import fr.univorleans.iut45.briquiuto.modele.Piece;
+import fr.univorleans.iut45.briquiuto.IHM.Vue.VueRechercheBoiteParPiece;
+import fr.univorleans.iut45.briquiuto.IHM.Vue.CollectionneurHomeVue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+
+public class RechercheBoiteControleur {
+
+    private VueRechercheBoiteParPiece vue;
+    private RequetesLEGO modele;
+    private Stage fenetrePrincipale;
+
+    public RechercheBoiteControleur(VueRechercheBoiteParPiece vue, RequetesLEGO modele, Stage fenetrePrincipale) {
+        this.vue = vue;
+        this.modele = modele;
+        this.fenetrePrincipale = fenetrePrincipale;
+        this.initialiser();
+    }
+
+    private void initialiser() {
+        chargerLesPieces();
+        this.vue.getBtnRechercher().setOnAction(e -> actionRechercherBoites());
+        this.vue.getBtnRetour().setOnAction(e -> actionRetourCollectionneur());
+    }
+
+    private void chargerLesPieces() {
+        // Les pièces ont déjà été chargées au démarrage, on pioche direct dans le Manager !
+        List<Piece> listePiecesMemoire = modele.getManager().getCataloguePieces();
+        
+        if (listePiecesMemoire != null && !listePiecesMemoire.isEmpty()) {
+            ObservableList<Piece> listePourMenu = FXCollections.observableArrayList(listePiecesMemoire);
+            vue.alimenterListePieces(listePourMenu);
+        } else {
+            System.out.println("Attention : Le catalogue de pièces est vide en mémoire.");
+        }
+    }
+
+    private void actionRechercherBoites() {
+        Piece pieceChoisie = vue.getCbPiece().getValue();
+
+        if (pieceChoisie == null) {
+            System.out.println("Veuillez sélectionner une pièce.");
+            return;
+        }
+
+        try {
+            List<Boite> boitesTrouvees = modele.rechercherBoitesContenantPiece(pieceChoisie.getNumPiece());
+
+            if (boitesTrouvees != null && !boitesTrouvees.isEmpty()) {
+                ObservableList<Boite> resultats = FXCollections.observableArrayList(boitesTrouvees);
+                vue.afficherResultats(resultats);
+            } else {
+                // On vide le tableau si rien n'est trouvé
+                vue.afficherResultats(FXCollections.observableArrayList());
+                System.out.println("Aucune boîte de la base ne contient cette pièce.");
+            }
+        } catch (SQLException e) {
+            System.out.println("Erreur SQL lors de la recherche des boîtes : " + e.getMessage());
+        }
+    }
+
+    private void actionRetourCollectionneur() {
+        CollectionneurHomeVue vueCollec = new CollectionneurHomeVue();
+        new CollectionneurHomeControleur(vueCollec, modele, fenetrePrincipale);
+        fenetrePrincipale.setScene(new Scene(vueCollec, 600, 500));
+    }
+}

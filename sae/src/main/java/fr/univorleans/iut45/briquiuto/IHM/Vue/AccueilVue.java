@@ -5,78 +5,88 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Separator;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
 import javafx.scene.text.TextAlignment;
 
 public class AccueilVue extends VBox {
 
-    private Label titleLabel;
-    private Separator separator;
-    private Label menuHeader;
-    private Label welcomeText;
     private Button btnCollection;
     private Button btnAdmin;
     private Button btnQuit;
 
     public AccueilVue() {
-
-        super(20); // Espacement de 20 pixels entre chaque élément
-        this.setPadding(new Insets(30));
-        this.setAlignment(Pos.TOP_CENTER); // Centre les éléments
-        this.setStyle("-fx-background-color: #ffffff;");
-
-        // 1. Titre de l'application
-        titleLabel = new Label("BRIQU'IUTO COLLECTION MANAGER®");
-        titleLabel.setFont(Font.font("Arial", FontWeight.BOLD, 18));
+        this.setAlignment(Pos.CENTER);
         
-        // 2. Ligne de séparation
-        separator = new Separator();
-        separator.setPadding(new Insets(10, 0, 10, 0));
+        // 1. MISE EN PLACE DU FOND D'ÉCRAN
+        try {
+            Image fondImage = new Image(getClass().getResourceAsStream("/img/fondEcran.jpeg"));
+            BackgroundSize bgSize = new BackgroundSize(100, 100, true, true, false, true); // Effet Cover
+            BackgroundImage bg = new BackgroundImage(fondImage, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, bgSize);
+            this.setBackground(new Background(bg));
+        } catch (Exception e) { System.out.println("Image fondEcran.jpeg introuvable."); }
 
-        // 3. En-tête du menu
-        menuHeader = new Label("--- MENU PRINCIPAL ---");
-        menuHeader.setFont(Font.font("Arial", 16));
+        // 2. CRÉATION DE LA CARTE BLANCHE CENTRALE (Pour la lisibilité)
+        VBox carteCentrale = new VBox(20);
+        carteCentrale.setPadding(new Insets(30));
+        carteCentrale.setAlignment(Pos.CENTER);
+        carteCentrale.setMaxWidth(450); // Empêche la carte de prendre tout l'écran
+        // Fond blanc à 90% d'opacité avec des bords arrondis et une petite ombre
+        carteCentrale.setStyle("-fx-background-color: rgba(255, 255, 255, 0.92); -fx-background-radius: 15; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.3), 15, 0, 0, 5);");
 
-        // 4. Texte de bienvenue
-        welcomeText = new Label("Bienvenue dans votre espace Lego® ! Cette application vous permet de gérer votre collection, d'explorer les thèmes et de composer vos propres boîtes personnalisées");
+        // 3. INTÉGRATION DU LOGO
+        try {
+            ImageView logoView = new ImageView(new Image(getClass().getResourceAsStream("/img/LogoPrincipale.png")));
+            logoView.setFitHeight(70);
+            logoView.setPreserveRatio(true);
+            carteCentrale.getChildren().add(logoView);
+        } catch (Exception e) { System.out.println("LogoPrincipale.png introuvable."); }
+
+        Separator separator = new Separator();
+        separator.setStyle("-fx-background-color: #F6D304; -fx-border-width: 2px;");
+
+        // 4. IMAGE DE SALUTATION
+        try {
+            ImageView salutView = new ImageView(new Image(getClass().getResourceAsStream("/img/SalutPageAccueil.jpeg")));
+            salutView.setFitHeight(100);
+            salutView.setPreserveRatio(true);
+            carteCentrale.getChildren().add(salutView);
+        } catch (Exception e) { System.out.println("SalutPageAccueil.jpeg introuvable."); }
+
+        Label welcomeText = new Label("Bienvenue dans votre espace ! \nGérez votre collection et composez vos boîtes personnalisées.");
         welcomeText.setFont(Font.font("Arial", 14));
-        welcomeText.setWrapText(true); // Permet au texte de passer à la ligne
-        welcomeText.setTextAlignment(TextAlignment.JUSTIFY);
-        welcomeText.setPadding(new Insets(10, 0, 20, 0));
+        welcomeText.setWrapText(true);
+        welcomeText.setTextAlignment(TextAlignment.CENTER);
+        welcomeText.setStyle("-fx-text-fill: #333333;");
 
-        // 5. Bouton : Collection Personnelle
+        // 5. BOUTONS D'ACTIONS
+        String styleBoutonBleu = "-fx-background-color: #0055BF; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-padding: 12 20; -fx-background-radius: 8; -fx-cursor: hand;";
+        
         btnCollection = new Button("MA COLLECTION PERSONNELLE");
-        btnCollection.setStyle("-fx-background-color: #dcdcdc; -fx-text-fill: black; -fx-padding: 8 20;");
-        btnCollection.setMaxWidth(Double.MAX_VALUE); 
-        btnCollection.setAlignment(Pos.CENTER_LEFT);
+        btnCollection.setStyle(styleBoutonBleu);
+        btnCollection.setPrefWidth(Double.MAX_VALUE);
 
-        // 6. Bouton : Administration
         btnAdmin = new Button("ESPACE ADMINISTRATION");
-        btnAdmin.setStyle("-fx-background-color: #dcdcdc; -fx-text-fill: black; -fx-padding: 8 20;");
-        btnAdmin.setMaxWidth(Double.MAX_VALUE);
-        btnAdmin.setAlignment(Pos.CENTER_LEFT);
+        btnAdmin.setStyle(styleBoutonBleu);
+        btnAdmin.setPrefWidth(Double.MAX_VALUE);
 
-        // 7. Bouton : Quitter
         btnQuit = new Button("Quitter l'application");
-        btnQuit.setStyle("-fx-background-color: #dcdcdc; -fx-text-fill: black; -fx-padding: 8 20;");
-        btnQuit.setMaxWidth(Double.MAX_VALUE);
-        btnQuit.setAlignment(Pos.CENTER_LEFT);
+        btnQuit.setStyle("-fx-background-color: #E3000B; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-padding: 8 20; -fx-background-radius: 5; -fx-cursor: hand;");
+        VBox.setMargin(btnQuit, new Insets(20, 0, 0, 0));
 
-        // Assemblage final de l'arbre graphique
-        this.getChildren().addAll(
-            titleLabel, 
-            separator, 
-            menuHeader, 
-            welcomeText, 
-            btnCollection, 
-            btnAdmin, 
-            btnQuit
-        );
+        carteCentrale.getChildren().addAll(separator, welcomeText, btnCollection, btnAdmin, btnQuit);
+
+        // Ajout de la carte au centre du fond
+        this.getChildren().add(carteCentrale);
     }
 
-    // --- GETTERS POUR LE CONTROLEUR ---
     public Button getBtnCollection() { return btnCollection; }
     public Button getBtnAdmin() { return btnAdmin; }
     public Button getBtnQuit() { return btnQuit; }

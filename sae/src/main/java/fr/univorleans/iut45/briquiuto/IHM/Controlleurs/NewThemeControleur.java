@@ -1,87 +1,114 @@
 package fr.univorleans.iut45.briquiuto.IHM.Controlleurs;
 
 import java.sql.SQLException;
+import java.util.List;
 
-import fr.univorleans.iut45.briquiuto.modele.Theme;
 import fr.univorleans.iut45.briquiuto.JDBC.RequetesLEGO;
+import fr.univorleans.iut45.briquiuto.modele.Theme;
 import fr.univorleans.iut45.briquiuto.IHM.Vue.ViewNewTheme;
-import fr.univorleans.iut45.briquiuto.IHM.Vue.AdminHomeVue; // Changement ici !
+import fr.univorleans.iut45.briquiuto.IHM.Vue.AdminHomeVue;
+import javafx.collections.FXCollections;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.stage.Stage;
+import javafx.util.StringConverter; // Important pour l'affichage propre du nom
 
 public class NewThemeControleur {
 
     private ViewNewTheme vue;
     private RequetesLEGO modele;
-    private Stage fenetrePrincipale;
+    private Stage fenetrePrincipale; 
 
     public NewThemeControleur(ViewNewTheme vue, RequetesLEGO modele, Stage fenetrePrincipale) {
         this.vue = vue;
         this.modele = modele;
         this.fenetrePrincipale = fenetrePrincipale;
-        
         this.initialiser();
     }
 
-    private void initialiser() {
-        this.vue.getValiderButton().setOnAction(event -> actionValiderTheme());
-        
-        // Action pour le bouton Home
-        this.vue.getHomeButton().setOnAction(event -> actionRetourAdmin());
+    public void initialiser() {
+        // 1. Charger les thèmes existants dans le menu déroulant
+        try {
+            List<Theme> lesThemes = modele.getAllThemes();
+            vue.getCbParent().setItems(FXCollections.observableArrayList(lesThemes));
+            
+            // Correction de l'affichage du ComboBox pour n'afficher que le nom
+            vue.getCbParent().setConverter(new StringConverter<Theme>() {
+                @Override
+                public String toString(Theme theme) {
+                    return (theme == null) ? "" : theme.getNom();
+                }
+
+                @Override
+                public Theme fromString(String string) {
+                    return null; // Non utilisé car le ComboBox n'est pas éditable
+                }
+            });
+
+        } catch (SQLException e) {
+            afficherAlerte(Alert.AlertType.ERROR, "Erreur", "Impossible de charger les thèmes existants.");
+        }
+
+        // 2. Lier les boutons
+        vue.getBtnValider().setOnAction(event -> handleValiderTheme());
+        vue.getBtnHome().setOnAction(event -> actionRetourAdmin());
     }
 
-    private void actionValiderTheme() {
-        String numStr = vue.getNumThemeTextField().getText().trim();
-        String nom = vue.getNomThemeTextField().getText().trim();
-        String parentStr = vue.getNumThemeParentTextField().getText().trim();
+    public void handleValiderTheme() {
+        String strNumero = vue.getTxtNumero().getText().trim();
+        String nom = vue.getTxtNom().getText().trim();
+        Theme themeParent = vue.getCbParent().getValue();
 
-        if (numStr.isEmpty() || nom.isEmpty()) {
-            System.out.println("Erreur : Le numéro et le nom du thème sont obligatoires.");
+        // 1. Validation de la saisie
+        if (strNumero.isEmpty() || nom.isEmpty()) {
+            afficherAlerte(Alert.AlertType.WARNING, "Champs incomplets", "Veuillez remplir le numéro et le nom du thème.");
+            return;
+        }
+
+        int numero;
+        try {
+            numero = Integer.parseInt(strNumero);
+        } catch (NumberFormatException e) {
+            afficherAlerte(Alert.AlertType.WARNING, "Erreur de format", "Le numéro du thème doit être un entier valide.");
             return;
         }
 
         try {
-            int numTheme = Integer.parseInt(numStr);
-            Theme parent = null;
-
-            if (!parentStr.isEmpty()) {
-                int numParent = Integer.parseInt(parentStr);
-                parent = modele.rechercherThemeParId(numParent); 
-                
-                if (parent == null) {
-                    System.out.println("Erreur : Le thème parent numéro " + numParent + " n'existe pas.");
-                    return; 
-                }
+            // 2. Création et insertion
+            Theme nouveauTheme;
+            if (themeParent != null) {
+                nouveauTheme = new Theme(numero, nom, themeParent);
+            } else {
+                nouveauTheme = new Theme(numero, nom);
             }
-
-            Theme nouveauTheme = new Theme(numTheme, nom, parent);
+            
             modele.ajouterTheme(nouveauTheme);
             
-            System.out.println("Succès : Thème ajouté avec succès !");
+            // 3. Succès
+            afficherAlerte(Alert.AlertType.INFORMATION, "Succès", "Le thème '" + nom + "' a été créé !");
             
-            vue.getNumThemeTextField().clear();
-            vue.getNomThemeTextField().clear();
-            vue.getNumThemeParentTextField().clear();
+            // On rafraîchit la liste des thèmes dans le ComboBox
+            List<Theme> lesThemes = modele.getAllThemes();
+            vue.getCbParent().setItems(FXCollections.observableArrayList(lesThemes));
+            
+            vue.reinitialiserFormulaire();
 
-        } catch (NumberFormatException e) {
-            System.out.println("Erreur : Les numéros de thème doivent être des nombres entiers.");
         } catch (SQLException e) {
-            System.out.println("Erreur SQL : " + e.getMessage());
+            afficherAlerte(Alert.AlertType.ERROR, "Erreur Base de Données", "Impossible d'ajouter le thème. L'ID est peut-être déjà pris.");
         }
     }
 
-    // CORRECTION DU RETOUR ICI !
     private void actionRetourAdmin() {
-        System.out.println("Retour au menu Administrateur...");
-        
-        // 1. On recrée la vue Admin
         AdminHomeVue vueAdmin = new AdminHomeVue();
-        
-        // 2. LA MAGIE EST ICI : On DOIT lier le contrôleur pour réveiller les boutons !
         new AdminHomeControleur(vueAdmin, modele, fenetrePrincipale);
-        
-        // 3. On affiche la nouvelle scène
-        Scene sceneAdmin = new Scene(vueAdmin, 600, 500);
-        fenetrePrincipale.setScene(sceneAdmin);
+        fenetrePrincipale.setScene(new Scene(vueAdmin, 600, 500));
+    }
+
+    private void afficherAlerte(Alert.AlertType type, String titre, String message) {
+        Alert alerte = new Alert(type);
+        alerte.setTitle(titre);
+        alerte.setHeaderText(null);
+        alerte.setContentText(message);
+        alerte.showAndWait();
     }
 }

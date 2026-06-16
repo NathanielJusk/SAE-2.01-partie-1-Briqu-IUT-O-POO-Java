@@ -1,7 +1,10 @@
 package fr.univorleans.iut45.briquiuto.JDBC;
+
 import fr.univorleans.iut45.briquiuto.modele.Boite;
 import fr.univorleans.iut45.briquiuto.modele.BoiteComposee;
 import fr.univorleans.iut45.briquiuto.modele.BriqueCollectionManager;
+import fr.univorleans.iut45.briquiuto.modele.Categorie;
+import fr.univorleans.iut45.briquiuto.modele.Figurine;
 import fr.univorleans.iut45.briquiuto.modele.Piece;
 import fr.univorleans.iut45.briquiuto.modele.Theme;
 
@@ -130,13 +133,22 @@ public class RequetesLEGO {
     public List<Boite> getAllBoites() throws SQLException {
         List<Boite> boites = new ArrayList<>();
         Statement st = laConnexion.createStatement();
-        ResultSet rs = st.executeQuery("SELECT * FROM BOITE");
+        // On récupère la boîte ET son thème
+        ResultSet rs = st
+                .executeQuery("SELECT b.*, t.nomtheme FROM BOITE b LEFT JOIN THEME t ON b.idtheme = t.idtheme");
         while (rs.next()) {
             Boite b = new BoiteComposee(
                     rs.getString("numboite"),
                     rs.getInt("nbpieces"),
                     rs.getString("nomboite"),
                     rs.getInt("annee"));
+
+            // --- NOUVEAU : On attache le thème à la boîte ---
+            int idTheme = rs.getInt("idtheme");
+            if (!rs.wasNull()) {
+                Theme t = new Theme(idTheme, rs.getString("nomtheme"));
+                b.setTheme(t);
+            }
             boites.add(b);
         }
         rs.close();
@@ -198,11 +210,17 @@ public class RequetesLEGO {
     public List<Piece> getAllPieces() throws SQLException {
         List<Piece> pieces = new ArrayList<>();
         Statement st = laConnexion.createStatement();
-        ResultSet rs = st.executeQuery("SELECT * FROM PIECE");
+        // On récupère la pièce ET sa catégorie
+        ResultSet rs = st.executeQuery("SELECT p.*, c.nomcat FROM PIECE p LEFT JOIN CATEGORIE c ON p.idcat = c.idcat");
         while (rs.next()) {
-            Piece p = new Piece(
-                    rs.getString("numpiece"),
-                    rs.getString("nompiece"));
+            Piece p = new Piece(rs.getString("numpiece"), rs.getString("nompiece"));
+
+            // --- NOUVEAU : On attache la catégorie à la pièce ---
+            int idCat = rs.getInt("idcat");
+            if (!rs.wasNull()) {
+                Categorie cat = new Categorie(idCat, rs.getString("nomcat"));
+                p.setCategorie(cat);
+            }
             pieces.add(p);
         }
         rs.close();
@@ -247,18 +265,17 @@ public class RequetesLEGO {
                 "SELECT * FROM THEME WHERE idtheme = ?");
         ps.setInt(1, idTheme);
         ResultSet rs = ps.executeQuery();
-        
+
         if (rs.next()) {
             // Si la base de données trouve le thème, on crée l'objet Java correspondant
             Theme themeTrouve = new Theme(
                     rs.getInt("idtheme"),
-                    rs.getString("nomtheme")
-            );
+                    rs.getString("nomtheme"));
             rs.close();
             ps.close();
             return themeTrouve;
         }
-        
+
         // Si aucun thème ne correspond à cet ID
         rs.close();
         ps.close();
@@ -377,13 +394,14 @@ public class RequetesLEGO {
         ps.close();
         return res.isEmpty() ? "Aucune boite trouvee." : res;
     }
+
     /**
      * Ajoute une pièce dans une boîte.
      *
-     * @param numBoite numéro de la boîte
-     * @param numPiece numéro de la pièce
-     * @param idCouleur identifiant de la couleur
-     * @param quantite quantité à ajouter
+     * @param numBoite     numéro de la boîte
+     * @param numPiece     numéro de la pièce
+     * @param idCouleur    identifiant de la couleur
+     * @param quantite     quantité à ajouter
      * @param enSupplement vrai si la pièce est en supplément
      * @throws SQLException si la requête SQL échoue
      */
@@ -400,11 +418,12 @@ public class RequetesLEGO {
         ps.executeUpdate();
         ps.close();
     }
+
     /**
      * Ajoute une figurine dans une boîte.
      *
      * @param numBoite numéro de la boîte
-     * @param idFig identifiant de la figurine
+     * @param idFig    identifiant de la figurine
      * @param quantite quantité à ajouter
      * @throws SQLException si la requête SQL échoue
      */
@@ -419,12 +438,13 @@ public class RequetesLEGO {
         ps.executeUpdate();
         ps.close();
     }
+
     /**
      * Ajoute une sous-boîte dans une boîte.
      *
      * @param numBoiteParent numéro de la boîte parent
-     * @param numSousBoite numéro de la sous-boîte
-     * @param quantite quantité à ajouter
+     * @param numSousBoite   numéro de la sous-boîte
+     * @param quantite       quantité à ajouter
      * @throws SQLException si la requête SQL échoue
      */
     public void ajouterSousBoiteDansBoite(String numBoiteParent, String numSousBoite, int quantite)
@@ -439,4 +459,170 @@ public class RequetesLEGO {
         ps.close();
     }
 
+    // ── Mise à jour ────────────────────────────────────────────────────────
+    /**
+     * Modifie les informations d'une boîte existante dans la base de données.
+     * Le numéro de la boîte (numboite) sert de clé pour trouver la bonne ligne à
+     * modifier.
+     *
+     * @param boite l'objet boîte contenant les nouvelles valeurs à enregistrer
+     * @throws SQLException si la requête SQL échoue
+     */
+    public void modifierBoite(Boite boite) throws SQLException {
+        PreparedStatement ps = laConnexion.prepareStatement(
+                "UPDATE BOITE SET nomboite = ?, annee = ?, nbpieces = ?, idtheme = ? WHERE numboite = ?");
+
+        // On injecte les nouvelles valeurs modifiées
+        ps.setString(1, boite.getNom());
+        ps.setInt(2, boite.getAnnee());
+        ps.setInt(3, boite.getNbPiece());
+        ps.setInt(4, boite.getTheme() != null ? boite.getTheme().getIdTheme() : 1);
+
+        // Le WHERE utilise le numéro exact pour ne modifier QUE cette boîte
+        ps.setString(5, boite.getNumero());
+
+        // Exécute la mise à jour en base
+        ps.executeUpdate();
+        ps.close();
+    }
+
+    /**
+     * Permet aux contrôleurs d'accéder au gestionnaire de la collection en mémoire.
+     */
+    public BriqueCollectionManager getManager() {
+        return this.manager;
+    }
+
+    /**
+     * Charge toutes les données de la base de données vers le manager en mémoire.
+     */
+    public void chargerDonneesDansManager() {
+        try {
+            // 1. Vider les catalogues actuels pour éviter les doublons
+            manager.getCatalogueBoites().clear();
+            manager.getCataloguePieces().clear();
+
+            // 2. Charger les Boîtes
+            Statement st = laConnexion.createStatement();
+            ResultSet rs = st.executeQuery("SELECT * FROM BOITE");
+            while (rs.next()) {
+                Boite b = new BoiteComposee(
+                        rs.getString("numboite"),
+                        rs.getInt("nbpieces"),
+                        rs.getString("nomboite"),
+                        rs.getInt("annee"));
+                manager.ajouterBoite(b);
+            }
+
+            // 3. Charger les Pièces
+            rs = st.executeQuery("SELECT * FROM PIECE");
+            while (rs.next()) {
+                Piece p = new Piece(
+                        rs.getString("numpiece"),
+                        rs.getString("nompiece")
+                // Note : Si ta classe Piece nécessite une catégorie,
+                // tu devras ici faire un SELECT joint avec la table CATEGORIE
+                );
+                manager.getCataloguePieces().add(p);
+            }
+
+            rs.close();
+            st.close();
+            System.out.println("Catalogue chargé en mémoire (" + manager.getCatalogueBoites().size() + " boîtes, "
+                    + manager.getCataloguePieces().size() + " pièces).");
+        } catch (SQLException e) {
+            System.out.println("Erreur SQL lors du chargement des données : " + e.getMessage());
+        }
+    }
+
+    /**
+     * Recherche toutes les boîtes de la base de données qui contiennent une pièce
+     * précise.
+     * Utilise des jointures SQL pour éviter de surcharger la mémoire vive.
+     *
+     * @param numPiece Le numéro exact de la pièce
+     * @return La liste des boîtes trouvées
+     * @throws SQLException En cas d'erreur de base de données
+     */
+    public List<Boite> rechercherBoitesContenantPiece(String numPiece) throws SQLException {
+        List<Boite> boitesTrouvees = new ArrayList<>();
+
+        PreparedStatement ps = laConnexion.prepareStatement(
+                "SELECT b.numboite, b.nomboite, b.annee, b.nbpieces " +
+                        "FROM BOITE b " +
+                        "JOIN CONTENU c ON b.numboite = c.numboite " +
+                        "JOIN CONTENIRP cp ON c.idcont = cp.idcont " +
+                        "WHERE cp.numpiece = ?");
+
+        ps.setString(1, numPiece);
+        ResultSet rs = ps.executeQuery();
+
+        while (rs.next()) {
+            Boite b = new BoiteComposee(
+                    rs.getString("numboite"),
+                    rs.getInt("nbpieces"),
+                    rs.getString("nomboite"),
+                    rs.getInt("annee"));
+            boitesTrouvees.add(b);
+        }
+
+        rs.close();
+        ps.close();
+
+        return boitesTrouvees;
+    }
+
+    /**
+     * Récupère toutes les catégories de la base de données.
+     * 
+     * @return liste des catégories
+     * @throws SQLException si la requête SQL échoue
+     */
+    public List<Categorie> getAllCategories() throws SQLException {
+        List<Categorie> categories = new ArrayList<>();
+        Statement st = laConnexion.createStatement();
+        ResultSet rs = st.executeQuery("SELECT * FROM CATEGORIE");
+        while (rs.next()) {
+            Categorie cat = new Categorie(
+                    rs.getInt("idcat"),
+                    rs.getString("nomcat"));
+            categories.add(cat);
+        }
+        rs.close();
+        st.close();
+        return categories;
+    }
+    /**
+     * Récupère toutes les figurines de la base de données.
+     * @return liste des figurines
+     * @throws SQLException si la requête SQL échoue
+     */
+    public List<Figurine> getAllFigurines() throws SQLException {
+        List<Figurine> figurines = new ArrayList<>();
+        Statement st = laConnexion.createStatement();
+        // Assure-toi que les noms de colonnes correspondent à ceux de ton schéma SQL
+        ResultSet rs = st.executeQuery("SELECT idfig, nomfig, nbparties FROM FIGURINE");
+        
+        while (rs.next()) {
+            Figurine f = new Figurine(
+                    rs.getString("idfig"),
+                    rs.getString("nomfig"),
+                    rs.getInt("nbparties")
+            );
+            figurines.add(f);
+        }
+        rs.close();
+        st.close();
+        return figurines;
+    }
+
+    public void ajouterFigurine(Figurine f) throws SQLException {
+        String sql = "INSERT INTO FIGURINE (idfig, nomfig, nbparties) VALUES (?, ?, ?)";
+        java.sql.PreparedStatement ps = laConnexion.prepareStatement(sql);
+        ps.setString(1, f.getIdFig());
+        ps.setString(2, f.getNomFig());
+        ps.setInt(3, f.getNbParties());
+        ps.executeUpdate();
+        ps.close();
+    }
 }

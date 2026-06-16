@@ -1,15 +1,16 @@
 package fr.univorleans.iut45.briquiuto.IHM.Vue;
 
+import fr.univorleans.iut45.briquiuto.modele.Categorie;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Separator;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.image.Image;
@@ -18,7 +19,7 @@ import javafx.scene.image.ImageView;
 public class AjoutPieceVue extends VBox {
 
     private TextField txtNumero;
-    private TextField txtCategorie;
+    private ComboBox<Categorie> cbCategorie;
     private TextField txtNom;
     private Button btnValider;
     private Label lblErreur;
@@ -37,7 +38,9 @@ public class AjoutPieceVue extends VBox {
         try {
             Image homeImage = new Image(getClass().getResourceAsStream("/img/70083.png"));
             ImageView homeImageView = new ImageView(homeImage);
-            homeImageView.setFitWidth(35); homeImageView.setFitHeight(35); homeImageView.setPreserveRatio(true);
+            homeImageView.setFitWidth(35); 
+            homeImageView.setFitHeight(35); 
+            homeImageView.setPreserveRatio(true);
             this.btnHome.setGraphic(homeImageView);
             this.btnHome.setStyle("-fx-background-color: transparent; -fx-cursor: hand;");
         } catch (Exception e) {
@@ -63,17 +66,27 @@ public class AjoutPieceVue extends VBox {
         String styleLabel = "-fx-font-weight: bold; -fx-font-size: 14px;";
         String styleChamp = "-fx-border-color: #0055BF; -fx-border-width: 2px; -fx-border-radius: 3; -fx-padding: 5;";
 
-        Label lblNumero = new Label("Numéro de pièce :"); lblNumero.setStyle(styleLabel);
-        txtNumero = new TextField(); txtNumero.setStyle(styleChamp);
+        Label lblNumero = new Label("Numéro de pièce :"); 
+        lblNumero.setStyle(styleLabel);
+        txtNumero = new TextField(); 
+        txtNumero.setStyle(styleChamp);
 
-        Label lblCategorie = new Label("Catégorie :"); lblCategorie.setStyle(styleLabel);
-        txtCategorie = new TextField(); txtCategorie.setStyle(styleChamp);
+        Label lblCategorie = new Label("Catégorie :"); 
+        lblCategorie.setStyle(styleLabel);
+        
+        // --- CORRECTION DE L'INDENTATION ET DU STYLE ICI ---
+        cbCategorie = new ComboBox<>();
+        cbCategorie.setPromptText("Sélectionnez une catégorie...");
+        cbCategorie.setPrefWidth(200);
+        cbCategorie.setStyle(styleChamp); 
 
-        Label lblNom = new Label("Nom de la pièce :"); lblNom.setStyle(styleLabel);
-        txtNom = new TextField(); txtNom.setStyle(styleChamp);
+        Label lblNom = new Label("Nom de la pièce :"); 
+        lblNom.setStyle(styleLabel);
+        txtNom = new TextField(); 
+        txtNom.setStyle(styleChamp);
 
         grille.add(lblNumero, 0, 0); grille.add(txtNumero, 1, 0);
-        grille.add(lblCategorie, 0, 1); grille.add(txtCategorie, 1, 1);
+        grille.add(lblCategorie, 0, 1); grille.add(cbCategorie, 1, 1);
         grille.add(lblNom, 0, 2); grille.add(txtNom, 1, 2);
 
         // --- BOUTON VALIDER (Vert LEGO) ---
@@ -94,12 +107,21 @@ public class AjoutPieceVue extends VBox {
     }
 
     public TextField getTxtNumero() { return txtNumero; }
-    public TextField getTxtCategorie() { return txtCategorie; }
+    public ComboBox<Categorie> getCbCategorie() { return cbCategorie; }
     public TextField getTxtNom() { return txtNom; }
     public Button getBtnValider() { return btnValider; }
     public Label getLblErreur() { return lblErreur; }
     public Button getBtnHome() { return btnHome; }
 
-    public void afficherErreur(String message) { lblErreur.setText(message); lblErreur.setVisible(true); }
-    public void reinitialiserFormulaire() { txtNumero.clear(); txtCategorie.clear(); txtNom.clear(); lblErreur.setVisible(false); }
+    public void afficherErreur(String message) { 
+        lblErreur.setText(message); 
+        lblErreur.setVisible(true); 
+    }
+    
+    public void reinitialiserFormulaire() { 
+        txtNumero.clear(); 
+        cbCategorie.getSelectionModel().clearSelection(); 
+        txtNom.clear(); 
+        lblErreur.setVisible(false); 
+    }
 }

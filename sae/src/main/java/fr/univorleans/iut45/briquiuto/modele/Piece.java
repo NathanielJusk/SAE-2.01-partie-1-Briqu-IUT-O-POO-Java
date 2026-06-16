@@ -101,8 +101,8 @@ public class Piece {
     }
     @Override
     public String toString() {
-        return "Piece{num='" + numPiece + "'" +
-               ", nom='" + nomPiece + "'" +
+        return "Piece : " + numPiece + "'" +
+               ", nom ='" + nomPiece + "'" +
                ", categorie=" + (categorie != null ? categorie.getNomCat() : "aucune") + "}";
     }
 }

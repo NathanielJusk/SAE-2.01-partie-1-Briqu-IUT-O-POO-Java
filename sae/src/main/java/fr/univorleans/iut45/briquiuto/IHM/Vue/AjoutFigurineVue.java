@@ -1,10 +1,8 @@
 package fr.univorleans.iut45.briquiuto.IHM.Vue;
 
-import fr.univorleans.iut45.briquiuto.modele.Theme;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Separator;
 import javafx.scene.control.TextField;
@@ -16,22 +14,21 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-public class ViewNewTheme extends VBox {
+public class AjoutFigurineVue extends VBox {
 
-    private TextField txtNumero;
-    private TextField txtNom;
-    // --- NOUVEAU : ComboBox au lieu de TextField ---
-    private ComboBox<Theme> cbParent;
+    private TextField txtIdFig;
+    private TextField txtNomFig;
+    private TextField txtNbParties;
     private Button btnValider;
     private Label lblErreur;
     private Button btnHome;
 
-    public ViewNewTheme() {
+    public AjoutFigurineVue() {
         this.setSpacing(25);
         this.setPadding(new Insets(30));
         this.setStyle("-fx-background-color: #FFFFFF;");
 
-        // --- EN-TÊTE STANDARD ---
+        // --- EN-TÊTE ---
         HBox header = new HBox(20);
         header.setAlignment(Pos.CENTER_LEFT);
         
@@ -45,10 +42,10 @@ public class ViewNewTheme extends VBox {
             this.btnHome.setGraphic(homeImageView);
             this.btnHome.setStyle("-fx-background-color: transparent; -fx-cursor: hand;");
         } catch (Exception e) {
-            this.btnHome.setText("🏠");
+            this.btnHome.setText("Accueil");
         }
 
-        Label lblTitre = new Label("Créer un thème ou sous-thème");
+        Label lblTitre = new Label("Ajouter une nouvelle figurine");
         lblTitre.setFont(Font.font("Arial", FontWeight.BOLD, 28));
         lblTitre.setStyle("-fx-text-fill: #0055BF;");
         
@@ -67,31 +64,27 @@ public class ViewNewTheme extends VBox {
         String styleLabel = "-fx-font-weight: bold; -fx-font-size: 14px;";
         String styleChamp = "-fx-border-color: #0055BF; -fx-border-width: 2px; -fx-border-radius: 3; -fx-padding: 5;";
 
-        Label lblNumero = new Label("Numéro du thème :"); 
-        lblNumero.setStyle(styleLabel);
-        txtNumero = new TextField(); 
-        txtNumero.setStyle(styleChamp);
+        Label lblId = new Label("ID Figurine :"); 
+        lblId.setStyle(styleLabel);
+        txtIdFig = new TextField(); 
+        txtIdFig.setStyle(styleChamp);
 
-        Label lblNom = new Label("Nom du thème :"); 
+        Label lblNom = new Label("Nom de la figurine :"); 
         lblNom.setStyle(styleLabel);
-        txtNom = new TextField(); 
-        txtNom.setStyle(styleChamp);
+        txtNomFig = new TextField(); 
+        txtNomFig.setStyle(styleChamp);
 
-        Label lblParent = new Label("Thème parent (optionnel) :"); 
-        lblParent.setStyle(styleLabel);
-        
-        // --- CONFIGURATION DU COMBOBOX ---
-        cbParent = new ComboBox<>();
-        cbParent.setPromptText("Aucun parent (Thème principal)");
-        cbParent.setPrefWidth(200);
-        cbParent.setStyle(styleChamp);
+        Label lblNbParties = new Label("Nombre de pièces :"); 
+        lblNbParties.setStyle(styleLabel);
+        txtNbParties = new TextField(); 
+        txtNbParties.setStyle(styleChamp);
 
-        grille.add(lblNumero, 0, 0); grille.add(txtNumero, 1, 0);
-        grille.add(lblNom, 0, 1); grille.add(txtNom, 1, 1);
-        grille.add(lblParent, 0, 2); grille.add(cbParent, 1, 2);
+        grille.add(lblId, 0, 0); grille.add(txtIdFig, 1, 0);
+        grille.add(lblNom, 0, 1); grille.add(txtNomFig, 1, 1);
+        grille.add(lblNbParties, 0, 2); grille.add(txtNbParties, 1, 2);
 
         // --- BOUTON VALIDER ---
-        btnValider = new Button("Valider le thème");
+        btnValider = new Button("Valider la figurine");
         btnValider.setStyle("-fx-background-color: #287F46; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-padding: 10 30; -fx-background-radius: 5;");
         
         VBox btnContainer = new VBox(btnValider);
@@ -107,11 +100,11 @@ public class ViewNewTheme extends VBox {
         this.getChildren().addAll(header, separateur, grille, btnContainer, errContainer);
     }
 
-    public TextField getTxtNumero() { return txtNumero; }
-    public TextField getTxtNom() { return txtNom; }
-    public ComboBox<Theme> getCbParent() { return cbParent; }
+    // Getters pour le contrôleur
+    public TextField getTxtIdFig() { return txtIdFig; }
+    public TextField getTxtNomFig() { return txtNomFig; }
+    public TextField getTxtNbParties() { return txtNbParties; }
     public Button getBtnValider() { return btnValider; }
-    public Label getLblErreur() { return lblErreur; }
     public Button getBtnHome() { return btnHome; }
 
     public void afficherErreur(String message) { 
@@ -120,9 +113,9 @@ public class ViewNewTheme extends VBox {
     }
     
     public void reinitialiserFormulaire() { 
-        txtNumero.clear(); 
-        txtNom.clear(); 
-        cbParent.getSelectionModel().clearSelection(); 
+        txtIdFig.clear(); 
+        txtNomFig.clear(); 
+        txtNbParties.clear(); 
         lblErreur.setVisible(false); 
     }
 }
