@@ -2,7 +2,6 @@ package fr.univorleans.iut45.briquiuto.IHM.Vue;
 
 import fr.univorleans.iut45.briquiuto.modele.Boite;
 import fr.univorleans.iut45.briquiuto.modele.Piece;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -38,19 +37,19 @@ public class VueRechercheBoiteParPiece extends VBox {
         zoneRecherche.setAlignment(Pos.CENTER_LEFT);
         zoneRecherche.setPadding(new Insets(10, 0, 10, 0));
 
-        lblPiece = new Label("Pièce :");
+        lblPiece = new Label("PiÃ¨ce :");
         cbPiece = new ComboBox<>();
-        cbPiece.setPromptText("Sélectionner une pièce...");
+        cbPiece.setPromptText("SÃ©lectionner une piÃ¨ce...");
         cbPiece.setPrefWidth(250);
-        
+
         btnRechercher = new Button("Rechercher");
         btnRechercher.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white;");
 
         zoneRecherche.getChildren().addAll(lblPiece, cbPiece, btnRechercher);
 
         tableResultats = new TableView<>();
-        
-        colNumero = new TableColumn<>("Numéro");
+
+        colNumero = new TableColumn<>("NumÃ©ro");
         colNumero.setCellValueFactory(new PropertyValueFactory<>("numero"));
         colNumero.setPrefWidth(100);
 
@@ -58,12 +57,12 @@ public class VueRechercheBoiteParPiece extends VBox {
         colNom.setCellValueFactory(new PropertyValueFactory<>("nom"));
         colNom.setPrefWidth(250);
 
-        colAnnee = new TableColumn<>("Année");
+        colAnnee = new TableColumn<>("AnnÃ©e");
         // --- CORRECTION DU BOUTON RETOUR ---
         colAnnee.setCellValueFactory(new PropertyValueFactory<>("annee"));
         colAnnee.setPrefWidth(100);
 
-        colNbPieces = new TableColumn<>("Nombre de pièces");
+        colNbPieces = new TableColumn<>("Nombre de piÃ¨ces");
         colNbPieces.setCellValueFactory(new PropertyValueFactory<>("nbPiece"));
         colNbPieces.setPrefWidth(120);
 
@@ -81,7 +80,7 @@ public class VueRechercheBoiteParPiece extends VBox {
         } catch (Exception e) {
             this.btnRetour.setText("Retour");
         }
-        
+
         HBox zoneBasse = new HBox();
         zoneBasse.setAlignment(Pos.CENTER_LEFT);
         zoneBasse.getChildren().add(btnRetour);
@@ -89,10 +88,21 @@ public class VueRechercheBoiteParPiece extends VBox {
         this.getChildren().addAll(zoneRecherche, tableResultats, zoneBasse);
     }
 
-    public ComboBox<Piece> getCbPiece() { return cbPiece; }
-    public Button getBtnRechercher() { return btnRechercher; }
-    public TableView<Boite> getTableResultats() { return tableResultats; }
-    public Button getBtnRetour() { return btnRetour; }
+    public ComboBox<Piece> getCbPiece() {
+        return cbPiece;
+    }
+
+    public Button getBtnRechercher() {
+        return btnRechercher;
+    }
+
+    public TableView<Boite> getTableResultats() {
+        return tableResultats;
+    }
+
+    public Button getBtnRetour() {
+        return btnRetour;
+    }
 
     public void alimenterListePieces(ObservableList<Piece> listePieces) {
         cbPiece.setItems(listePieces);
