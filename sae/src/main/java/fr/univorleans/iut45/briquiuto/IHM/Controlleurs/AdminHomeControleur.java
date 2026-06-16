@@ -26,13 +26,13 @@ public class AdminHomeControleur {
         this.vue.getBtnAjoutBoite().setOnAction(e -> {
             System.out.println("Fonctionnalité 'Gérer les boîtes' à venir !");
         });
+        
+        // Le bouton Home fait la même action que la déconnexion pour l'admin
         this.vue.getBtnHome().setOnAction(e -> deconnexion());
     }
 
-    // On ne garde que la BONNE version de cette méthode
     private void ouvrirAjoutPiece() {
         AjoutPieceVue vuePiece = new AjoutPieceVue();
-        // Le contrôleur a bien ses 3 paramètres pour pouvoir faire des retours en arrière !
         new AjoutPieceControleur(vuePiece, modele, fenetrePrincipale); 
         fenetrePrincipale.setScene(new Scene(vuePiece, 600, 500));
     }

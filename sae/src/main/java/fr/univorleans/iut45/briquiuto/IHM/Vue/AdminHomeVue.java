@@ -19,36 +19,65 @@ public class AdminHomeVue extends VBox {
     private Button btnAjoutBoite;
     private Button btnDeconnexion;
     private Button btnHome;
-    private Image homeImage;
 
     public AdminHomeVue() {
-        this.setSpacing(20);
-        this.setPadding(new Insets(40));
-        this.setAlignment(Pos.TOP_CENTER);
-        this.setStyle("-fx-background-color: #f0f8ff;");
+        this.setSpacing(25);
+        this.setPadding(new Insets(30));
+        this.setStyle("-fx-background-color: #FFFFFF;"); // Fond blanc propre
 
-        // --- BOUTON HOME ---
-        this.homeImage = new Image(getClass().getResourceAsStream("/img/70083.png"));
-        ImageView homeImageView = new ImageView(this.homeImage);
-        homeImageView.setFitWidth(30); homeImageView.setFitHeight(30); homeImageView.setPreserveRatio(true);
-        this.btnHome = new Button();
-        this.btnHome.setGraphic(homeImageView);
-        this.btnHome.setStyle("-fx-background-color: transparent; -fx-cursor: hand;");
-
-        Label lblTitre = new Label("Tableau de bord : Administrateur");
-        lblTitre.setFont(Font.font("Arial", FontWeight.BOLD, 22));
+        // --- EN-TÊTE STANDARD ---
+        HBox header = new HBox(20);
+        header.setAlignment(Pos.CENTER_LEFT); // Alignement strict à gauche
         
-        HBox header = new HBox(20, btnHome, lblTitre);
-        header.setAlignment(Pos.CENTER);
+        // Bouton Home
+        this.btnHome = new Button();
+        try {
+            Image homeImage = new Image(getClass().getResourceAsStream("/img/70083.png"));
+            ImageView homeImageView = new ImageView(homeImage);
+            homeImageView.setFitWidth(35); homeImageView.setFitHeight(35); homeImageView.setPreserveRatio(true);
+            this.btnHome.setGraphic(homeImageView);
+            this.btnHome.setStyle("-fx-background-color: transparent; -fx-cursor: hand;");
+        } catch (Exception e) {
+            this.btnHome.setText("🏠");
+        }
 
+        Label lblTitre = new Label("Espace Administrateur");
+        lblTitre.setFont(Font.font("Arial", FontWeight.BOLD, 28));
+        lblTitre.setStyle("-fx-text-fill: #0055BF;"); // Bleu LEGO
+        
+        header.getChildren().addAll(btnHome, lblTitre);
+
+        // --- SÉPARATEUR JAUNE LEGO ---
         Separator separateur = new Separator();
+        separateur.setStyle("-fx-background-color: #F6D304; -fx-border-width: 2px;");
+
+        // --- BOUTONS D'ACTION (Centrés) ---
+        VBox conteneurBoutons = new VBox(15);
+        conteneurBoutons.setAlignment(Pos.CENTER);
+        conteneurBoutons.setPadding(new Insets(20, 0, 0, 0));
+
+        String styleBoutonBleu = "-fx-background-color: #0055BF; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-padding: 12 30; -fx-background-radius: 5;";
 
         btnAjoutPiece = new Button("Ajouter une nouvelle Pièce");
-        btnAjoutTheme = new Button("Créer un nouveau Thème");
-        btnAjoutBoite = new Button("Gérer les Boîtes / Catalogue");
-        btnDeconnexion = new Button("Déconnexion");
+        btnAjoutPiece.setStyle(styleBoutonBleu);
+        btnAjoutPiece.setPrefWidth(300);
 
-        this.getChildren().addAll(header, separateur, btnAjoutPiece, btnAjoutTheme, btnAjoutBoite, btnDeconnexion);
+        btnAjoutTheme = new Button("Créer un nouveau Thème");
+        btnAjoutTheme.setStyle(styleBoutonBleu);
+        btnAjoutTheme.setPrefWidth(300);
+
+        btnAjoutBoite = new Button("Gérer les Boîtes / Catalogue");
+        btnAjoutBoite.setStyle(styleBoutonBleu);
+        btnAjoutBoite.setPrefWidth(300);
+
+        btnDeconnexion = new Button("Déconnexion");
+        btnDeconnexion.setStyle("-fx-background-color: #E3000B; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-padding: 10 20; -fx-background-radius: 5;");
+        
+        VBox.setMargin(btnDeconnexion, new Insets(40, 0, 0, 0));
+
+        conteneurBoutons.getChildren().addAll(btnAjoutPiece, btnAjoutTheme, btnAjoutBoite, btnDeconnexion);
+
+        this.getChildren().addAll(header, separateur, conteneurBoutons);
     }
 
     public Button getBtnAjoutPiece() { return btnAjoutPiece; }

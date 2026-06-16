@@ -5,7 +5,7 @@ import java.sql.SQLException;
 import fr.univorleans.iut45.briquiuto.modele.Theme;
 import fr.univorleans.iut45.briquiuto.JDBC.RequetesLEGO;
 import fr.univorleans.iut45.briquiuto.IHM.Vue.ViewNewTheme;
-import fr.univorleans.iut45.briquiuto.IHM.Vue.AccueilVue;
+import fr.univorleans.iut45.briquiuto.IHM.Vue.AdminHomeVue; // Changement ici !
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
@@ -24,11 +24,10 @@ public class NewThemeControleur {
     }
 
     private void initialiser() {
-        // Action pour le bouton Valider
         this.vue.getValiderButton().setOnAction(event -> actionValiderTheme());
-
+        
         // Action pour le bouton Home
-        this.vue.getHomeButton().setOnAction(event -> actionRetourHome());
+        this.vue.getHomeButton().setOnAction(event -> actionRetourAdmin());
     }
 
     private void actionValiderTheme() {
@@ -36,10 +35,8 @@ public class NewThemeControleur {
         String nom = vue.getNomThemeTextField().getText().trim();
         String parentStr = vue.getNumThemeParentTextField().getText().trim();
 
-        // 1. Vérification des champs obligatoires (Numéro et Nom)
         if (numStr.isEmpty() || nom.isEmpty()) {
             System.out.println("Erreur : Le numéro et le nom du thème sont obligatoires.");
-            // Idéalement, affiche un Label d'erreur rouge sur la vue comme on a fait pour les pièces
             return;
         }
 
@@ -47,24 +44,21 @@ public class NewThemeControleur {
             int numTheme = Integer.parseInt(numStr);
             Theme parent = null;
 
-            // 2. Gestion du thème parent optionnel
             if (!parentStr.isEmpty()) {
                 int numParent = Integer.parseInt(parentStr);
                 parent = modele.rechercherThemeParId(numParent); 
                 
                 if (parent == null) {
                     System.out.println("Erreur : Le thème parent numéro " + numParent + " n'existe pas.");
-                    return; // On annule l'ajout si le parent spécifié n'existe pas
+                    return; 
                 }
             }
 
-            // 3. Création du thème et insertion en base
             Theme nouveauTheme = new Theme(numTheme, nom, parent);
             modele.ajouterTheme(nouveauTheme);
             
             System.out.println("Succès : Thème ajouté avec succès !");
             
-            // On vide le formulaire après un succès
             vue.getNumThemeTextField().clear();
             vue.getNomThemeTextField().clear();
             vue.getNumThemeParentTextField().clear();
@@ -73,18 +67,21 @@ public class NewThemeControleur {
             System.out.println("Erreur : Les numéros de thème doivent être des nombres entiers.");
         } catch (SQLException e) {
             System.out.println("Erreur SQL : " + e.getMessage());
-            // Souvent déclenché si l'ID (numTheme) est déjà utilisé (Clé primaire dupliquée)
         }
     }
 
-    private void actionRetourHome() {
+    // CORRECTION DU RETOUR ICI !
+    private void actionRetourAdmin() {
         System.out.println("Retour au menu Administrateur...");
         
-        // On recrée la vue d'accueil et on l'affiche
-        AccueilVue vueHome = new AccueilVue();
+        // 1. On recrée la vue Admin
+        AdminHomeVue vueAdmin = new AdminHomeVue();
         
-        // On affiche la nouvelle scène
-        Scene sceneHome = new Scene(vueHome, 600, 500);
-        fenetrePrincipale.setScene(sceneHome);
+        // 2. LA MAGIE EST ICI : On DOIT lier le contrôleur pour réveiller les boutons !
+        new AdminHomeControleur(vueAdmin, modele, fenetrePrincipale);
+        
+        // 3. On affiche la nouvelle scène
+        Scene sceneAdmin = new Scene(vueAdmin, 600, 500);
+        fenetrePrincipale.setScene(sceneAdmin);
     }
 }

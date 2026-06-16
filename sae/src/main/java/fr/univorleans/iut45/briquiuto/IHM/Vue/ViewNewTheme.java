@@ -4,103 +4,89 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.Separator;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 public class ViewNewTheme extends VBox {
-    private Label titreLabel;
-    private Button home;
-    private Image homeImage;
-    private GridPane grid;
-    private HBox hbox;
 
-    private Label numThemeLabel;
     private TextField numThemeTextField;
-    private Label nomThemeLabel;
     private TextField nomThemeTextField;
-    private Label numThemeParentLabel;
     private TextField numThemeParentTextField;
-
-    private HBox hboxHautDePage;
-
     private Button validerButton;
+    private Button homeButton;
 
     public ViewNewTheme() {
-        // Appelle le constructeur de VBox avec un espacement de 15 pixels entre les blocs
-        super(15); 
-        this.setPadding(new Insets(20)); // Ajoute des marges tout autour de la fenêtre
-        this.setAlignment(Pos.TOP_CENTER); // Centre les éléments horizontalement
+        this.setSpacing(25);
+        this.setPadding(new Insets(30));
+        this.setStyle("-fx-background-color: #FFFFFF;");
 
-        // Titre et bouton Home (corrigé avec un texte)
-        this.titreLabel = new Label("Créer un thème ou un sous-thème");
-        this.titreLabel.setStyle("-fx-font-size: 16px; -fx-font-weight: bold;"); 
+        // --- EN-TÊTE STANDARD ---
+        HBox header = new HBox(20);
+        header.setAlignment(Pos.CENTER_LEFT);
         
-        this.homeImage = new Image(getClass().getResourceAsStream("/img/70083.png"));
-        ImageView homeImageView = new ImageView(this.homeImage);
-        homeImageView.setFitWidth(30);
-        homeImageView.setFitHeight(30);
-        homeImageView.setPreserveRatio(true);
-        this.home = new Button();
-        this.home.setGraphic(homeImageView);
+        this.homeButton = new Button();
+        try {
+            Image homeImage = new Image(getClass().getResourceAsStream("/img/70083.png"));
+            ImageView homeImageView = new ImageView(homeImage);
+            homeImageView.setFitWidth(35); homeImageView.setFitHeight(35); homeImageView.setPreserveRatio(true);
+            this.homeButton.setGraphic(homeImageView);
+            this.homeButton.setStyle("-fx-background-color: transparent; -fx-cursor: hand;");
+        } catch (Exception e) {
+            this.homeButton.setText("🏠");
+        }
 
-        // Création et configuration du GridPane
-        this.grid = new GridPane();
-        this.grid.setHgap(10); 
-        this.grid.setVgap(10); 
-        this.grid.setAlignment(Pos.CENTER);
+        Label lblTitre = new Label("Créer un thème ou sous-thème");
+        lblTitre.setFont(Font.font("Arial", FontWeight.BOLD, 28));
+        lblTitre.setStyle("-fx-text-fill: #0055BF;");
+        
+        header.getChildren().addAll(homeButton, lblTitre);
 
-        this.numThemeLabel = new Label("Numéro du thème :");
-        this.numThemeTextField = new TextField();
-        this.nomThemeLabel = new Label("Nom du thème :");
-        this.nomThemeTextField = new TextField();
-        this.numThemeParentLabel = new Label("Numéro du thème parent :");
-        this.numThemeParentTextField = new TextField();
+        Separator separateur = new Separator();
+        separateur.setStyle("-fx-background-color: #F6D304; -fx-border-width: 2px;");
 
-        grid.add(numThemeLabel, 0, 0);
-        grid.add(numThemeTextField, 1, 0);
-        grid.add(nomThemeLabel, 0, 1);
-        grid.add(nomThemeTextField, 1, 1);
-        grid.add(numThemeParentLabel, 0, 2);
-        grid.add(numThemeParentTextField, 1, 2);
+        // --- FORMULAIRE ---
+        GridPane grid = new GridPane();
+        grid.setVgap(20);
+        grid.setHgap(20);
+        grid.setAlignment(Pos.CENTER);
+        grid.setPadding(new Insets(30, 0, 20, 0));
 
+        String styleLabel = "-fx-font-weight: bold; -fx-font-size: 14px;";
+        String styleChamp = "-fx-border-color: #0055BF; -fx-border-width: 2px; -fx-border-radius: 3; -fx-padding: 5;";
 
-        this.hbox = new HBox();
-        this.hbox.setAlignment(Pos.CENTER);
-        this.validerButton = new Button("Valider");
-        this.hbox.getChildren().add(validerButton);
+        Label numThemeLabel = new Label("Numéro du thème :"); numThemeLabel.setStyle(styleLabel);
+        numThemeTextField = new TextField(); numThemeTextField.setStyle(styleChamp);
 
-        this.hboxHautDePage = new HBox();
-        this.hboxHautDePage.setAlignment(Pos.CENTER);
-        this.hboxHautDePage.setSpacing(100); 
-        this.hboxHautDePage.getChildren().addAll(titreLabel, home);
+        Label nomThemeLabel = new Label("Nom du thème :"); nomThemeLabel.setStyle(styleLabel);
+        nomThemeTextField = new TextField(); nomThemeTextField.setStyle(styleChamp);
 
+        Label numThemeParentLabel = new Label("Numéro du parent (optionnel) :"); numThemeParentLabel.setStyle(styleLabel);
+        numThemeParentTextField = new TextField(); numThemeParentTextField.setStyle(styleChamp);
 
-        this.getChildren().add(hboxHautDePage);
-        this.getChildren().add(grid);
-        this.getChildren().add(hbox);
-    }
-    
-    public TextField getNumThemeTextField() {
-        return numThemeTextField;
-    }
+        grid.add(numThemeLabel, 0, 0); grid.add(numThemeTextField, 1, 0);
+        grid.add(nomThemeLabel, 0, 1); grid.add(nomThemeTextField, 1, 1);
+        grid.add(numThemeParentLabel, 0, 2); grid.add(numThemeParentTextField, 1, 2);
 
-    public TextField getNomThemeTextField() {
-        return nomThemeTextField;
-    }
+        // --- BOUTON VALIDER (Vert LEGO) ---
+        validerButton = new Button("Valider le thème");
+        validerButton.setStyle("-fx-background-color: #287F46; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-padding: 10 30; -fx-background-radius: 5;");
+        
+        VBox btnContainer = new VBox(validerButton);
+        btnContainer.setAlignment(Pos.CENTER);
 
-    public TextField getNumThemeParentTextField() {
-        return numThemeParentTextField;
+        this.getChildren().addAll(header, separateur, grid, btnContainer);
     }
 
-    public Button getValiderButton() {
-        return validerButton;
-    }
-
-    public Button getHomeButton() {
-        return home;
-    }
+    public TextField getNumThemeTextField() { return numThemeTextField; }
+    public TextField getNomThemeTextField() { return nomThemeTextField; }
+    public TextField getNumThemeParentTextField() { return numThemeParentTextField; }
+    public Button getValiderButton() { return validerButton; }
+    public Button getHomeButton() { return homeButton; }
 }

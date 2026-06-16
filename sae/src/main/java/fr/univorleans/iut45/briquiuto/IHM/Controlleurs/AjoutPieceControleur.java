@@ -10,12 +10,10 @@ import javafx.stage.Stage;
 
 public class AjoutPieceControleur {
 
-    // Attributs
     private AjoutPieceVue vue;
     private RequetesLEGO modele;
-    private Stage fenetrePrincipale;
+    private Stage fenetrePrincipale; 
 
-    // Constructeur mis à jour (prend maintenant 3 paramètres)
     public AjoutPieceControleur(AjoutPieceVue vue, RequetesLEGO modele, Stage fenetrePrincipale) {
         this.vue = vue;
         this.modele = modele;
@@ -23,12 +21,8 @@ public class AjoutPieceControleur {
         this.initialiser();
     }
 
-    // Initialisation des écouteurs d'événements
     public void initialiser() {
-        // Associe le clic du bouton Valider
         vue.getBtnValider().setOnAction(event -> handleValiderPiece());
-        
-        // Associe le clic du bouton Home (Retour au menu Admin)
         vue.getBtnHome().setOnAction(event -> actionRetourAdmin());
     }
 
@@ -38,14 +32,11 @@ public class AjoutPieceControleur {
         fenetrePrincipale.setScene(new Scene(vueAdmin, 600, 500));
     }
 
-    // Gestion de l'action de validation
     public void handleValiderPiece() {
-        // 1. Récupération des données tapées par l'utilisateur
         String numero = vue.getTxtNumero().getText().trim();
         String categorie = vue.getTxtCategorie().getText().trim(); 
         String nom = vue.getTxtNom().getText().trim();
 
-       
         if (numero.isEmpty() || nom.isEmpty()) {
             vue.getLblErreur().setTextFill(javafx.scene.paint.Color.RED);
             vue.afficherErreur("Veuillez remplir le numéro et le nom.");
@@ -53,19 +44,14 @@ public class AjoutPieceControleur {
         }
 
         try {
-            // 2. Création de l'objet métier
             Piece nouvellePiece = new Piece(numero, nom);
-            
-            // 3. Appel au modèle pour l'insertion en Base de Données
             modele.ajouterPiece(nouvellePiece);
             
-            // 4. Succès : on vide le formulaire et on affiche un message de réussite
             vue.reinitialiserFormulaire();
             vue.getLblErreur().setTextFill(javafx.scene.paint.Color.GREEN);
             vue.afficherErreur("Pièce ajoutée avec succès !");
 
         } catch (SQLException e) {
-            // 5. Échec : L'identifiant (numéro) est déjà présent en base
             vue.getLblErreur().setTextFill(javafx.scene.paint.Color.RED);
             vue.afficherErreur("Numero de piece deja pris");
         }
