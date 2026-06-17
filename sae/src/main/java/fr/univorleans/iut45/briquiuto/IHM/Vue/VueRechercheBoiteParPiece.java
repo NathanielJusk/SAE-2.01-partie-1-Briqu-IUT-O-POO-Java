@@ -12,6 +12,7 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.util.StringConverter;
 
 public class VueRechercheBoiteParPiece extends VBox {
 
@@ -41,6 +42,21 @@ public class VueRechercheBoiteParPiece extends VBox {
         cbPiece = new ComboBox<>();
         cbPiece.setPromptText("Sélectionner une pièce...");
         cbPiece.setPrefWidth(250);
+        
+        // --- C'EST ICI QUE ÇA CHANGE ---
+        // On force le ComboBox à n'afficher que le nom de la pièce
+        cbPiece.setConverter(new StringConverter<Piece>() {
+            @Override
+            public String toString(Piece piece) {
+                return (piece != null) ? piece.getNomPiece() : "";
+            }
+
+            @Override
+            public Piece fromString(String string) {
+                return null; 
+            }
+        });
+        // -------------------------------
 
         btnRechercher = new Button("Rechercher");
         btnRechercher.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white;");
@@ -48,7 +64,7 @@ public class VueRechercheBoiteParPiece extends VBox {
         zoneRecherche.getChildren().addAll(lblPiece, cbPiece, btnRechercher);
 
         tableResultats = new TableView<>();
-
+        
         colNumero = new TableColumn<>("Numéro");
         colNumero.setCellValueFactory(new PropertyValueFactory<>("numero"));
         colNumero.setPrefWidth(100);
@@ -58,16 +74,16 @@ public class VueRechercheBoiteParPiece extends VBox {
         colNom.setPrefWidth(250);
 
         colAnnee = new TableColumn<>("Année");
-        // --- CORRECTION DU BOUTON RETOUR ---
         colAnnee.setCellValueFactory(new PropertyValueFactory<>("annee"));
         colAnnee.setPrefWidth(100);
 
-        colNbPieces = new TableColumn<>("Nombre de pièces");
+        colNbPieces = new TableColumn<>("nbPieces");
         colNbPieces.setCellValueFactory(new PropertyValueFactory<>("nbPiece"));
         colNbPieces.setPrefWidth(120);
 
         tableResultats.getColumns().addAll(colNumero, colNom, colAnnee, colNbPieces);
         VBox.setVgrow(tableResultats, Priority.ALWAYS);
+        
         this.btnRetour = new Button();
         try {
             this.homeImage = new Image(getClass().getResourceAsStream("/img/70083.png"));
