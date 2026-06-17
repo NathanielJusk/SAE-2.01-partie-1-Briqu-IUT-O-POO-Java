@@ -37,7 +37,7 @@ private void validerConnexion() {
 
         try {
             // Tentative de connexion au serveur de l'IUT pour la base LEGO
-            connexion.connecter("servinfo-maria", "DBo22403771", login, mdp);
+            connexion.connecter("servinfo-maria", "LEGO", login, mdp);
             System.out.println("Connexion à la BD MariaDB réussie !");
 
             // Création du modèle principal maintenant qu'on est connecté

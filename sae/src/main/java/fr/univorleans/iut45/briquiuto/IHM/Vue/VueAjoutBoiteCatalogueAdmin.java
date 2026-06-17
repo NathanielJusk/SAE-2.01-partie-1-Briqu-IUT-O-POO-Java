@@ -23,7 +23,7 @@ import java.util.List;
  * Vue permettant à l'administrateur d'ajouter une nouvelle boîte au catalogue global,
  * avec saisie des informations de base et ajout dynamique de pièces (contenu).
  */
-public class VueAjoutBoiteCatalogue extends VBox {
+public class VueAjoutBoiteCatalogueAdmin extends VBox {
 
     // En-tête
     private Button btnHome;
@@ -45,7 +45,7 @@ public class VueAjoutBoiteCatalogue extends VBox {
     private Button btnValider;
     private Label lblMessage;
 
-    public VueAjoutBoiteCatalogue() {
+    public VueAjoutBoiteCatalogueAdmin() {
         // 1. Configuration du conteneur général (VBox)
         this.setSpacing(20);
         this.setPadding(new Insets(25));

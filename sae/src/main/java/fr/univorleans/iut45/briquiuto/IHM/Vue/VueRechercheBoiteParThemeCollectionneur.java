@@ -19,7 +19,7 @@ import javafx.util.StringConverter;
 /**
  * Vue permettant de filtrer et afficher les boîtes du catalogue en fonction du thème sélectionné.
  */
-public class VueRechercheBoiteParTheme extends VBox {
+public class VueRechercheBoiteParThemeCollectionneur extends VBox {
 
     // Composants d'en-tête
     private Label lblTitre;
@@ -39,7 +39,7 @@ public class VueRechercheBoiteParTheme extends VBox {
     // Bouton de navigation basse
     private Button btnRetour;
 
-    public VueRechercheBoiteParTheme() {
+    public VueRechercheBoiteParThemeCollectionneur() {
         // 1. Configuration globale (VBox)
         this.setSpacing(15);
         this.setPadding(new Insets(20));
