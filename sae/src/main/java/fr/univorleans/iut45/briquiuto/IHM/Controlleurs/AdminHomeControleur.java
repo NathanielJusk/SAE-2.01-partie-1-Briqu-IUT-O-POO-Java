@@ -4,9 +4,11 @@ import fr.univorleans.iut45.briquiuto.JDBC.RequetesLEGO;
 import fr.univorleans.iut45.briquiuto.IHM.Vue.AdminHomeVue;
 import fr.univorleans.iut45.briquiuto.IHM.Vue.AjoutPieceVue;
 import fr.univorleans.iut45.briquiuto.IHM.Vue.ViewNewTheme;
+import fr.univorleans.iut45.briquiuto.IHM.Vue.VueAjoutBoiteCatalogueAdmin;
 import fr.univorleans.iut45.briquiuto.IHM.Vue.AdminCatalogueVue;
 import fr.univorleans.iut45.briquiuto.IHM.Vue.AccueilVue;
 import fr.univorleans.iut45.briquiuto.IHM.Vue.AjoutFigurineVue;
+import fr.univorleans.iut45.briquiuto.IHM.Vue.VueStatistiquesBoite;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
@@ -25,11 +27,10 @@ public class AdminHomeControleur {
 
     private void initialiser() {
 
-        // 1. Bouton "Consulter le catalogue global" (NOUVEAU)
+        // 1. Bouton "Consulter le catalogue global"
         this.vue.getBtnCatalogue().setOnAction(e -> {
             AdminCatalogueVue vueCatalogue = new AdminCatalogueVue();
             new AdminCatalogueControleur(vueCatalogue, modele, fenetrePrincipale);
-            // On ouvre une fenêtre un peu plus grande (800x600) pour bien voir les tableaux
             fenetrePrincipale.setScene(new Scene(vueCatalogue, 800, 600));
         });
 
@@ -47,10 +48,13 @@ public class AdminHomeControleur {
             fenetrePrincipale.setScene(new Scene(vueTheme, 600, 500));
         });
 
-        // 4. Bouton "Ajouter une Boîte"
+        // 4. Bouton "Ajouter une Boîte" -> Redirige vers ta vue catalogue officielle
         this.vue.getBtnAjoutBoite().setOnAction(e -> {
-            System.out.println("À venir : Ajout de boîte !");
+            VueAjoutBoiteCatalogueAdmin vueAjoutCatalogue = new VueAjoutBoiteCatalogueAdmin();
+            new AjoutBoiteCatalogueControleur(vueAjoutCatalogue, modele, fenetrePrincipale);
+            fenetrePrincipale.setScene(new Scene(vueAjoutCatalogue, 750, 600));
         });
+
         // 5. Bouton "Ajouter une Figurine"
         this.vue.getBtnFigurines().setOnAction(e -> {
             AjoutFigurineVue vueFigurine = new AjoutFigurineVue();
@@ -58,13 +62,30 @@ public class AdminHomeControleur {
             fenetrePrincipale.setScene(new Scene(vueFigurine, 600, 500));
         });
 
-        // 5. Bouton "Déconnexion"
+        // 6. CONNECTEUR DU NOUVEAU BOUTON : "Afficher les Statistiques"
+        this.vue.getBtnStatsAdmin().setOnAction(e -> {
+            VueStatistiquesBoite vueStats = new VueStatistiquesBoite();
+            
+            // On instancie le contrôleur de statistiques qu'on a créé ensemble
+            new StatistiquesBoiteControleur(vueStats, modele, fenetrePrincipale);
+            
+            // Pour l'ergonomie, on modifie à la volée l'action du bouton Home de la page de stats 
+            // pour qu'il revienne bien chez l'ADMIN et pas chez le collectionneur !
+            vueStats.getBtnHome().setOnAction(event -> {
+                AdminHomeVue homeAdmin = new AdminHomeVue();
+                new AdminHomeControleur(homeAdmin, modele, fenetrePrincipale);
+                fenetrePrincipale.setScene(new Scene(homeAdmin, 600, 500));
+            });
+
+            fenetrePrincipale.setScene(new Scene(vueStats, 750, 600));
+        });
+
+        // 7. Bouton "Déconnexion"
         this.vue.getBtnDeconnexion().setOnAction(e -> deconnexion());
         this.vue.getBtnHome().setOnAction(e -> deconnexion());
     }
 
     private void deconnexion() {
-        // Retour propre à la page d'accueil principale
         AccueilVue vueAccueil = new AccueilVue();
         new AccueilControleur(vueAccueil, modele, fenetrePrincipale);
         fenetrePrincipale.setScene(new Scene(vueAccueil, 600, 500));
