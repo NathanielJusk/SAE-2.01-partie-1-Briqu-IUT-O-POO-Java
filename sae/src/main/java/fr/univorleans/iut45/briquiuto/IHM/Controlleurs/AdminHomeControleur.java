@@ -60,6 +60,7 @@ public class AdminHomeControleur {
 
         // 5. Bouton "Déconnexion"
         this.vue.getBtnDeconnexion().setOnAction(e -> deconnexion());
+        this.vue.getBtnHome().setOnAction(e -> deconnexion());
     }
 
     private void deconnexion() {
