@@ -1,5 +1,6 @@
 package fr.univorleans.iut45.briquiuto.IHM.Controlleurs;
 
+import fr.univorleans.iut45.briquiuto.IHM.Vue.VueRechercheBoiteParTheme;
 import fr.univorleans.iut45.briquiuto.JDBC.RequetesLEGO;
 import fr.univorleans.iut45.briquiuto.IHM.Vue.AccueilVue;
 import fr.univorleans.iut45.briquiuto.IHM.Vue.CollectionneurHomeVue;
@@ -21,12 +22,14 @@ public class CollectionneurHomeControleur {
     }
 
     private void initialiser() {
-        // 1. Bouton "Rechercher par pièce" (Lien vers la vue de Mourad)
+        // 1. Bouton "Rechercher par pièce"
         this.vue.getBtnRechercheParPiece().setOnAction(e -> ouvrirRechercheBoite());
 
-        // 2. Bouton "Explorer par Thème"
+        // 2. Bouton "Explorer par Thème" -> Redirige vers ta nouvelle vue par thème
         this.vue.getBtnExplorerParTheme().setOnAction(e -> {
-            System.out.println("À venir : Exploration par thème !");
+            VueRechercheBoiteParTheme vueTheme = new VueRechercheBoiteParTheme();
+            new RechercheBoiteThemeControleur(vueTheme, modele, fenetrePrincipale);
+            fenetrePrincipale.setScene(new Scene(vueTheme, 700, 550));
         });
 
         // 3. Bouton "Détails d'une Boîte"
@@ -47,7 +50,6 @@ public class CollectionneurHomeControleur {
     private void ouvrirRechercheBoite() {
         VueRechercheBoiteParPiece vueRecherche = new VueRechercheBoiteParPiece();
         new RechercheBoiteControleur(vueRecherche, modele, fenetrePrincipale);
-        // On affiche la page de recherche (un peu plus large pour le tableau)
         fenetrePrincipale.setScene(new Scene(vueRecherche, 700, 500));
     }
 
