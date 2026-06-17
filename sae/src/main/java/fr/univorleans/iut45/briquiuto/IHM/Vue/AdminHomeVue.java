@@ -14,17 +14,18 @@ import javafx.scene.text.FontWeight;
 
 public class AdminHomeVue extends VBox {
 
-    // Boutons correspondant aux exigences exactes de la SAE
+    // Boutons correspondant aux exigences de la SAE et statistiques
     private Button btnAjoutPiece;
     private Button btnAjoutTheme;
-    private Button btnAjoutBoite; // Pour ajouter / modifier une boite officielle
+    private Button btnAjoutBoite; 
+    private Button btnAjoutFigurine; 
+    private Button btnCatalogue; 
+    private Button btnStatsAdmin; // <- NOUVEAU BOUTON AJOUTÉ
     private Button btnDeconnexion;
     private Button btnHome;
-    private Button btnCatalogue; // Pour consulter le catalogue officiel
-    private Button btnAjoutFigurine; // Pour ajouter une figurine
 
     public AdminHomeVue() {
-        this.setSpacing(25);
+        this.setSpacing(20);
         this.setPadding(new Insets(30));
         this.setStyle("-fx-background-color: #F8F9FA;");
 
@@ -40,33 +41,23 @@ public class AdminHomeVue extends VBox {
             this.btnHome.setGraphic(homeImageView);
             this.btnHome.setStyle("-fx-background-color: transparent; -fx-cursor: hand;");
         } catch (Exception e) {
-            this.btnHome.setText("Accueil");
+            this.btnHome.setText("🏠");
         }
 
-        Label lblTitre = new Label("Espace Administrateur");
-        lblTitre.setFont(Font.font("Arial", FontWeight.BOLD, 24));
+        Label lblTitre = new Label("Menu Principal - Administrateur");
+        lblTitre.setFont(Font.font("Arial", FontWeight.BOLD, 22));
         lblTitre.setStyle("-fx-text-fill: #0055BF;");
-
-        ImageView logoView = new ImageView();
-        try {
-            logoView.setImage(new Image(getClass().getResourceAsStream("/img/LogoPrincipale.png")));
-            logoView.setFitHeight(40);
-            logoView.setPreserveRatio(true);
-        } catch (Exception e) {
-        }
 
         header.setLeft(btnHome);
         header.setCenter(lblTitre);
-        header.setRight(logoView);
-        BorderPane.setAlignment(lblTitre, Pos.CENTER);
 
         Separator separateur = new Separator();
         separateur.setStyle("-fx-background-color: #F6D304; -fx-border-width: 2px;");
 
-        // --- BOUTONS D'ACTION (Liés au Modèle RequetesLEGO) ---
-        VBox conteneurBoutons = new VBox(15);
+        // --- CONTENEUR DES BOUTONS ---
+        VBox conteneurBoutons = new VBox(12);
         conteneurBoutons.setAlignment(Pos.CENTER);
-        conteneurBoutons.setPadding(new Insets(30, 0, 0, 0));
+        conteneurBoutons.setPadding(new Insets(10, 0, 0, 0));
 
         String styleBoutonBleu = "-fx-background-color: #0055BF; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-padding: 12 30; -fx-background-radius: 8; -fx-cursor: hand;";
 
@@ -74,11 +65,11 @@ public class AdminHomeVue extends VBox {
         btnAjoutPiece.setStyle(styleBoutonBleu);
         btnAjoutPiece.setPrefWidth(350);
 
-        btnAjoutTheme = new Button("Créer un nouveau Thème / Sous-thème");
+        btnAjoutTheme = new Button("Créer un nouveau Thème");
         btnAjoutTheme.setStyle(styleBoutonBleu);
         btnAjoutTheme.setPrefWidth(350);
 
-        btnAjoutBoite = new Button("Ajouter une Boîte au catalogue officiel");
+        btnAjoutBoite = new Button("Ajouter une Boîte au Catalogue");
         btnAjoutBoite.setStyle(styleBoutonBleu);
         btnAjoutBoite.setPrefWidth(350);
 
@@ -86,46 +77,40 @@ public class AdminHomeVue extends VBox {
         btnAjoutFigurine.setStyle(styleBoutonBleu);
         btnAjoutFigurine.setPrefWidth(350);
 
-        btnDeconnexion = new Button("Déconnexion");
-        btnDeconnexion.setStyle(
-                "-fx-background-color: #E3000B; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 10 20; -fx-background-radius: 5; -fx-cursor: hand;");
-        VBox.setMargin(btnDeconnexion, new Insets(40, 0, 0, 0));
+        btnCatalogue = new Button("Consulter le catalogue officiel");
+        btnCatalogue.setStyle(styleBoutonBleu);
+        btnCatalogue.setPrefWidth(350);
 
-        this.btnCatalogue = new Button("Consulter le catalogue officiel");
-        this.btnCatalogue.setStyle(styleBoutonBleu);
-        this.btnCatalogue.setPrefWidth(350);
-        conteneurBoutons.getChildren().addAll(btnAjoutPiece, btnAjoutTheme, btnAjoutBoite, btnAjoutFigurine,
-                btnCatalogue, btnDeconnexion);
+        // CONFIGURATION DU NOUVEAU BOUTON STATISTIQUES (Couleur Bleu LEGO standard)
+        btnStatsAdmin = new Button("Afficher les Statistiques d'une Boîte");
+        btnStatsAdmin.setStyle(styleBoutonBleu);
+        btnStatsAdmin.setPrefWidth(350);
+
+        btnDeconnexion = new Button("Déconnexion");
+        btnDeconnexion.setStyle("-fx-background-color: #E3000B; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 10 20; -fx-background-radius: 5; -fx-cursor: hand;");
+        VBox.setMargin(btnDeconnexion, new Insets(30, 0, 0, 0));
+
+        // Ajout de tous les boutons au panneau central vertical
+        conteneurBoutons.getChildren().addAll(
+                btnAjoutPiece, 
+                btnAjoutTheme, 
+                btnAjoutBoite, 
+                btnAjoutFigurine,
+                btnCatalogue, 
+                btnStatsAdmin, // <- Inséré ici dans l'affichage
+                btnDeconnexion
+        );
 
         this.getChildren().addAll(header, separateur, conteneurBoutons);
     }
 
-    public Button getBtnAjoutPiece() {
-        return btnAjoutPiece;
-    }
-
-    public Button getBtnAjoutTheme() {
-        return btnAjoutTheme;
-    }
-
-    public Button getBtnAjoutBoite() {
-        return btnAjoutBoite;
-    }
-    public Button getBtnFigurines() {
-        return btnAjoutFigurine;
-    }
-
-    public Button getBtnDeconnexion() {
-        return btnDeconnexion;
-    }
-
-    public Button getBtnHome() {
-        return btnHome;
-    }
-
-    public Button getBtnCatalogue() {
-        return btnCatalogue;
-    }
-
-
+    // --- GETTERS POUR LE CONTRÔLEUR ---
+    public Button getBtnAjoutPiece() { return btnAjoutPiece; }
+    public Button getBtnAjoutTheme() { return btnAjoutTheme; }
+    public Button getBtnAjoutBoite() { return btnAjoutBoite; }
+    public Button getBtnFigurines() { return btnAjoutFigurine; }
+    public Button getBtnCatalogue() { return btnCatalogue; }
+    public Button getBtnStatsAdmin() { return btnStatsAdmin; } // <- Getter pour capter le clic
+    public Button getBtnDeconnexion() { return btnDeconnexion; }
+    public Button getBtnHome() { return btnHome; }
 }
