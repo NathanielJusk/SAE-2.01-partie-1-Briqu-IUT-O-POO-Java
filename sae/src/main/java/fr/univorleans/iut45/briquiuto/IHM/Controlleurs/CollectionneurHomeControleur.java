@@ -1,11 +1,6 @@
 package fr.univorleans.iut45.briquiuto.IHM.Controlleurs;
 
-<<<<<<< HEAD
 import fr.univorleans.iut45.briquiuto.IHM.Vue.VueRechercheBoiteParThemeCollectionneur;
-=======
-import fr.univorleans.iut45.briquiuto.IHM.Vue.VueRechercheBoiteParTheme;
-import fr.univorleans.iut45.briquiuto.IHM.Vue.VueStatistiquesBoite;
->>>>>>> a93f867e7841437467d9d91e93972feb6b448a26
 import fr.univorleans.iut45.briquiuto.JDBC.RequetesLEGO;
 import fr.univorleans.iut45.briquiuto.IHM.Vue.AccueilVue;
 import fr.univorleans.iut45.briquiuto.IHM.Vue.CollectionneurHomeVue;
@@ -27,34 +22,28 @@ public class CollectionneurHomeControleur {
     }
 
     private void initialiser() {
-        // 1. Bouton "Rechercher par pièce"
+   
         this.vue.getBtnRechercheParPiece().setOnAction(e -> ouvrirRechercheBoite());
 
-        // 2. Bouton "Explorer par Thème"
         this.vue.getBtnExplorerParTheme().setOnAction(e -> {
             VueRechercheBoiteParThemeCollectionneur vueTheme = new VueRechercheBoiteParThemeCollectionneur();
             new RechercheBoiteThemeControleur(vueTheme, modele, fenetrePrincipale);
             fenetrePrincipale.setScene(new Scene(vueTheme, 700, 550));
         });
 
-        // 3. Bouton "Détails d'une Boîte" -> ACTIVÉ ET MODIFIÉ ICI 
         this.vue.getBtnDetailsBoite().setOnAction(e -> {
-            VueStatistiquesBoite vueStats = new VueStatistiquesBoite();
-            new StatistiquesBoiteControleur(vueStats, modele, fenetrePrincipale);
-            fenetrePrincipale.setScene(new Scene(vueStats, 750, 600));
+            System.out.println("À venir : Voir le contenu d'une boîte !");
         });
 
-        // 4. Bouton "Composer une boîte"
         this.vue.getBtnComposerBoite().setOnAction(e -> {
             System.out.println("À venir : Composition d'une boîte personnalisée !");
         });
 
-        // 5. Actions de retour et déconnexion
         this.vue.getBtnDeconnexion().setOnAction(e -> deconnexion());
         this.vue.getBtnHome().setOnAction(e -> deconnexion());
     }
 
-    private void abrirRechercheBoite() {
+    private void ouvrirRechercheBoite() {
         VueRechercheBoiteParPiece vueRecherche = new VueRechercheBoiteParPiece();
         new RechercheBoiteControleur(vueRecherche, modele, fenetrePrincipale);
         fenetrePrincipale.setScene(new Scene(vueRecherche, 700, 500));
