@@ -4,6 +4,7 @@ import fr.univorleans.iut45.briquiuto.IHM.Vue.VueRechercheBoiteParThemeCollectio
 import fr.univorleans.iut45.briquiuto.JDBC.RequetesLEGO;
 import fr.univorleans.iut45.briquiuto.IHM.Vue.AccueilVue;
 import fr.univorleans.iut45.briquiuto.IHM.Vue.CollectionneurHomeVue;
+import fr.univorleans.iut45.briquiuto.IHM.Vue.VueCompositionBoitePerso;
 import fr.univorleans.iut45.briquiuto.IHM.Vue.VueRechercheBoiteParPiece;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -36,7 +37,9 @@ public class CollectionneurHomeControleur {
         });
 
         this.vue.getBtnComposerBoite().setOnAction(e -> {
-            System.out.println("À venir : Composition d'une boîte personnalisée !");
+            VueCompositionBoitePerso vueCompo = new VueCompositionBoitePerso();
+            new CompositionBoiteControleurPerso(vueCompo, modele, fenetrePrincipale);
+            fenetrePrincipale.setScene(new Scene(vueCompo, 850, 650)); // J'ai mis une fenêtre un peu plus large pour que tout tienne bien
         });
 
         this.vue.getBtnDeconnexion().setOnAction(e -> deconnexion());

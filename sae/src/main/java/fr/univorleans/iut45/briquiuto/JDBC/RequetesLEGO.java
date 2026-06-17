@@ -4,6 +4,7 @@ import fr.univorleans.iut45.briquiuto.modele.Boite;
 import fr.univorleans.iut45.briquiuto.modele.BoiteComposee;
 import fr.univorleans.iut45.briquiuto.modele.BriqueCollectionManager;
 import fr.univorleans.iut45.briquiuto.modele.Categorie;
+import fr.univorleans.iut45.briquiuto.modele.Couleur;
 import fr.univorleans.iut45.briquiuto.modele.Figurine;
 import fr.univorleans.iut45.briquiuto.modele.Piece;
 import fr.univorleans.iut45.briquiuto.modele.Theme;
@@ -190,17 +191,27 @@ public class RequetesLEGO {
      * @return boîte trouvée ou null
      * @throws SQLException si la requête SQL échoue
      */
-    public Boite rechercherBoiteParNumero(String numero) throws SQLException {
+public Boite rechercherBoiteParNumero(String numero) throws SQLException {
+        // Ajout de la jointure LEFT JOIN THEME pour récupérer le nom du thème
         PreparedStatement ps = laConnexion.prepareStatement(
-                "SELECT * FROM BOITE WHERE numboite = ?");
+                "SELECT b.*, t.nomtheme FROM BOITE b LEFT JOIN THEME t ON b.idtheme = t.idtheme WHERE b.numboite = ?");
         ps.setString(1, numero);
         ResultSet rs = ps.executeQuery();
+        
         if (rs.next()) {
             Boite b = new BoiteComposee(
                     rs.getString("numboite"),
                     rs.getInt("nbpieces"),
                     rs.getString("nomboite"),
                     rs.getInt("annee"));
+            
+            
+            int idTheme = rs.getInt("idtheme");
+            if (!rs.wasNull()) {
+                Theme t = new Theme(idTheme, rs.getString("nomtheme"));
+                b.setTheme(t);
+            }
+            
             rs.close();
             ps.close();
             return b;
@@ -651,5 +662,33 @@ public class RequetesLEGO {
         ps.setInt(3, f.getNbParties());
         ps.executeUpdate();
         ps.close();
+    }
+
+    /**
+     * Récupère toutes les couleurs de la base de données.
+     * @return liste des couleurs
+     * @throws SQLException si la requête SQL échoue
+     */
+    public List<Couleur> getAllCouleurs() throws SQLException {
+        List<Couleur> couleurs = new ArrayList<>();
+        Statement st = laConnexion.createStatement();
+        ResultSet rs = st.executeQuery("SELECT idcoul, nomcoul, rgb, transparent FROM COULEUR ORDER BY nomcoul ASC");
+        
+        while (rs.next()) {
+            // Dans les CSV Rebrickable/LEGO, le transparent est souvent "t" ou "f"
+            String transStr = rs.getString("transparent");
+            boolean isTransparent = transStr != null && (transStr.equalsIgnoreCase("t") || transStr.equalsIgnoreCase("O"));
+            
+            Couleur c = new Couleur(
+                    rs.getInt("idcoul"),
+                    rs.getString("nomcoul"),
+                    rs.getString("rgb"),
+                    isTransparent
+            );
+            couleurs.add(c);
+        }
+        rs.close();
+        st.close();
+        return couleurs;
     }
 }
