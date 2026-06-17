@@ -442,13 +442,12 @@ public class RequetesLEGO {
             manager.getCataloguePieces().clear();
 
             Statement st = laConnexion.createStatement();
-            // NOUVEAU: Ici il manquait le imgUrl, c'est ce qui causait le crash de ton menu Admin !
             ResultSet rs = st.executeQuery("SELECT numboite, nomboite, annee, nbpieces, idtheme, imgUrl FROM BOITE");
             while (rs.next()) {
                 Boite b = new BoiteComposee(
                         rs.getString("numboite"), rs.getInt("nbpieces"), rs.getString("nomboite"), rs.getInt("annee"));
                 
-                b.setImgUrl(rs.getString("imgUrl")); // L'image est maintenant chargée en mémoire RAM
+                b.setImgUrl(rs.getString("imgUrl")); 
                 manager.ajouterBoite(b);
             }
 
@@ -465,5 +464,60 @@ public class RequetesLEGO {
         } catch (SQLException e) {
             System.out.println("Erreur SQL lors du chargement des données : " + e.getMessage());
         }
+    }
+
+    // ==========================================================
+    // MÉTHODES POUR LE TABLEAU À 5 COLONNES 
+    // ==========================================================
+
+    public List<String[]> getDetailsPiecesBoite(String numBoite) throws SQLException {
+        List<String[]> liste = new ArrayList<>();
+        java.sql.PreparedStatement ps = laConnexion.prepareStatement(
+                "SELECT p.nompiece, co.nomcoul, cp.quantitep, cp.en_supplement, cp.imgUrl " +
+                        "FROM PIECE p " +
+                        "JOIN CONTENIRP cp ON p.numpiece = cp.numpiece " +
+                        "JOIN CONTENU c ON cp.idcont = c.idcont " +
+                        "JOIN COULEUR co ON cp.idcoul = co.idcoul " +
+                        "WHERE c.numboite = ?");
+        ps.setString(1, numBoite);
+        java.sql.ResultSet rs = ps.executeQuery();
+        
+        while (rs.next()) {
+            String[] ligne = new String[5];
+            ligne[0] = rs.getString("nompiece"); // Colonne 1 : Nom
+            ligne[1] = rs.getString("nomcoul");  // Colonne 2 : Couleur
+            ligne[2] = String.valueOf(rs.getInt("quantitep")); // Colonne 3 : Quantité
+            ligne[3] = "O".equals(rs.getString("en_supplement")) ? "Oui" : "Non"; // Colonne 4 : Supplément
+            ligne[4] = rs.getString("imgUrl"); // Colonne 5 : Image
+            liste.add(ligne);
+        }
+        rs.close();
+        ps.close();
+        return liste;
+    }
+
+    public List<String[]> getDetailsFigurinesBoite(String numBoite) throws SQLException {
+        List<String[]> liste = new ArrayList<>();
+        java.sql.PreparedStatement ps = laConnexion.prepareStatement(
+                "SELECT f.nomfig, cf.quantitef " +
+                        "FROM FIGURINE f " +
+                        "JOIN CONTENIRF cf ON f.idfig = cf.idfig " +
+                        "JOIN CONTENU c ON cf.idcont = c.idcont " +
+                        "WHERE c.numboite = ?");
+        ps.setString(1, numBoite);
+        java.sql.ResultSet rs = ps.executeQuery();
+        
+        while (rs.next()) {
+            String[] ligne = new String[5];
+            ligne[0] = "[Figurine] " + rs.getString("nomfig");
+            ligne[1] = "-";
+            ligne[2] = String.valueOf(rs.getInt("quantitef"));
+            ligne[3] = "-";
+            ligne[4] = ""; // Pas d'image pour les figurines
+            liste.add(ligne);
+        }
+        rs.close();
+        ps.close();
+        return liste;
     }
 }
