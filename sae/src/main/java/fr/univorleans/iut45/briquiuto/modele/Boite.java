@@ -14,6 +14,7 @@ public abstract class Boite  {
     private boolean possedee;
     private Theme theme;
     private Contenu contenu;
+    private String imgUrl;
 
     /**
      * Crée une boîte avec toutes les informations, y compris si elle est possédée.
@@ -23,8 +24,9 @@ public abstract class Boite  {
      * @param nom nom de la boîte
      * @param annee année de sortie
      * @param possedee vrai si la boîte est possédée
+     * @param imgUrl URL de l'image de la boîte
      */
-    public Boite(String numero, int nbPiece, String nom, int annee, boolean possedee){
+    public Boite(String numero, int nbPiece, String nom, int annee, boolean possedee, String imgUrl){
         this.numero = numero;
         this.nom = nom;
         this.nbPiece = nbPiece;
@@ -32,6 +34,7 @@ public abstract class Boite  {
         this.theme = null;
         this.contenu = null;
         this.possedee = possedee;
+        this.imgUrl = imgUrl;
     } 
 /**
      * Crée une boîte sans préciser si elle est possédée.
@@ -50,6 +53,8 @@ public abstract class Boite  {
         this.possedee = false;
         this.theme = null;
         this.contenu = null;
+        this.imgUrl = null;
+        
     }  
 
     /**
@@ -192,6 +197,23 @@ public abstract class Boite  {
     public void setPossedee(boolean possedee) {
         this.possedee = possedee;
     }
+    /**
+     * Retourne l'URL de l'image de la boîte.
+     *
+     * @return URL de l'image
+     */
+    public String getImgUrl() {
+        return imgUrl;
+    }
+
+    /**
+     * Définit l'URL de l'image de la boîte.
+     *
+     * @param imgUrl nouvelle URL de l'image
+     */
+    public void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
+    }
 
     /**
      * Représentation texte simple de la boîte.
@@ -204,7 +226,10 @@ public abstract class Boite  {
                ", nom='" + nom + "'" +
                ", annee=" + annee +
                ", nbPiece=" + nbPiece +
-               ", possedee=" + possedee + "}";
+               ", possedee=" + possedee +
+               ", imgUrl='" + imgUrl + "'" +
+               ", theme=" + (theme != null ? theme.getNom() : "Aucun") +
+               "}";
     }
 
 }

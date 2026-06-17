@@ -7,7 +7,7 @@ import fr.univorleans.iut45.briquiuto.modele.Boite;
 import fr.univorleans.iut45.briquiuto.modele.BoiteComposee;
 import fr.univorleans.iut45.briquiuto.modele.Theme;
 import fr.univorleans.iut45.briquiuto.modele.Piece;
-import fr.univorleans.iut45.briquiuto.IHM.Vue.VueAjoutBoiteCatalogue;
+import fr.univorleans.iut45.briquiuto.IHM.Vue.VueAjoutBoiteCatalogueAdmin;
 import fr.univorleans.iut45.briquiuto.IHM.Vue.AdminHomeVue;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -15,11 +15,11 @@ import javafx.util.StringConverter;
 
 public class AjoutBoiteCatalogueControleur {
 
-    private VueAjoutBoiteCatalogue vue;
+    private VueAjoutBoiteCatalogueAdmin vue;
     private RequetesLEGO modele;
     private Stage fenetrePrincipale;
 
-    public AjoutBoiteCatalogueControleur(VueAjoutBoiteCatalogue vue, RequetesLEGO modele, Stage fenetrePrincipale) {
+    public AjoutBoiteCatalogueControleur(VueAjoutBoiteCatalogueAdmin vue, RequetesLEGO modele, Stage fenetrePrincipale) {
         this.vue = vue;
         this.modele = modele;
         this.fenetrePrincipale = fenetrePrincipale;
@@ -75,9 +75,9 @@ public class AjoutBoiteCatalogueControleur {
 
             // Parcours dynamique des lignes de pièces créées pour compter le nombre de pièces total
             int nbPiecesTotal = 0;
-            List<VueAjoutBoiteCatalogue.LignePieceContenu> lignes = vue.getListeLignesChoisies();
+            List<VueAjoutBoiteCatalogueAdmin.LignePieceContenu> lignes = vue.getListeLignesChoisies();
             
-            for (VueAjoutBoiteCatalogue.LignePieceContenu ligne : lignes) {
+            for (VueAjoutBoiteCatalogueAdmin.LignePieceContenu ligne : lignes) {
                 String qteStr = ligne.getTxtQuantite().getText().trim();
                 if (!qteStr.isEmpty()) {
                     nbPiecesTotal += Integer.parseInt(qteStr);

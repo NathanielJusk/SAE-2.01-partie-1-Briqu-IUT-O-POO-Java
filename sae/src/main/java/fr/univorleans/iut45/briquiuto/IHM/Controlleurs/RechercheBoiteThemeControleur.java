@@ -5,7 +5,7 @@ import java.util.List;
 import fr.univorleans.iut45.briquiuto.JDBC.RequetesLEGO;
 import fr.univorleans.iut45.briquiuto.modele.Boite;
 import fr.univorleans.iut45.briquiuto.modele.Theme;
-import fr.univorleans.iut45.briquiuto.IHM.Vue.VueRechercheBoiteParTheme;
+import fr.univorleans.iut45.briquiuto.IHM.Vue.VueRechercheBoiteParThemeCollectionneur;
 import fr.univorleans.iut45.briquiuto.IHM.Vue.CollectionneurHomeVue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -14,11 +14,11 @@ import javafx.stage.Stage;
 
 public class RechercheBoiteThemeControleur {
 
-    private VueRechercheBoiteParTheme vue;
+    private VueRechercheBoiteParThemeCollectionneur vue;
     private RequetesLEGO modele;
     private Stage fenetrePrincipale;
 
-    public RechercheBoiteThemeControleur(VueRechercheBoiteParTheme vue, RequetesLEGO modele, Stage fenetrePrincipale) {
+    public RechercheBoiteThemeControleur(VueRechercheBoiteParThemeCollectionneur vue, RequetesLEGO modele, Stage fenetrePrincipale) {
         this.vue = vue;
         this.modele = modele;
         this.fenetrePrincipale = fenetrePrincipale;

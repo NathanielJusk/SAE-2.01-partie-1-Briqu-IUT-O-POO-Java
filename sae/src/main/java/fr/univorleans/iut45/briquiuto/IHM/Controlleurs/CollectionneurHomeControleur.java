@@ -1,6 +1,6 @@
 package fr.univorleans.iut45.briquiuto.IHM.Controlleurs;
 
-import fr.univorleans.iut45.briquiuto.IHM.Vue.VueRechercheBoiteParTheme;
+import fr.univorleans.iut45.briquiuto.IHM.Vue.VueRechercheBoiteParThemeCollectionneur;
 import fr.univorleans.iut45.briquiuto.JDBC.RequetesLEGO;
 import fr.univorleans.iut45.briquiuto.IHM.Vue.AccueilVue;
 import fr.univorleans.iut45.briquiuto.IHM.Vue.CollectionneurHomeVue;
@@ -27,7 +27,7 @@ public class CollectionneurHomeControleur {
 
         // 2. Bouton "Explorer par Thème" -> Redirige vers ta nouvelle vue par thème
         this.vue.getBtnExplorerParTheme().setOnAction(e -> {
-            VueRechercheBoiteParTheme vueTheme = new VueRechercheBoiteParTheme();
+            VueRechercheBoiteParThemeCollectionneur vueTheme = new VueRechercheBoiteParThemeCollectionneur();
             new RechercheBoiteThemeControleur(vueTheme, modele, fenetrePrincipale);
             fenetrePrincipale.setScene(new Scene(vueTheme, 700, 550));
         });

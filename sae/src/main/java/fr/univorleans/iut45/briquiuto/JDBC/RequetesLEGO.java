@@ -87,12 +87,13 @@ public class RequetesLEGO {
      */
     public void ajouterBoite(Boite boite) throws SQLException {
         PreparedStatement ps = laConnexion.prepareStatement(
-                "INSERT INTO BOITE (numboite, nomboite, annee, nbpieces, idtheme) VALUES (?, ?, ?, ?, ?)");
+                "INSERT INTO BOITE (numboite, nomboite, annee, nbpieces, idtheme, imgUrl) VALUES (?, ?, ?, ?, ?, ?)");
         ps.setString(1, boite.getNumero());
         ps.setString(2, boite.getNom());
         ps.setInt(3, boite.getAnnee());
         ps.setInt(4, boite.getNbPiece());
         ps.setInt(5, boite.getTheme() != null ? boite.getTheme().getIdTheme() : 1);
+        ps.setString(6, boite.getImgUrl());
         ps.executeUpdate();
         ps.close();
     }
@@ -122,6 +123,32 @@ public class RequetesLEGO {
         rs.close();
         ps.close();
         return null;
+    }
+
+    /**
+     * Recherche les boîtes par thème.
+     *
+     * @param theme le thème à rechercher
+     * @return liste des boîtes correspondant au thème
+     * @throws SQLException si la requête SQL échoue
+     */
+    public List<Boite> rechercherBoitesParTheme(Theme theme) throws SQLException {
+        List<Boite> boites = new ArrayList<>();
+        PreparedStatement ps = laConnexion.prepareStatement(
+                "SELECT * FROM BOITE WHERE idtheme = ?");
+        ps.setInt(1, theme.getIdTheme());
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()) {
+            Boite b = new BoiteComposee(
+                    rs.getString("numboite"),
+                    rs.getInt("nbpieces"),
+                    rs.getString("nomboite"),
+                    rs.getInt("annee"));
+            boites.add(b);
+        }
+        rs.close();
+        ps.close();
+        return boites;
     }
 
     /**
@@ -470,13 +497,13 @@ public class RequetesLEGO {
      */
     public void modifierBoite(Boite boite) throws SQLException {
         PreparedStatement ps = laConnexion.prepareStatement(
-                "UPDATE BOITE SET nomboite = ?, annee = ?, nbpieces = ?, idtheme = ? WHERE numboite = ?");
-
+                "UPDATE BOITE SET nomboite = ?, annee = ?, nbpieces = ?, idtheme = ?, imgUrl = ? WHERE numboite = ?");
         // On injecte les nouvelles valeurs modifiées
         ps.setString(1, boite.getNom());
         ps.setInt(2, boite.getAnnee());
         ps.setInt(3, boite.getNbPiece());
         ps.setInt(4, boite.getTheme() != null ? boite.getTheme().getIdTheme() : 1);
+        ps.setString(5, boite.getImgUrl());
 
         // Le WHERE utilise le numéro exact pour ne modifier QUE cette boîte
         ps.setString(5, boite.getNumero());
