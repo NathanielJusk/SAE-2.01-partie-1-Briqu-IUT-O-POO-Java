@@ -112,7 +112,7 @@ public class VueRechercheBoiteParThemeCollectionneur extends VBox {
         // 5. Zone basse (Bouton retour icône maison)
         this.btnRetour = new Button();
         try {
-            Image homeImage = new Image(getClass().getResourceAsStream("/img/70083.png"));
+            Image homeImage = new Image(getClass().getResourceAsStream("/home/iut45/Etudiants/o22507626/Documents/SAE JAVA ET GRAPHE/SAE-2.01-partie-1-Briqu-IUT-O-POO-Java/sae/src/main/resources/img/logoRetour.png"));
             ImageView homeImageView = new ImageView(homeImage);
             homeImageView.setFitWidth(30);
             homeImageView.setFitHeight(30);

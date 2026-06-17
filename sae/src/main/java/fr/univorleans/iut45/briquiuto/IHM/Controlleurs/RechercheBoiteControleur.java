@@ -71,6 +71,6 @@ public class RechercheBoiteControleur {
     private void actionRetourCollectionneur() {
         CollectionneurHomeVue vueCollec = new CollectionneurHomeVue();
         new CollectionneurHomeControleur(vueCollec, modele, fenetrePrincipale);
-        fenetrePrincipale.setScene(new Scene(vueCollec, 600, 500));
+        fenetrePrincipale.setScene(new Scene(vueCollec, 1000, 700));
     }
 }

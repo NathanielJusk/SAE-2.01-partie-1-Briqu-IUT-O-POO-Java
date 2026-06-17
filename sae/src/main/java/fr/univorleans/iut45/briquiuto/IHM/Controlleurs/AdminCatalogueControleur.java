@@ -131,6 +131,6 @@ public class AdminCatalogueControleur {
     private void actionRetourAdmin() {
         AdminHomeVue vueAdmin = new AdminHomeVue();
         new AdminHomeControleur(vueAdmin, modele, fenetrePrincipale);
-        fenetrePrincipale.setScene(new Scene(vueAdmin, 600, 500));
+        fenetrePrincipale.setScene(new Scene(vueAdmin, 1000, 700));
     }
 }

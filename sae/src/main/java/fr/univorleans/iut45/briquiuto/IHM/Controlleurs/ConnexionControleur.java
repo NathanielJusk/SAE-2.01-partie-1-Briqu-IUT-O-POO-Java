@@ -32,7 +32,7 @@ public class ConnexionControleur {
     private void actionRetourAccueil() {
         AccueilVue vueAccueil = new AccueilVue();
         new AccueilControleur(vueAccueil, modele, fenetrePrincipale);
-        fenetrePrincipale.setScene(new Scene(vueAccueil, 600, 500));
+        fenetrePrincipale.setScene(new Scene(vueAccueil, 1000, 700));
     }
 
     public void actionConnexion() {
@@ -45,7 +45,7 @@ public class ConnexionControleur {
             
             AdminHomeVue vueAdmin = new AdminHomeVue();
             new AdminHomeControleur(vueAdmin, modele, fenetrePrincipale);
-            fenetrePrincipale.setScene(new Scene(vueAdmin, 600, 500));
+            fenetrePrincipale.setScene(new Scene(vueAdmin, 1000, 700));
             
         // 2. ROLE : COLLECTIONNEUR
         } else if (login.equals("collec") && mdp.equals("collec")) {
@@ -53,7 +53,7 @@ public class ConnexionControleur {
             
             CollectionneurHomeVue vueCollec = new CollectionneurHomeVue();
             new CollectionneurHomeControleur(vueCollec, modele, fenetrePrincipale);
-            fenetrePrincipale.setScene(new Scene(vueCollec, 600, 500));
+            fenetrePrincipale.setScene(new Scene(vueCollec, 1000, 700));
 
         // 3. ERREUR : Identifiants faux
         } else {

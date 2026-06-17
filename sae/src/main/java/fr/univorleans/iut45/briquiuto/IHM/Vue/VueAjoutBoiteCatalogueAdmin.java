@@ -28,6 +28,7 @@ public class VueAjoutBoiteCatalogueAdmin extends VBox {
     // En-tête
     private Button btnHome;
     private Label lblTitre;
+    
 
     // Formulaire d'informations de base (GridPane)
     private TextField txtNumero;

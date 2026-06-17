@@ -6,7 +6,7 @@ import java.util.List;
 import fr.univorleans.iut45.briquiuto.modele.Piece;
 import fr.univorleans.iut45.briquiuto.modele.Categorie;
 import fr.univorleans.iut45.briquiuto.JDBC.RequetesLEGO;
-import fr.univorleans.iut45.briquiuto.IHM.Vue.AjoutPieceVue;
+import fr.univorleans.iut45.briquiuto.IHM.Vue.AjoutPieceVueAdmin;
 import fr.univorleans.iut45.briquiuto.IHM.Vue.AdminHomeVue;
 import javafx.collections.FXCollections;
 import javafx.scene.Scene;
@@ -16,11 +16,11 @@ import javafx.util.StringConverter; // Import nécessaire pour nettoyer l'affich
 
 public class AjoutPieceControleur {
 
-    private AjoutPieceVue vue;
+    private AjoutPieceVueAdmin vue;
     private RequetesLEGO modele;
     private Stage fenetrePrincipale; 
 
-    public AjoutPieceControleur(AjoutPieceVue vue, RequetesLEGO modele, Stage fenetrePrincipale) {
+    public AjoutPieceControleur(AjoutPieceVueAdmin vue, RequetesLEGO modele, Stage fenetrePrincipale) {
         this.vue = vue;
         this.modele = modele;
         this.fenetrePrincipale = fenetrePrincipale;
@@ -87,7 +87,7 @@ public class AjoutPieceControleur {
     private void actionRetourAdmin() {
         AdminHomeVue vueAdmin = new AdminHomeVue();
         new AdminHomeControleur(vueAdmin, modele, fenetrePrincipale);
-        fenetrePrincipale.setScene(new Scene(vueAdmin, 600, 500));
+        fenetrePrincipale.setScene(new Scene(vueAdmin, 1000, 700));
     }
 
     private void afficherAlerte(Alert.AlertType type, String titre, String message) {

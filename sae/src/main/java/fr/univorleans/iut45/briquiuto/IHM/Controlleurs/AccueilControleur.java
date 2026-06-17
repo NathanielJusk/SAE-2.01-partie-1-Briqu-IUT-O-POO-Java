@@ -37,7 +37,7 @@ public class AccueilControleur {
         new ConnexionControleur(vueLogin, modele, fenetrePrincipale);
         
         // On affiche la page de connexion
-        fenetrePrincipale.setScene(new Scene(vueLogin, 400, 400));
+        fenetrePrincipale.setScene(new Scene(vueLogin, 1000, 700));
     }
 
     private void actionQuitter() {

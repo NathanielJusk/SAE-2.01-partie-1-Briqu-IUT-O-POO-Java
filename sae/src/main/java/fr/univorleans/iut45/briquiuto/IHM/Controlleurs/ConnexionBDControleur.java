@@ -50,7 +50,7 @@ private void validerConnexion() {
             // Redirection vers le VRAI menu principal
             AccueilVue vueAccueil = new AccueilVue();
             new AccueilControleur(vueAccueil, requetesModel, fenetrePrincipale);
-            fenetrePrincipale.setScene(new Scene(vueAccueil, 600, 500));
+            fenetrePrincipale.setScene(new Scene(vueAccueil, 1000, 700));
 
         } catch (SQLException ex) {
             System.out.println("Erreur BD : " + ex.getMessage());

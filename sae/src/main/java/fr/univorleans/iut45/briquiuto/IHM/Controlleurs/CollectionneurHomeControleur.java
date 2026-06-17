@@ -25,20 +25,22 @@ public class CollectionneurHomeControleur {
     }
 
     private void initialiser() {
+        // 1. Bouton "Rechercher par pièce" (Lien vers la vue de Mourad)
         this.vue.getBtnRechercheParPiece().setOnAction(e -> ouvrirRechercheBoite());
 
+        // 2. Bouton "Explorer par Thème"
         this.vue.getBtnExplorerParTheme().setOnAction(e -> {
-            VueRechercheBoiteParThemeCollectionneur vueTheme = new VueRechercheBoiteParThemeCollectionneur();
-            new RechercheBoiteThemeControleur(vueTheme, modele, fenetrePrincipale);
-            fenetrePrincipale.setScene(new Scene(vueTheme, 700, 550));
+            System.out.println("À venir : Exploration par thème !");
         });
 
+        // 3. Bouton "Détails d'une Boîte"
         this.vue.getBtnDetailsBoite().setOnAction(e -> {
             VueStatistiquesBoite vueStats = new VueStatistiquesBoite();
             new StatistiquesBoiteControleur(vueStats, modele, fenetrePrincipale);
             fenetrePrincipale.setScene(new Scene(vueStats, 750, 600));
         });
 
+        // 4. Bouton "Composer une boîte"
         this.vue.getBtnComposerBoite().setOnAction(e -> {
             VueCompositionBoitePerso vueCompo = new VueCompositionBoitePerso();
             new CompositionBoiteControleurPerso(vueCompo, modele, fenetrePrincipale);
@@ -52,6 +54,7 @@ public class CollectionneurHomeControleur {
             fenetrePrincipale.setScene(new Scene(vueMOCs, 800, 600));
         });
 
+        // 5. Actions de retour et déconnexion
         this.vue.getBtnDeconnexion().setOnAction(e -> deconnexion());
         this.vue.getBtnHome().setOnAction(e -> deconnexion());
     }
@@ -59,12 +62,13 @@ public class CollectionneurHomeControleur {
     private void ouvrirRechercheBoite() {
         VueRechercheBoiteParPiece vueRecherche = new VueRechercheBoiteParPiece();
         new RechercheBoiteControleur(vueRecherche, modele, fenetrePrincipale);
-        fenetrePrincipale.setScene(new Scene(vueRecherche, 700, 500));
+        // On affiche la page de recherche (un peu plus large pour le tableau)
+        fenetrePrincipale.setScene(new Scene(vueRecherche, 1000, 700));
     }
 
     private void deconnexion() {
         AccueilVue vueAccueil = new AccueilVue();
         new AccueilControleur(vueAccueil, modele, fenetrePrincipale);
-        fenetrePrincipale.setScene(new Scene(vueAccueil, 600, 500));
+        fenetrePrincipale.setScene(new Scene(vueAccueil, 1000, 700));
     }
 }

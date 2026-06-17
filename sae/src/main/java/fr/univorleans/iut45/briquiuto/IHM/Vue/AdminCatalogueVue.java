@@ -47,18 +47,11 @@ public class AdminCatalogueVue extends VBox {
 
         HBox header = new HBox(20);
         header.setAlignment(Pos.CENTER_LEFT);
-        this.btnHome = new Button();
-        try {
-            ImageView homeView = new ImageView(new Image(getClass().getResourceAsStream("/img/70083.png")));
-            homeView.setFitWidth(30); homeView.setFitHeight(30); homeView.setPreserveRatio(true);
-            this.btnHome.setGraphic(homeView);
-            this.btnHome.setStyle("-fx-background-color: transparent; -fx-cursor: hand;");
-        } catch (Exception e) { this.btnHome.setText("Retour"); }
 
         Label lblTitre = new Label("Catalogue Global");
         lblTitre.setFont(Font.font("Arial", FontWeight.BOLD, 24));
         lblTitre.setStyle("-fx-text-fill: #0055BF;"); 
-        header.getChildren().addAll(btnHome, lblTitre);
+        header.getChildren().add(lblTitre);
 
         tabPane = new TabPane();
         tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
@@ -161,7 +154,19 @@ public class AdminCatalogueVue extends VBox {
         tabFigurines.setContent(vbFigurines);
 
         tabPane.getTabs().addAll(tabBoites, tabPieces, tabThemes, tabFigurines);
-        this.getChildren().addAll(header, new Separator(), tabPane);
+        // --- BOUTON RETOUR EN BAS ---
+        this.btnHome = new Button();
+        try {
+            ImageView homeView = new ImageView(new Image(getClass().getResourceAsStream("/img/logoRetour.png")));
+            homeView.setFitWidth(35); homeView.setFitHeight(35); homeView.setPreserveRatio(true);
+            this.btnHome.setGraphic(homeView);
+            this.btnHome.setStyle("-fx-background-color: transparent; -fx-cursor: hand;");
+        } catch (Exception e) { this.btnHome.setText("Retour"); }
+        HBox zoneRetour = new HBox(btnHome);
+        zoneRetour.setAlignment(Pos.CENTER_LEFT);
+        VBox.setMargin(zoneRetour, new Insets(10, 0, 0, 0));
+
+        this.getChildren().addAll(header, new Separator(), tabPane, zoneRetour);
     }
 
     public Button getBtnHome() { return btnHome; }

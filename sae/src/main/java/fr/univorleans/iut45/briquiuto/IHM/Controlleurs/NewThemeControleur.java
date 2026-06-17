@@ -101,7 +101,7 @@ public class NewThemeControleur {
     private void actionRetourAdmin() {
         AdminHomeVue vueAdmin = new AdminHomeVue();
         new AdminHomeControleur(vueAdmin, modele, fenetrePrincipale);
-        fenetrePrincipale.setScene(new Scene(vueAdmin, 600, 500));
+        fenetrePrincipale.setScene(new Scene(vueAdmin, 1000, 700));
     }
 
     private void afficherAlerte(Alert.AlertType type, String titre, String message) {
