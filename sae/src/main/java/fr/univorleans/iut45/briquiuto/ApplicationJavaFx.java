@@ -2,7 +2,7 @@ package fr.univorleans.iut45.briquiuto;
 
 import fr.univorleans.iut45.briquiuto.JDBC.ConnexionBD;
 import fr.univorleans.iut45.briquiuto.IHM.Controlleurs.ConnexionBDControleur;
-import fr.univorleans.iut45.briquiuto.IHM.Vue.ConnexionBDVue;
+import fr.univorleans.iut45.briquiuto.IHM.Vue.Connexion.ConnexionBDVue;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;

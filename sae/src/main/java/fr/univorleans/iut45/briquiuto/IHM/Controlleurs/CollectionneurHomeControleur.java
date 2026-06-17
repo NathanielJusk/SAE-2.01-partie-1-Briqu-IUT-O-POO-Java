@@ -1,13 +1,14 @@
 package fr.univorleans.iut45.briquiuto.IHM.Controlleurs;
 
-import fr.univorleans.iut45.briquiuto.IHM.Vue.VueRechercheBoiteParThemeCollectionneur;
-import fr.univorleans.iut45.briquiuto.IHM.Vue.VueStatistiquesBoite;
+import fr.univorleans.iut45.briquiuto.IHM.Vue.collec.CollectionneurHomeVue;
+import fr.univorleans.iut45.briquiuto.IHM.Vue.collec.VueCompositionBoitePerso;
+import fr.univorleans.iut45.briquiuto.IHM.Vue.collec.VueMesMOCs;
+import fr.univorleans.iut45.briquiuto.IHM.Vue.collec.VueRechercheBoiteParNumero;
+import fr.univorleans.iut45.briquiuto.IHM.Vue.collec.VueRechercheBoiteParPiece;
+import fr.univorleans.iut45.briquiuto.IHM.Vue.collec.VueRechercheBoiteParThemeCollectionneur;
 import fr.univorleans.iut45.briquiuto.JDBC.RequetesLEGO;
 import fr.univorleans.iut45.briquiuto.IHM.Vue.AccueilVue;
-import fr.univorleans.iut45.briquiuto.IHM.Vue.CollectionneurHomeVue;
-import fr.univorleans.iut45.briquiuto.IHM.Vue.VueRechercheBoiteParPiece;
-import fr.univorleans.iut45.briquiuto.IHM.Vue.VueCompositionBoitePerso;
-import fr.univorleans.iut45.briquiuto.IHM.Vue.VueMesMOCs;
+import fr.univorleans.iut45.briquiuto.IHM.Controlleurs.*;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
@@ -28,33 +29,35 @@ public class CollectionneurHomeControleur {
         // 1. Bouton "Rechercher par pièce" (Lien vers la vue de Mourad)
         this.vue.getBtnRechercheParPiece().setOnAction(e -> ouvrirRechercheBoite());
 
-        // 2. Bouton "Explorer par Thème"
+        // 2. Bouton "Explorer par Thème" (Correction : Utilisation du bon Contrôleur de recherche)
         this.vue.getBtnExplorerParTheme().setOnAction(e -> {
-            System.out.println("À venir : Exploration par thème !");
+            VueRechercheBoiteParThemeCollectionneur vueRechercheTheme = new VueRechercheBoiteParThemeCollectionneur();
+            new RechercheBoiteThemeControleur(vueRechercheTheme, modele, fenetrePrincipale);
+            fenetrePrincipale.setScene(new Scene(vueRechercheTheme, 1000, 700));
         });
 
-        // 3. Bouton "Détails d'une Boîte"
+        // 3. Bouton "Détails d'une Boîte" (Correction : Page du collectionneur, pas celle de l'Admin !)
         this.vue.getBtnDetailsBoite().setOnAction(e -> {
-            VueStatistiquesBoite vueStats = new VueStatistiquesBoite();
-            new StatistiquesBoiteControleur(vueStats, modele, fenetrePrincipale);
-            fenetrePrincipale.setScene(new Scene(vueStats, 750, 600));
+            VueRechercheBoiteParNumero vueRechercheNum = new VueRechercheBoiteParNumero();
+            new RechercheBoiteNumControleur(vueRechercheNum, modele, fenetrePrincipale);
+            fenetrePrincipale.setScene(new Scene(vueRechercheNum, 1000, 700));
         });
 
         // 4. Bouton "Composer une boîte"
         this.vue.getBtnComposerBoite().setOnAction(e -> {
             VueCompositionBoitePerso vueCompo = new VueCompositionBoitePerso();
             new CompositionBoiteControleurPerso(vueCompo, modele, fenetrePrincipale);
-            fenetrePrincipale.setScene(new Scene(vueCompo, 850, 650));
+            fenetrePrincipale.setScene(new Scene(vueCompo, 1000, 700)); // Standardisé à 1000x700
         });
 
-        // --- NOUVEAU BOUTON VERS MES MOCS ---
+        // 5. Bouton "Mes MOCs"
         this.vue.getBtnMesMOCs().setOnAction(e -> {
             VueMesMOCs vueMOCs = new VueMesMOCs();
             new MesMOCsControleur(vueMOCs, modele, fenetrePrincipale);
-            fenetrePrincipale.setScene(new Scene(vueMOCs, 800, 600));
+            fenetrePrincipale.setScene(new Scene(vueMOCs, 1000, 700)); // Standardisé à 1000x700
         });
 
-        // 5. Actions de retour et déconnexion
+        // 6. Actions de retour et déconnexion
         this.vue.getBtnDeconnexion().setOnAction(e -> deconnexion());
         this.vue.getBtnHome().setOnAction(e -> deconnexion());
     }
@@ -62,7 +65,7 @@ public class CollectionneurHomeControleur {
     private void ouvrirRechercheBoite() {
         VueRechercheBoiteParPiece vueRecherche = new VueRechercheBoiteParPiece();
         new RechercheBoiteControleur(vueRecherche, modele, fenetrePrincipale);
-        // On affiche la page de recherche (un peu plus large pour le tableau)
+        // On affiche la page de recherche standardisée
         fenetrePrincipale.setScene(new Scene(vueRecherche, 1000, 700));
     }
 

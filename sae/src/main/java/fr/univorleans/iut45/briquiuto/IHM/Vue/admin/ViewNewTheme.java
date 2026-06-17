@@ -1,8 +1,10 @@
-package fr.univorleans.iut45.briquiuto.IHM.Vue;
+package fr.univorleans.iut45.briquiuto.IHM.Vue.admin;
 
+import fr.univorleans.iut45.briquiuto.modele.Theme;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Separator;
 import javafx.scene.control.TextField;
@@ -14,25 +16,26 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-public class AjoutFigurineVue extends VBox {
+public class ViewNewTheme extends VBox {
 
-    private TextField txtIdFig;
-    private TextField txtNomFig;
-    private TextField txtNbParties;
+    private TextField txtNumero;
+    private TextField txtNom;
+    // --- NOUVEAU : ComboBox au lieu de TextField ---
+    private ComboBox<Theme> cbParent;
     private Button btnValider;
     private Label lblErreur;
     private Button btnHome;
 
-    public AjoutFigurineVue() {
+    public ViewNewTheme() {
         this.setSpacing(25);
         this.setPadding(new Insets(30));
         this.setStyle("-fx-background-color: #FFFFFF;");
 
-        // --- EN-TÊTE ---
+        // --- EN-TÊTE STANDARD ---
         HBox header = new HBox(20);
         header.setAlignment(Pos.CENTER_LEFT);
 
-        Label lblTitre = new Label("Ajouter une nouvelle figurine");
+        Label lblTitre = new Label("Créer un thème ou sous-thème");
         lblTitre.setFont(Font.font("Arial", FontWeight.BOLD, 28));
         lblTitre.setStyle("-fx-text-fill: #0055BF;");
         
@@ -57,30 +60,31 @@ public class AjoutFigurineVue extends VBox {
         String styleLabel = "-fx-font-weight: bold; -fx-font-size: 15px;";
         String styleChamp = "-fx-border-color: #0055BF; -fx-border-width: 2px; -fx-border-radius: 3; -fx-padding: 8; -fx-font-size: 14px;";
 
-        Label lblId = new Label("ID Figurine :"); 
-        lblId.setStyle(styleLabel);
-        txtIdFig = new TextField(); 
-        txtIdFig.setStyle(styleChamp);
-        txtIdFig.setPrefWidth(400);
+        Label lblNumero = new Label("Numéro du thème :"); 
+        lblNumero.setStyle(styleLabel);
+        txtNumero = new TextField(); 
+        txtNumero.setStyle(styleChamp);
+        txtNumero.setPrefWidth(400);
 
-        Label lblNom = new Label("Nom de la figurine :"); 
+        Label lblNom = new Label("Nom du thème :"); 
         lblNom.setStyle(styleLabel);
-        txtNomFig = new TextField(); 
-        txtNomFig.setStyle(styleChamp);
-        txtNomFig.setPrefWidth(400);
+        txtNom = new TextField(); 
+        txtNom.setStyle(styleChamp);
+        txtNom.setPrefWidth(400);
 
-        Label lblNbParties = new Label("Nombre de pièces :"); 
-        lblNbParties.setStyle(styleLabel);
-        txtNbParties = new TextField(); 
-        txtNbParties.setStyle(styleChamp);
-        txtNbParties.setPrefWidth(400);
+        Label lblParent = new Label("Thème parent (optionnel) :"); 
+        lblParent.setStyle(styleLabel);
+        cbParent = new ComboBox<>();
+        cbParent.setPromptText("Aucun parent (Thème principal)");
+        cbParent.setPrefWidth(400);
+        cbParent.setStyle(styleChamp);
 
-        grille.add(lblId, 0, 0); grille.add(txtIdFig, 1, 0);
-        grille.add(lblNom, 0, 1); grille.add(txtNomFig, 1, 1);
-        grille.add(lblNbParties, 0, 2); grille.add(txtNbParties, 1, 2);
+        grille.add(lblNumero, 0, 0); grille.add(txtNumero, 1, 0);
+        grille.add(lblNom, 0, 1); grille.add(txtNom, 1, 1);
+        grille.add(lblParent, 0, 2); grille.add(cbParent, 1, 2);
 
         // --- BOUTON VALIDER ---
-        btnValider = new Button("Valider la figurine");
+        btnValider = new Button("Valider le thème");
         btnValider.setStyle("-fx-background-color: #287F46; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 15px; -fx-padding: 12 50; -fx-background-radius: 5; -fx-cursor: hand;");
 
         lblErreur = new Label("");
@@ -107,11 +111,11 @@ public class AjoutFigurineVue extends VBox {
         this.getChildren().addAll(header, separateur, contenuCentral);
     }
 
-    // Getters pour le contrôleur
-    public TextField getTxtIdFig() { return txtIdFig; }
-    public TextField getTxtNomFig() { return txtNomFig; }
-    public TextField getTxtNbParties() { return txtNbParties; }
+    public TextField getTxtNumero() { return txtNumero; }
+    public TextField getTxtNom() { return txtNom; }
+    public ComboBox<Theme> getCbParent() { return cbParent; }
     public Button getBtnValider() { return btnValider; }
+    public Label getLblErreur() { return lblErreur; }
     public Button getBtnHome() { return btnHome; }
 
     public void afficherErreur(String message) { 
@@ -120,9 +124,9 @@ public class AjoutFigurineVue extends VBox {
     }
     
     public void reinitialiserFormulaire() { 
-        txtIdFig.clear(); 
-        txtNomFig.clear(); 
-        txtNbParties.clear(); 
+        txtNumero.clear(); 
+        txtNom.clear(); 
+        cbParent.getSelectionModel().clearSelection(); 
         lblErreur.setVisible(false); 
     }
 }

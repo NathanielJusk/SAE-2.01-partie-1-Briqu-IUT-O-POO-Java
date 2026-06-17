@@ -1,4 +1,4 @@
-package fr.univorleans.iut45.briquiuto.IHM.Vue;
+package fr.univorleans.iut45.briquiuto.IHM.Vue.admin;
 
 import fr.univorleans.iut45.briquiuto.modele.Theme;
 import fr.univorleans.iut45.briquiuto.modele.Piece;
@@ -19,17 +19,13 @@ import javafx.scene.text.FontWeight;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Vue permettant à l'administrateur d'ajouter une nouvelle boîte au catalogue global,
- * avec saisie des informations de base et ajout dynamique de pièces (contenu).
- */
 public class VueAjoutBoiteCatalogueAdmin extends VBox {
 
-    // En-tête
+    // En-tête et Navigation
     private Button btnHome;
+    private Button btnRetour; // LE FAMEUX BOUTON RETOUR
     private Label lblTitre;
     
-
     // Formulaire d'informations de base (GridPane)
     private TextField txtNumero;
     private TextField txtNom;
@@ -69,17 +65,17 @@ public class VueAjoutBoiteCatalogueAdmin extends VBox {
             this.btnHome.setGraphic(homeImageView);
             this.btnHome.setStyle("-fx-background-color: transparent; -fx-cursor: hand;");
         } catch (Exception e) {
-            this.btnHome.setText("Home");
+            this.btnHome.setText("🏠");
         }
 
         lblTitre = new Label("Ajouter une nouvelle boîte au catalogue");
-        lblTitre.setFont(Font.font("Arial", FontWeight.BOLD, 20));
+        lblTitre.setFont(Font.font("Arial", FontWeight.BOLD, 24)); // Agrandi pour coller au design
         lblTitre.setStyle("-fx-text-fill: #0055BF;"); // Bleu LEGO officiel
 
         header.getChildren().addAll(btnHome, lblTitre);
 
         Separator separateur = new Separator();
-        separateur.setStyle("-fx-background-color: #F6D304; -fx-border-width: 1px;"); // Jaune LEGO
+        separateur.setStyle("-fx-background-color: #F6D304; -fx-border-width: 2px;"); // Jaune LEGO
 
         // 3. Formulaire d'informations de base (GridPane)
         GridPane gridForm = new GridPane();
@@ -87,39 +83,41 @@ public class VueAjoutBoiteCatalogueAdmin extends VBox {
         gridForm.setVgap(12);
         gridForm.setPadding(new Insets(10, 0, 10, 0));
 
-        String styleLabel = "-fx-font-weight: bold; -fx-font-size: 13px;";
+        String styleLabel = "-fx-font-weight: bold; -fx-font-size: 14px;";
+        String styleInput = "-fx-border-color: #0055BF; -fx-border-width: 2px; -fx-border-radius: 4px; -fx-padding: 5px;";
         
         Label lblNum = new Label("Numéro officiel :"); lblNum.setStyle(styleLabel);
-        txtNumero = new TextField(); txtNumero.setPromptText("Ex: 75192");
+        txtNumero = new TextField(); txtNumero.setPromptText("Ex: 75192"); txtNumero.setStyle(styleInput);
 
         Label lblNomBoite = new Label("Nom du set :"); lblNomBoite.setStyle(styleLabel);
-        txtNom = new TextField(); txtNom.setPromptText("Ex: Millennium Falcon");
+        txtNom = new TextField(); txtNom.setPromptText("Ex: Millennium Falcon"); txtNom.setStyle(styleInput);
 
         Label lblAnneeBoite = new Label("Année de sortie :"); lblAnneeBoite.setStyle(styleLabel);
-        txtAnnee = new TextField(); txtAnnee.setPromptText("Ex: 2024");
+        txtAnnee = new TextField(); txtAnnee.setPromptText("Ex: 2024"); txtAnnee.setStyle(styleInput);
 
         Label lblThemeBoite = new Label("Thème associé :"); lblThemeBoite.setStyle(styleLabel);
         cbTheme = new ComboBox<>();
         cbTheme.setPromptText("Choisir un thème...");
         cbTheme.setPrefWidth(200);
+        cbTheme.setStyle(styleInput);
 
         gridForm.add(lblNum, 0, 0);        gridForm.add(txtNumero, 1, 0);
         gridForm.add(lblNomBoite, 0, 1);   gridForm.add(txtNom, 1, 1);
         gridForm.add(lblAnneeBoite, 0, 2); gridForm.add(txtAnnee, 1, 2);
         gridForm.add(lblThemeBoite, 0, 3); gridForm.add(cbTheme, 1, 3);
 
-        // 4. Section Contenu / Gestion des pièces (VBox dynamique de ta maquette en bas)
+        // 4. Section Contenu / Gestion des pièces
         VBox zoneContenu = new VBox(10);
         Label lblContenu = new Label("Contenu (Sélection des pièces) :");
         lblContenu.setFont(Font.font("Arial", FontWeight.BOLD, 14));
+        lblContenu.setStyle("-fx-text-fill: #0055BF;");
         
-        // C'est ce conteneur qui va recevoir les lignes HBox à chaque clic sur "+"
         conteneurLignesPieces = new VBox(8);
         
         ScrollPane scrollContenu = new ScrollPane(conteneurLignesPieces);
         scrollContenu.setFitToWidth(true);
-        scrollContenu.setPrefHeight(150);
-        scrollContenu.setStyle("-fx-background-color: transparent; -fx-border-color: #ccc; -fx-border-radius: 5;");
+        scrollContenu.setPrefHeight(180);
+        scrollContenu.setStyle("-fx-background-color: transparent; -fx-border-color: #E0E0E0; -fx-border-radius: 5;");
 
         btnAjouterLigne = new Button("+ Ajouter une pièce");
         btnAjouterLigne.setStyle("-fx-background-color: #0055BF; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand;");
@@ -133,54 +131,61 @@ public class VueAjoutBoiteCatalogueAdmin extends VBox {
         btnValider.setStyle("-fx-background-color: #287F46; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-padding: 10 25; -fx-background-radius: 5; -fx-cursor: hand;");
 
         lblMessage = new Label("");
-        lblMessage.setFont(Font.font("Arial", FontWeight.SEMI_BOLD, 13));
+        lblMessage.setFont(Font.font("Arial", FontWeight.SEMI_BOLD, 14));
         lblMessage.setVisible(false);
 
-        HBox footer = new HBox(20);
-        footer.setAlignment(Pos.CENTER);
-        footer.getChildren().addAll(btnValider, lblMessage);
+        VBox zoneValidation = new VBox(10);
+        zoneValidation.setAlignment(Pos.CENTER);
+        zoneValidation.getChildren().addAll(btnValider, lblMessage);
+
+        // ========================================================
+        // 6. PIED DE PAGE : LE BOUTON RETOUR (En bas à gauche)
+        // ========================================================
+        HBox footerNav = new HBox();
+        footerNav.setAlignment(Pos.BOTTOM_LEFT); 
+        
+        this.btnRetour = new Button();
+        try {
+            ImageView retourImageView = new ImageView(new Image(getClass().getResourceAsStream("/img/logoRetour.png")));
+            retourImageView.setFitWidth(50);
+            retourImageView.setFitHeight(50); 
+            retourImageView.setPreserveRatio(true);
+            this.btnRetour.setGraphic(retourImageView);
+            this.btnRetour.setStyle("-fx-background-color: transparent; -fx-cursor: hand;");
+        } catch (Exception e) { 
+            this.btnRetour.setText("⬅ Retour"); 
+            this.btnRetour.setStyle("-fx-background-color: #E3000B; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand; -fx-padding: 10 20; -fx-background-radius: 5;");
+        }
+        footerNav.getChildren().add(btnRetour);
 
         // Assemblage final dans la VBox Racine
-        this.getChildren().addAll(header, separateur, gridForm, zoneContenu, footer);
+        this.getChildren().addAll(header, separateur, gridForm, zoneContenu, zoneValidation, footerNav);
         
         // Ajouter une première ligne par défaut pour guider l'utilisateur
         ajouterNouvelleLignePiece();
     }
 
-    /**
-     * Ajoute dynamiquement une nouvelle HBox (Sélecteur + Quantité) dans le formulaire.
-     */
     private void ajouterNouvelleLignePiece() {
         LignePieceContenu nouvelleLigne = new LignePieceContenu(cataloguePiecesDisponibles);
         listeLignesChoisies.add(nouvelleLigne);
         conteneurLignesPieces.getChildren().add(nouvelleLigne);
         
-        // Bouton de suppression de ligne optionnel pour l'ergonomie
         nouvelleLigne.getBtnSupprimer().setOnAction(e -> {
-            if (listeLignesChoisies.size() > 1) { // On garde au moins une ligne
+            if (listeLignesChoisies.size() > 1) { 
                 conteneurLignesPieces.getChildren().remove(nouvelleLigne);
                 listeLignesChoisies.remove(nouvelleLigne);
             }
         });
     }
 
-    /**
-     * Alimente le catalogue général des pièces pour les menus déroulants dynamiques.
-     */
     public void setPiecesDisponibles(List<Piece> pieces) {
         this.cataloguePiecesDisponibles.setAll(pieces);
     }
 
-    /**
-     * Alimente le ComboBox des thèmes officiels.
-     */
     public void setThemesDisponibles(List<Theme> themes) {
         this.cbTheme.setItems(FXCollections.observableArrayList(themes));
     }
 
-    /**
-     * Permet de vider le formulaire après un enregistrement réussi.
-     */
     public void reinitialiserFormulaire() {
         txtNumero.clear();
         txtNom.clear();
@@ -188,7 +193,7 @@ public class VueAjoutBoiteCatalogueAdmin extends VBox {
         cbTheme.getSelectionModel().clearSelection();
         conteneurLignesPieces.getChildren().clear();
         listeLignesChoisies.clear();
-        ajouterNouvelleLignePiece(); // Remet une ligne vierge
+        ajouterNouvelleLignePiece(); 
     }
 
     public void afficherMessage(String msg, String codeCouleurHex) {
@@ -197,8 +202,10 @@ public class VueAjoutBoiteCatalogueAdmin extends VBox {
         lblMessage.setVisible(true);
     }
 
-    // ── GETTERS POUR LE CONTRÔLEUR ──
+    // ── NOUVEAU GETTER POUR LE BOUTON RETOUR ──
     public Button getBtnHome() { return btnHome; }
+    public Button getBtnRetour() { return btnRetour; }
+    
     public Button getBtnValider() { return btnValider; }
     public TextField getTxtNumero() { return txtNumero; }
     public TextField getTxtNom() { return txtNom; }
@@ -206,11 +213,6 @@ public class VueAjoutBoiteCatalogueAdmin extends VBox {
     public ComboBox<Theme> getCbTheme() { return cbTheme; }
     public List<LignePieceContenu> getListeLignesChoisies() { return listeLignesChoisies; }
 
-
-    /**
-     * Classe interne (Inner Class) représentant graphiquement une ligne de sélection de pièce.
-     * Correspond exactement au HBox imbriqué de ton graphe de scène.
-     */
     public static class LignePieceContenu extends HBox {
         private ComboBox<Piece> cbPiece;
         private TextField txtQuantite;
@@ -233,8 +235,8 @@ public class VueAjoutBoiteCatalogueAdmin extends VBox {
             txtQuantite.setPromptText("Ex: 5");
             txtQuantite.setPrefWidth(60);
 
-            btnSupprimer = new Button("No");
-            btnSupprimer.setStyle("-fx-background-color: transparent; -fx-text-fill: red; -fx-cursor: hand;");
+            btnSupprimer = new Button("✖"); // Plus propre qu'un "No"
+            btnSupprimer.setStyle("-fx-background-color: transparent; -fx-text-fill: #E3000B; -fx-font-weight: bold; -fx-cursor: hand;");
 
             this.getChildren().addAll(lblP, cbPiece, lblQ, txtQuantite, btnSupprimer);
         }

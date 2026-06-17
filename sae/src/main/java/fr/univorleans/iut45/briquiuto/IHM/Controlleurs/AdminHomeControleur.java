@@ -1,13 +1,14 @@
 package fr.univorleans.iut45.briquiuto.IHM.Controlleurs;
 
 import fr.univorleans.iut45.briquiuto.JDBC.RequetesLEGO;
-import fr.univorleans.iut45.briquiuto.IHM.Vue.AdminHomeVue;
-import fr.univorleans.iut45.briquiuto.IHM.Vue.AjoutPieceVueAdmin;
-import fr.univorleans.iut45.briquiuto.IHM.Vue.ViewNewTheme;
-import fr.univorleans.iut45.briquiuto.IHM.Vue.AdminCatalogueVue;
 import fr.univorleans.iut45.briquiuto.IHM.Vue.AccueilVue;
-import fr.univorleans.iut45.briquiuto.IHM.Vue.AjoutFigurineVue;
-import fr.univorleans.iut45.briquiuto.IHM.Vue.VueStatistiquesBoite;
+import fr.univorleans.iut45.briquiuto.IHM.Vue.admin.AdminCatalogueVue;
+import fr.univorleans.iut45.briquiuto.IHM.Vue.admin.AdminHomeVue;
+import fr.univorleans.iut45.briquiuto.IHM.Vue.admin.AjoutFigurineVue;
+import fr.univorleans.iut45.briquiuto.IHM.Vue.admin.AjoutPieceVueAdmin;
+import fr.univorleans.iut45.briquiuto.IHM.Vue.admin.ViewNewTheme;
+import fr.univorleans.iut45.briquiuto.IHM.Vue.admin.VueAjoutBoiteCatalogueAdmin;
+import fr.univorleans.iut45.briquiuto.IHM.Vue.admin.VueStatistiquesBoite;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
@@ -44,8 +45,13 @@ public class AdminHomeControleur {
             fenetrePrincipale.setScene(new Scene(vueTheme, 1000, 700));
         });
 
+        // ========================================================
+        // --- LA CORRECTION EST ICI (Fin du message console !) ---
+        // ========================================================
         this.vue.getBtnAjoutBoite().setOnAction(e -> {
-            System.out.println("À venir : Ajout de boîte !");
+            VueAjoutBoiteCatalogueAdmin vueAjoutBoite = new VueAjoutBoiteCatalogueAdmin();
+            new AjoutBoiteCatalogueControleur(vueAjoutBoite, modele, fenetrePrincipale);
+            fenetrePrincipale.setScene(new Scene(vueAjoutBoite, 1000, 700));
         });
         
         this.vue.getBtnFigurines().setOnAction(e -> {
@@ -54,7 +60,6 @@ public class AdminHomeControleur {
             fenetrePrincipale.setScene(new Scene(vueFigurine, 1000, 700));
         });
 
-        // Ouvre les Statistiques tout simplement
         this.vue.getBtnStatsAdmin().setOnAction(e -> {
             VueStatistiquesBoite vueStats = new VueStatistiquesBoite();
             new StatistiquesBoiteControleur(vueStats, modele, fenetrePrincipale);

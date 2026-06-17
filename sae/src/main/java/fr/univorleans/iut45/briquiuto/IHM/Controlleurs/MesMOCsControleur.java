@@ -5,8 +5,8 @@ import java.util.List;
 
 import fr.univorleans.iut45.briquiuto.JDBC.RequetesLEGO;
 import fr.univorleans.iut45.briquiuto.modele.Boite;
-import fr.univorleans.iut45.briquiuto.IHM.Vue.CollectionneurHomeVue;
-import fr.univorleans.iut45.briquiuto.IHM.Vue.VueMesMOCs;
+import fr.univorleans.iut45.briquiuto.IHM.Vue.collec.CollectionneurHomeVue;
+import fr.univorleans.iut45.briquiuto.IHM.Vue.collec.VueMesMOCs;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;

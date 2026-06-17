@@ -1,4 +1,4 @@
-package fr.univorleans.iut45.briquiuto.IHM.Vue;
+package fr.univorleans.iut45.briquiuto.IHM.Vue.Connexion;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;

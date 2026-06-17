@@ -1,8 +1,9 @@
 package fr.univorleans.iut45.briquiuto.IHM.Controlleurs;
 
 import java.sql.SQLException;
-import fr.univorleans.iut45.briquiuto.IHM.Vue.AdminHomeVue;
-import fr.univorleans.iut45.briquiuto.IHM.Vue.ViewNewBoitePerso;
+
+import fr.univorleans.iut45.briquiuto.IHM.Vue.admin.AdminHomeVue;
+import fr.univorleans.iut45.briquiuto.IHM.Vue.collec.ViewNewBoitePerso;
 import fr.univorleans.iut45.briquiuto.JDBC.RequetesLEGO;
 import fr.univorleans.iut45.briquiuto.modele.Boite;
 import fr.univorleans.iut45.briquiuto.modele.BoiteComposee;

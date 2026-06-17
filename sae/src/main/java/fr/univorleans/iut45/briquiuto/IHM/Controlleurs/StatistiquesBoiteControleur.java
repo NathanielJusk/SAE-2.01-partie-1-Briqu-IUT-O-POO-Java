@@ -4,8 +4,8 @@ import java.sql.SQLException;
 import java.util.List;
 import fr.univorleans.iut45.briquiuto.JDBC.RequetesLEGO;
 import fr.univorleans.iut45.briquiuto.modele.Boite;
-import fr.univorleans.iut45.briquiuto.IHM.Vue.VueStatistiquesBoite;
-import fr.univorleans.iut45.briquiuto.IHM.Vue.AdminHomeVue;
+import fr.univorleans.iut45.briquiuto.IHM.Vue.admin.AdminHomeVue;
+import fr.univorleans.iut45.briquiuto.IHM.Vue.admin.VueStatistiquesBoite;
 import fr.univorleans.iut45.briquiuto.IHM.Vue.AccueilVue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -28,7 +28,7 @@ public class StatistiquesBoiteControleur {
     private void initialiser() {
         this.vue.getBtnRechercher().setOnAction(e -> actionAnalyserBoite());
         
-        // --- LE RETOUR VA DIRECTEMENT A L'ADMIN ---
+        // --- C'EST ICI QUE LE RETOUR EST DÉFINI POUR L'ADMINISTRATEUR ---
         this.vue.getBtnRetour().setOnAction(e -> actionRetourAdmin());
         this.vue.getBtnHome().setOnAction(e -> actionRetourAccueil());
     }
@@ -72,13 +72,14 @@ public class StatistiquesBoiteControleur {
     }
 
     private void actionRetourAdmin() {
-        // Retourne toujours au menu Administrateur !
+        // Redirige vers la page d'accueil de l'Admin !
         AdminHomeVue vueAdmin = new AdminHomeVue();
         new AdminHomeControleur(vueAdmin, modele, fenetrePrincipale);
         fenetrePrincipale.setScene(new Scene(vueAdmin, 1000, 700));
     }
 
     private void actionRetourAccueil() {
+        // Redirige vers la page de connexion de départ
         AccueilVue vueAccueil = new AccueilVue();
         new AccueilControleur(vueAccueil, modele, fenetrePrincipale);
         fenetrePrincipale.setScene(new Scene(vueAccueil, 1000, 700));

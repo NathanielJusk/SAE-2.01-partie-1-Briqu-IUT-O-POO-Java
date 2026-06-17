@@ -2,7 +2,7 @@ package fr.univorleans.iut45.briquiuto.IHM.Controlleurs;
 
 import fr.univorleans.iut45.briquiuto.JDBC.RequetesLEGO;
 import fr.univorleans.iut45.briquiuto.IHM.Vue.AccueilVue;
-import fr.univorleans.iut45.briquiuto.IHM.Vue.VueConnexion;
+import fr.univorleans.iut45.briquiuto.IHM.Vue.Connexion.VueConnexion;
 import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.stage.Stage;

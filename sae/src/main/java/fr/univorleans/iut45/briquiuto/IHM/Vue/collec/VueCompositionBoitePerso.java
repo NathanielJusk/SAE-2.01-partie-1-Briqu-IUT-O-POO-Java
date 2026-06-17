@@ -1,4 +1,4 @@
-package fr.univorleans.iut45.briquiuto.IHM.Vue;
+package fr.univorleans.iut45.briquiuto.IHM.Vue.collec;
 
 import fr.univorleans.iut45.briquiuto.modele.Couleur;
 import fr.univorleans.iut45.briquiuto.modele.Figurine;

@@ -5,8 +5,8 @@ import java.util.List;
 
 import fr.univorleans.iut45.briquiuto.JDBC.RequetesLEGO;
 import fr.univorleans.iut45.briquiuto.modele.Theme;
-import fr.univorleans.iut45.briquiuto.IHM.Vue.ViewNewTheme;
-import fr.univorleans.iut45.briquiuto.IHM.Vue.AdminHomeVue;
+import fr.univorleans.iut45.briquiuto.IHM.Vue.admin.AdminHomeVue;
+import fr.univorleans.iut45.briquiuto.IHM.Vue.admin.ViewNewTheme;
 import javafx.collections.FXCollections;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
