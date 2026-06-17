@@ -1,11 +1,13 @@
 package fr.univorleans.iut45.briquiuto.IHM.Controlleurs;
 
 import fr.univorleans.iut45.briquiuto.IHM.Vue.VueRechercheBoiteParThemeCollectionneur;
+import fr.univorleans.iut45.briquiuto.IHM.Vue.VueStatistiquesBoite;
 import fr.univorleans.iut45.briquiuto.JDBC.RequetesLEGO;
 import fr.univorleans.iut45.briquiuto.IHM.Vue.AccueilVue;
 import fr.univorleans.iut45.briquiuto.IHM.Vue.CollectionneurHomeVue;
-import fr.univorleans.iut45.briquiuto.IHM.Vue.VueCompositionBoitePerso;
 import fr.univorleans.iut45.briquiuto.IHM.Vue.VueRechercheBoiteParPiece;
+import fr.univorleans.iut45.briquiuto.IHM.Vue.VueCompositionBoitePerso;
+import fr.univorleans.iut45.briquiuto.IHM.Vue.VueMesMOCs;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
@@ -23,7 +25,6 @@ public class CollectionneurHomeControleur {
     }
 
     private void initialiser() {
-   
         this.vue.getBtnRechercheParPiece().setOnAction(e -> ouvrirRechercheBoite());
 
         this.vue.getBtnExplorerParTheme().setOnAction(e -> {
@@ -33,13 +34,22 @@ public class CollectionneurHomeControleur {
         });
 
         this.vue.getBtnDetailsBoite().setOnAction(e -> {
-            System.out.println("À venir : Voir le contenu d'une boîte !");
+            VueStatistiquesBoite vueStats = new VueStatistiquesBoite();
+            new StatistiquesBoiteControleur(vueStats, modele, fenetrePrincipale);
+            fenetrePrincipale.setScene(new Scene(vueStats, 750, 600));
         });
 
         this.vue.getBtnComposerBoite().setOnAction(e -> {
             VueCompositionBoitePerso vueCompo = new VueCompositionBoitePerso();
             new CompositionBoiteControleurPerso(vueCompo, modele, fenetrePrincipale);
-            fenetrePrincipale.setScene(new Scene(vueCompo, 850, 650)); // J'ai mis une fenêtre un peu plus large pour que tout tienne bien
+            fenetrePrincipale.setScene(new Scene(vueCompo, 850, 650));
+        });
+
+        // --- NOUVEAU BOUTON VERS MES MOCS ---
+        this.vue.getBtnMesMOCs().setOnAction(e -> {
+            VueMesMOCs vueMOCs = new VueMesMOCs();
+            new MesMOCsControleur(vueMOCs, modele, fenetrePrincipale);
+            fenetrePrincipale.setScene(new Scene(vueMOCs, 800, 600));
         });
 
         this.vue.getBtnDeconnexion().setOnAction(e -> deconnexion());

@@ -10,6 +10,7 @@ public class ContenirP {
     private Piece piece;
     private int quantiteP;
     private boolean estSupplement;
+    private String imgUrl;
 
     /**
      * Crée une association pièce/couleur/quantité.
@@ -18,12 +19,14 @@ public class ContenirP {
      * @param piece pièce concernée
      * @param quantiteP quantité de la pièce
      * @param estSupplement vrai si la pièce est en supplément
+     * @param imgUrl URL de l'image de la pièce
      */
-    public ContenirP(Couleur couleur, Piece piece, int quantiteP, boolean estSupplement) {
+    public ContenirP(Couleur couleur, Piece piece, int quantiteP, boolean estSupplement, String imgUrl) {
         this.couleur = couleur;
         this.piece = piece;
         this.quantiteP = quantiteP;
         this.estSupplement = estSupplement;
+        this.imgUrl = imgUrl;
     }
     
     /**
@@ -96,6 +99,24 @@ public class ContenirP {
      */
     public void setEstSupplement(boolean estSupplement) {
         this.estSupplement = estSupplement;
+    }
+
+    /**
+     * Retourne l'URL de l'image de la pièce.
+     *
+     * @return URL de l'image
+     */
+    public String getImgUrl() {
+        return imgUrl; 
+    }
+
+    /**
+     * Définit l'URL de l'image de la pièce.
+     *
+     * @param imgUrl nouvelle URL de l'image
+     */
+    public void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
     }
 
     

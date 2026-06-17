@@ -1,7 +1,6 @@
 package fr.univorleans.iut45.briquiuto.IHM.Vue;
 
 import fr.univorleans.iut45.briquiuto.modele.Boite;
-import fr.univorleans.iut45.briquiuto.modele.ContenirP;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
@@ -14,29 +13,23 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 
-/**
- * Vue permettant d'afficher les statistiques et le détail complet d'une boîte (Contenu, Année, Pièces).
- */
 public class VueStatistiquesBoite extends VBox {
 
-    // En-tête
     private Button btnHome;
-    
-    // Zone de recherche
     private TextField txtNumBoite;
     private Button btnRechercher;
     private Label lblErreur;
 
-    // Zone d'affichage des statistiques (Cachée par défaut)
     private VBox zoneStatistiques;
     private Label lblTitreBoite;
+    private ImageView imageBoiteView; 
     private Label valNumero;
     private Label valAnnee;
     private Label valTheme;
     private Label valTotalPieces;
 
-    // Tableau pour le contenu détaillé
-    private TableView<String> tableContenu; // Simplifié en String pour l'affichage, ou à adapter avec tes objets
+    // NOUVEAU : Le tableau utilise maintenant LigneAffichage au lieu de String
+    private TableView<LigneAffichage> tableContenu;
 
     public VueStatistiquesBoite() {
         this.setSpacing(20);
@@ -60,7 +53,7 @@ public class VueStatistiquesBoite extends VBox {
 
         Label lblTitre = new Label("Statistiques et Détails de la Boîte");
         lblTitre.setFont(Font.font("Arial", FontWeight.BOLD, 22));
-        lblTitre.setStyle("-fx-text-fill: #0055BF;"); // Bleu LEGO
+        lblTitre.setStyle("-fx-text-fill: #0055BF;");
 
         header.getChildren().addAll(btnHome, lblTitre);
         
@@ -86,15 +79,23 @@ public class VueStatistiquesBoite extends VBox {
 
         zoneRecherche.getChildren().addAll(lblInstruction, txtNumBoite, btnRechercher, lblErreur);
 
-        // 3. ZONE DES STATISTIQUES (Fiche descriptive)
+        // 3. ZONE DES STATISTIQUES (Fiche descriptive avec Image)
         zoneStatistiques = new VBox(15);
         zoneStatistiques.setPadding(new Insets(20));
         zoneStatistiques.setStyle("-fx-background-color: #F8F9FA; -fx-border-color: #E0E0E0; -fx-border-radius: 5; -fx-background-radius: 5;");
-        zoneStatistiques.setVisible(false); // Caché tant qu'on n'a pas cherché
+        zoneStatistiques.setVisible(false); 
 
         lblTitreBoite = new Label("Nom de la Boîte");
         lblTitreBoite.setFont(Font.font("Arial", FontWeight.BOLD, 18));
         
+        HBox boxInfosAvecImage = new HBox(30);
+        boxInfosAvecImage.setAlignment(Pos.CENTER_LEFT);
+
+        imageBoiteView = new ImageView();
+        imageBoiteView.setFitWidth(180);
+        imageBoiteView.setFitHeight(180);
+        imageBoiteView.setPreserveRatio(true);
+
         GridPane gridStats = new GridPane();
         gridStats.setHgap(30);
         gridStats.setVgap(10);
@@ -118,35 +119,55 @@ public class VueStatistiquesBoite extends VBox {
         gridStats.add(t3, 2, 0); gridStats.add(valTheme, 3, 0);
         gridStats.add(t4, 2, 1); gridStats.add(valTotalPieces, 3, 1);
 
+        boxInfosAvecImage.getChildren().addAll(imageBoiteView, gridStats);
+
         // 4. TABLEAU DU CONTENU
         Label lblContenu = new Label("Détails du contenu (Pièces) :");
         lblContenu.setFont(Font.font("Arial", FontWeight.BOLD, 14));
         
         tableContenu = new TableView<>();
-        tableContenu.setPlaceholder(new Label("Aucun détail de pièce disponible pour cette boîte."));
+        tableContenu.setPlaceholder(new Label("Aucun détail de pièce disponible."));
         
-        // Colonne simple pour afficher le texte généré par la méthode afficherStatistiques
-        TableColumn<String, String> colDetail = new TableColumn<>("Éléments de la boîte");
-        colDetail.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(data.getValue()));
+        // --- NOUVEAU : Colonne Image ---
+        TableColumn<LigneAffichage, String> colImage = new TableColumn<>("Aperçu");
+        colImage.setPrefWidth(90);
+        colImage.setStyle("-fx-alignment: CENTER;");
+        colImage.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(data.getValue().getUrlImage()));
+        
+        // C'est ici qu'on transforme l'URL en véritable image !
+        colImage.setCellFactory(col -> new TableCell<LigneAffichage, String>() {
+            private final ImageView imgView = new ImageView();
+            @Override
+            protected void updateItem(String url, boolean empty) {
+                super.updateItem(url, empty);
+                if (empty || url == null || url.trim().isEmpty()) {
+                    setGraphic(null);
+                } else {
+                    imgView.setImage(new Image(url, true)); // true = en arrière-plan
+                    imgView.setFitWidth(60);
+                    imgView.setFitHeight(60);
+                    imgView.setPreserveRatio(true);
+                    setGraphic(imgView);
+                }
+            }
+        });
+
+        // --- Colonne Texte ---
+        TableColumn<LigneAffichage, String> colDetail = new TableColumn<>("Description de l'élément");
+        colDetail.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(data.getValue().getDetails()));
         colDetail.setPrefWidth(500);
         
-        tableContenu.getColumns().add(colDetail);
+        tableContenu.getColumns().addAll(colImage, colDetail);
         VBox.setVgrow(tableContenu, Priority.ALWAYS);
 
-        zoneStatistiques.getChildren().addAll(lblTitreBoite, new Separator(), gridStats, lblContenu, tableContenu);
-
-        // Assemblage
+        // Assemblage Final
+        zoneStatistiques.getChildren().addAll(lblTitreBoite, new Separator(), boxInfosAvecImage, lblContenu, tableContenu);
         this.getChildren().addAll(header, separateur, zoneRecherche, zoneStatistiques);
     }
 
-    // --- Méthodes d'affichage pour le Contrôleur ---
-
-    /**
-     * Remplit l'interface avec les données de la boîte trouvée.
-     */
     public void afficherStatsBoite(Boite boite, int totalPieces, String nomTheme) {
         lblErreur.setVisible(false);
-        zoneStatistiques.setVisible(true); // On affiche la carte
+        zoneStatistiques.setVisible(true);
 
         lblTitreBoite.setText(boite.getNom());
         valNumero.setText(boite.getNumero());
@@ -155,15 +176,36 @@ public class VueStatistiquesBoite extends VBox {
         valTotalPieces.setText(String.valueOf(totalPieces));
     }
 
+    public void afficherImageBoite(String url) {
+        if (url != null && !url.trim().isEmpty()) {
+            imageBoiteView.setImage(new Image(url, true));
+        } else {
+            imageBoiteView.setImage(null); 
+        }
+    }
+
     public void afficherErreur(String msg) {
         zoneStatistiques.setVisible(false);
         lblErreur.setText(msg);
         lblErreur.setVisible(true);
     }
 
-    // --- Getters ---
     public Button getBtnHome() { return btnHome; }
     public Button getBtnRechercher() { return btnRechercher; }
     public TextField getTxtNumBoite() { return txtNumBoite; }
-    public TableView<String> getTableContenu() { return tableContenu; }
+    public TableView<LigneAffichage> getTableContenu() { return tableContenu; }
+
+    // --- PETITE CLASSE OUTIL POUR LE TABLEAU ---
+    public static class LigneAffichage {
+        private String details;
+        private String urlImage;
+
+        public LigneAffichage(String details, String urlImage) {
+            this.details = details;
+            this.urlImage = urlImage;
+        }
+
+        public String getDetails() { return details; }
+        public String getUrlImage() { return urlImage; }
+    }
 }

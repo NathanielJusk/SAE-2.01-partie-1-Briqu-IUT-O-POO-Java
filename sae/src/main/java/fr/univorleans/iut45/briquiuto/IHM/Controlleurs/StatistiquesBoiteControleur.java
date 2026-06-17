@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import fr.univorleans.iut45.briquiuto.JDBC.RequetesLEGO;
 import fr.univorleans.iut45.briquiuto.modele.Boite;
 import fr.univorleans.iut45.briquiuto.IHM.Vue.VueStatistiquesBoite;
+import fr.univorleans.iut45.briquiuto.IHM.Vue.VueStatistiquesBoite.LigneAffichage; // Import de notre nouvelle classe
 import fr.univorleans.iut45.briquiuto.IHM.Vue.CollectionneurHomeVue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -36,53 +37,66 @@ public class StatistiquesBoiteControleur {
             return;
         }
 
-        // 1. Recherche de la boîte dans le manager en mémoire (POO)
-        Boite boiteTrouvee = modele.getManager().rechercherBoiteParNumero(numeroSaisi);
+        try {
+            Boite boiteTrouvee = modele.rechercherBoiteParNumero(numeroSaisi);
 
-        if (boiteTrouvee != null) {
-            try {
-                // 2. Récupération dynamique du nom du thème depuis la BD
+            if (boiteTrouvee != null) {
                 String nomTheme = "Inconnu";
                 if (boiteTrouvee.getTheme() != null) {
                     nomTheme = boiteTrouvee.getTheme().getNom();
                 }
 
-                // Récupération du nombre de pièces (via le modèle ou calcul direct de la partie 1)
                 int totalPieces = boiteTrouvee.getNbPiece();
-
-                // Affichage des statistiques de base dans la fiche
                 vue.afficherStatsBoite(boiteTrouvee, totalPieces, nomTheme);
+                vue.afficherImageBoite(boiteTrouvee.getImgUrl());
 
-                // 3. Chargement des pièces de la boîte à l'aide des requêtes SQL JDBC
-                ObservableList<String> detailsPieces = FXCollections.observableArrayList();
+                // On utilise maintenant une liste de LigneAffichage
+                ObservableList<LigneAffichage> detailsPieces = FXCollections.observableArrayList();
                 
-                // Appel à ta méthode JDBC de la partie 1 pour lister les composants de la boîte
                 String piecesBoite = modele.listerPiecesBoite(numeroSaisi);
-                if (piecesBoite != null && !piecesBoite.isEmpty()) {
+                if (piecesBoite != null && !piecesBoite.isEmpty() && !piecesBoite.equals("Aucune piece trouvee.")) {
                     for (String ligne : piecesBoite.split("\n")) {
                         if (!ligne.trim().isEmpty()) {
-                            detailsPieces.add(ligne);
+                            
+                            // NOUVEAU : On découpe le texte généré par le SQL !
+                            String texteDescription = ligne;
+                            String urlImage = null;
+                            
+                            // Si le mot clé " | Image : " est présent, on coupe la ligne en deux
+                            if (ligne.contains(" | Image : ")) {
+                                String[] parties = ligne.split(" \\| Image : ");
+                                texteDescription = parties[0]; // La description de la pièce
+                                if (parties.length > 1) {
+                                    urlImage = parties[1];     // L'URL de l'image de la pièce
+                                }
+                            }
+                            
+                            detailsPieces.add(new LigneAffichage(texteDescription, urlImage));
                         }
                     }
                 }
 
-                // Ajout des figurines également pour enrichir l'affichage
                 String figurinesBoite = modele.listerFigurinesBoite(numeroSaisi);
-                if (figurinesBoite != null && !figurinesBoite.isEmpty()) {
+                if (figurinesBoite != null && !figurinesBoite.isEmpty() && !figurinesBoite.equals("Aucune figurine trouvee.")) {
                     for (String ligne : figurinesBoite.split("\n")) {
                         if (!ligne.trim().isEmpty()) {
-                            detailsPieces.add("[Figurine] " + ligne);
+                            // Les figurines n'ont pas encore d'URL d'image, donc on met "null"
+                            detailsPieces.add(new LigneAffichage("[Figurine] " + ligne, null));
                         }
                     }
+                }
+
+                if (detailsPieces.isEmpty()) {
+                    detailsPieces.add(new LigneAffichage("Cette boîte est vide (aucune pièce ni figurine).", null));
                 }
 
                 vue.getTableContenu().setItems(detailsPieces);
 
-            } catch (SQLException e) {
-                vue.afficherErreur("Erreur lors de la récupération des composants : " + e.getMessage());
+            } else {
+                vue.afficherErreur("Aucune boîte ne porte le numéro : " + numeroSaisi);
             }
-        } else {
-            vue.afficherErreur("Aucune boîte ne porte le numéro : " + numeroSaisi);
+        } catch (SQLException e) {
+            vue.afficherErreur("Erreur lors de la récupération des composants : " + e.getMessage());
         }
     }
 

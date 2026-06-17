@@ -29,7 +29,7 @@ public class CompositionBoiteControleurPerso {
     private List<ChoixFigurine> panierFigurines;
     private int totalElements = 0;
 
-    public CompositionBoiteControleurPerso(VueCompositionBoitePerso  vue, RequetesLEGO modele, Stage fenetrePrincipale) {
+    public CompositionBoiteControleurPerso(VueCompositionBoitePerso vue, RequetesLEGO modele, Stage fenetrePrincipale) {
         this.vue = vue;
         this.modele = modele;
         this.fenetrePrincipale = fenetrePrincipale;
@@ -168,28 +168,28 @@ public class CompositionBoiteControleurPerso {
             // 2. Insertion de la boîte principale dans la BD
             modele.ajouterBoite(moc);
 
-            // Note : L'insertion dans CONTENIRP et CONTENIRF nécessite qu'un CONTENU existe dans ta BD.
-            // Si ta base génère automatiquement un CONTENU via un Trigger (ou si tu dois le faire en Java), c'est ici.
-            
-            // 3. Ajout des pièces
+            // --- CRÉATION DE L'INVENTAIRE POUR PERMETTRE L'AJOUT DES PIÈCES ---
+            modele.creerContenuPourBoite(num);
+
+            // 3. Ajout des pièces liées au CONTENU
             for (ChoixPiece cp : panierPieces) {
                 modele.ajouterPieceDansBoite(num, cp.piece.getNumPiece(), cp.couleur.getIdCoul(), cp.qte, false);
             }
 
-            // 4. Ajout des figurines
+            // 4. Ajout des figurines liées au CONTENU
             for (ChoixFigurine cf : panierFigurines) {
                 modele.ajouterFigurineDansBoite(num, cf.figurine.getIdFig(), cf.qte);
             }
 
             vue.afficherMessage("Félicitations ! Votre MOC a été enregistrée avec succès.", Color.GREEN);
             
-            // On bloque le bouton pour éviter les doublons
+            // On bloque le bouton pour éviter les doublons accidentels
             vue.getBtnValiderBoite().setDisable(true);
 
         } catch (NumberFormatException e) {
             vue.afficherMessage("L'année doit être un nombre.", Color.RED);
         } catch (SQLException e) {
-            vue.afficherMessage("Erreur BD : Numéro déjà pris, ou la table CONTENU nécessite une insertion préalable.", Color.RED);
+            vue.afficherMessage("Erreur BD : Numéro déjà pris ou problème d'insertion.", Color.RED);
             e.printStackTrace();
         }
     }
