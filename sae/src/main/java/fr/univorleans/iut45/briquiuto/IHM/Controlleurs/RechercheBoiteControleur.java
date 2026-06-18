@@ -13,8 +13,13 @@ import javafx.collections.ObservableList;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+/**
+ * Contrôleur pour rechercher des boîtes contenant une pièce donnée.
+ * Charge la liste des pièces depuis le manager et affiche les résultats.
+ */
 public class RechercheBoiteControleur {
 
+    // Vue de recherche par pièce
     private VueRechercheBoiteParPiece vue;
     private RequetesLEGO modele;
     private Stage fenetrePrincipale;
@@ -26,6 +31,9 @@ public class RechercheBoiteControleur {
         this.initialiser();
     }
 
+    /**
+     * Initialise la liste des pièces et affecte les handlers des boutons.
+     */
     private void initialiser() {
         chargerLesPieces();
         this.vue.getBtnRechercher().setOnAction(e -> actionRechercherBoites());

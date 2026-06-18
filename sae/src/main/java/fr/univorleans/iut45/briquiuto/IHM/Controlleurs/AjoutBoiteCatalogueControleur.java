@@ -14,8 +14,13 @@ import javafx.stage.Stage;
 import java.sql.SQLException;
 import java.util.List;
 
+/**
+ * Contrôleur pour ajouter une boîte dans le catalogue officiel (admin).
+ * Charge thèmes/pieces, valide le formulaire et enregistre en base.
+ */
 public class AjoutBoiteCatalogueControleur {
 
+    // Vue du formulaire d'ajout catalogue (admin)
     private VueAjoutBoiteCatalogueAdmin vue;
     private RequetesLEGO modele;
     private Stage fenetrePrincipale;
@@ -27,14 +32,17 @@ public class AjoutBoiteCatalogueControleur {
         this.initialiser();
     }
 
+    /**
+     * Initialise la vue : remplissage des listes et handlers des boutons.
+     */
     private void initialiser() {
-        // 1. Charger les données dans les menus déroulants au démarrage
+        // 1. Charger les données dans les menus déroulants
         chargerDonneesInitiales();
 
         // 2. Définir les actions des boutons
         vue.getBtnValider().setOnAction(e -> actionEnregistrerBoite());
-        
-        // --- LA GESTION DE LA NAVIGATION EST ICI ---
+
+        // Navigation
         vue.getBtnRetour().setOnAction(e -> actionRetourAdmin());
         vue.getBtnHome().setOnAction(e -> actionRetourAccueil());
     }

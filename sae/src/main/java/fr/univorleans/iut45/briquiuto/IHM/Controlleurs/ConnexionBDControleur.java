@@ -38,6 +38,10 @@ public class ConnexionBDControleur {
      * Tente de se connecter à la base MariaDB fournie par l'IUT.
      * Si la connexion réussit, on charge les données et affiche l'accueil.
      */
+    /**
+     * Tente la connexion à la base puis initialise le modèle principal.
+     * Affiche un message d'erreur simple si la connexion échoue.
+     */
     private void validerConnexion() {
         String login = vue.getTxtLoginBD().getText().trim();
         String mdp = vue.getTxtMdpBD().getText().trim();

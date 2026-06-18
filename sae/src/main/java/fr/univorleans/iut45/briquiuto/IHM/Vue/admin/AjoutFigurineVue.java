@@ -11,6 +11,12 @@ import javafx.scene.text.FontWeight;
 
 public class AjoutFigurineVue extends VBox {
 
+    /**
+     * Vue pour insérer une nouvelle figurine au catalogue.
+     * Formulaire basique (id, nom, nb parties) et validation simple.
+     * Rédigé en style étudiant pour la lisibilité du projet.
+     */
+
     private Button btnHome;
     private Button btnRetour;
     private TextField txtIdFigurine;

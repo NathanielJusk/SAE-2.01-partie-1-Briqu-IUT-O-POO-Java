@@ -19,7 +19,7 @@ import javafx.stage.Stage;
  * Gère les actions simples des boutons (ouvrir catalogue, ajouter des pièces,
  * thèmes, boîtes, figurines, afficher les statistiques et se déconnecter).
  * Commentaires écrits de façon simple, comme par un étudiant de BUT1.
- * Pour l'utilisation des classes JavaFX, on s'est aidé de la Javadoc officielle
+ * Pour l'utilisation des classes JavaFX, je me suis aidé de la Javadoc officielle
  * (javafx.scene, javafx.stage) pour comprendre les méthodes de base.
  */
 public class AdminHomeControleur {
@@ -84,6 +84,7 @@ public class AdminHomeControleur {
 
         this.vue.getBtnDeconnexion().setOnAction(e -> deconnexion());
         this.vue.getBtnHome().setOnAction(e -> deconnexion());
+        // NOTE: Les handlers ci-dessus déconnectent et reviennent à l'accueil.
     }
 
     /**

@@ -18,6 +18,12 @@ import javafx.util.StringConverter;
 
 public class VueRechercheBoiteParPiece extends VBox {
 
+    /**
+     * Vue de recherche de boîtes contenant une pièce donnée.
+     * Propose un champ de recherche et affiche les boîtes correspondantes.
+     * Implémentation volontairement simple pour un projet étudiant.
+     */
+
     private Button btnHome;
     private Label lblPiece;
     private ComboBox<Piece> cbPiece;

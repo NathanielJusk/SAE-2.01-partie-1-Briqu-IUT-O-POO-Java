@@ -12,8 +12,14 @@ import javafx.collections.ObservableList;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+/**
+ * Contrôleur pour afficher des statistiques sur une boîte (admin).
+ * Recherche une boîte par numéro, affiche son image, thème et liste
+ * les pièces/figurines. Commentaires simples adaptés à un étudiant.
+ */
 public class StatistiquesBoiteControleur {
 
+    // Vue qui affiche les statistiques d'une boîte
     private VueStatistiquesBoite vue;
     private RequetesLEGO modele;
     private Stage fenetrePrincipale;
@@ -25,6 +31,9 @@ public class StatistiquesBoiteControleur {
         this.initialiser();
     }
 
+    /**
+     * Initialise les actions sur les boutons (recherche, retour, home).
+     */
     private void initialiser() {
         this.vue.getBtnRechercher().setOnAction(e -> actionAnalyserBoite());
         this.vue.getBtnRetour().setOnAction(e -> actionRetourAdmin());

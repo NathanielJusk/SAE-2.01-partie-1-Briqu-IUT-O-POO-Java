@@ -21,6 +21,12 @@ import javafx.util.StringConverter;
  */
 public class VueRechercheBoiteParThemeCollectionneur extends VBox {
 
+    /**
+     * Vue pour filtrer les boîtes par thème (espace collectionneur).
+     * Remplit une combobox de thèmes et met à jour la liste de résultats.
+     * Commentaire simple pour expliquer le rôle au lecteur.
+     */
+
     // Composants d'en-tête
     private Label lblTitre;
 

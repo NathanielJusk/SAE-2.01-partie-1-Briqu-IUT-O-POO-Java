@@ -12,8 +12,13 @@ import javafx.collections.ObservableList;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+/**
+ * Contrôleur pour rechercher des boîtes par thème (interface collectionneur).
+ * Charge les thèmes dans le combo et affiche les boîtes filtrées.
+ */
 public class RechercheBoiteThemeControleur {
 
+    // Vue qui permet la recherche par thème
     private VueRechercheBoiteParThemeCollectionneur vue;
     private RequetesLEGO modele;
     private Stage fenetrePrincipale;
@@ -25,6 +30,9 @@ public class RechercheBoiteThemeControleur {
         this.initialiser();
     }
 
+    /**
+     * Initialise la combo des thèmes et les actions des boutons.
+     */
     private void initialiser() {
         // 1. Charger la liste complète des thèmes LEGO dans le filtre déroulant
         try {

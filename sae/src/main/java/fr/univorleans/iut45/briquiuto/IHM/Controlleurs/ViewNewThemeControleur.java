@@ -11,8 +11,13 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
 
+/**
+ * Contrôleur pour l'ajout d'un nouveau thème (admin).
+ * Charge les thèmes parents et valide l'ajout simple d'un thème.
+ */
 public class ViewNewThemeControleur {
 
+    // Vue d'ajout de thème
     private ViewNewTheme vue;
     private RequetesLEGO modele;
     private Stage fenetrePrincipale;
@@ -24,6 +29,9 @@ public class ViewNewThemeControleur {
         this.initialiser();
     }
 
+    /**
+     * Initialise le combo des parents et les actions des boutons.
+     */
     private void initialiser() {
         chargerThemesParents();
 

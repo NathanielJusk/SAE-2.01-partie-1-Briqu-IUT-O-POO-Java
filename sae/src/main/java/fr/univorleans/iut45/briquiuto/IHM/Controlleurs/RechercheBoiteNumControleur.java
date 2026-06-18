@@ -19,8 +19,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Contrôleur pour rechercher une boîte par numéro et afficher détails + graphique.
+ * Affiche image, texte et répartition des couleurs sous forme de camembert.
+ */
 public class RechercheBoiteNumControleur {
 
+    // Vue de recherche par numéro
     private VueRechercheBoiteParNumero vue;
     private RequetesLEGO modele;
     private Stage fenetrePrincipale;
@@ -32,6 +37,9 @@ public class RechercheBoiteNumControleur {
         this.initialiser();
     }
 
+    /**
+     * Initialise les handlers (rechercher, retour, home).
+     */
     private void initialiser() {
         this.vue.getBtnRechercher().setOnAction(e -> actionRechercher());
         this.vue.getBtnRetour().setOnAction(e -> actionRetour());

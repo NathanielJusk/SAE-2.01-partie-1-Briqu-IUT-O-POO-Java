@@ -10,6 +10,12 @@ import javafx.scene.image.ImageView;
 
 public class ViewNewBoitePerso extends VBox {
 
+    /**
+     * Petite vue d'aide pour créer une nouvelle boîte personnalisée.
+     * Contient uniquement des contrôles basiques : titre, zone de saisie et boutons.
+    * Je me suis aidé de la documentation JavaFX pour choisir les contrôles.
+     */
+
     private TextField numTextField;
     private TextField nomTextField;
     private TextField anneeTextField;

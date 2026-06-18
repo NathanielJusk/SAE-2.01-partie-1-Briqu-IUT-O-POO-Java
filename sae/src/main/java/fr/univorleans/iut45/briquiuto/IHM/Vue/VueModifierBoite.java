@@ -15,6 +15,14 @@ import javafx.scene.text.FontWeight;
 
 public class VueModifierBoite extends VBox {
 
+    /**
+     * Vue pour modifier une boîte existante.
+     * Interface simple avec 3 états : recherche, édition, erreur.
+     * Commentaires simples écrits comme par un étudiant de BUT1.
+    * Pour les parties JavaFX (layouts, visibilité, etc.) je me suis
+    * aidé de la Javadoc officielle de JavaFX pour comprendre les API.
+     */
+
     // En-tête
     private Label lblTitre;
     private Button btnHome;

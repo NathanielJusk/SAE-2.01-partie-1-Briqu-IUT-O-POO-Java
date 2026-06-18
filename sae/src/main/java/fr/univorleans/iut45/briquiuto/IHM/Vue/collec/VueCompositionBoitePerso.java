@@ -16,6 +16,12 @@ import javafx.scene.text.FontWeight;
 
 public class VueCompositionBoitePerso extends VBox {
 
+    /**
+     * Vue pour composer une boîte personnalisée (MOC).
+     * Permet de sélectionner pièces/figurines, voir le panier et valider.
+     * Conçue de manière simple pour être comprise par un étudiant BUT1.
+     */
+
     private Button btnHome;
     private Button btnRetour; // Ajout du bouton
     

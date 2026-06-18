@@ -19,8 +19,13 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
 
+/**
+ * Contrôleur pour composer une boîte personnalisée (panier de pièces/figurines).
+ * Gère un panier temporaire, l'ajout d'éléments et l'enregistrement final.
+ */
 public class CompositionBoiteControleurPerso {
 
+    // Vue de composition de boîte perso
     private VueCompositionBoitePerso vue;
     private RequetesLEGO modele;
     private Stage fenetrePrincipale;

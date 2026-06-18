@@ -14,6 +14,12 @@ import javafx.scene.text.FontWeight;
 
 public class CollectionneurHomeVue extends VBox {
 
+    /**
+     * Vue principale pour l'espace collectionneur.
+     * Contient les boutons de navigation vers recherche, composition et MOCs.
+     * Mise en page simple et adaptée pour un projet de première année.
+     */
+
     private Button btnRechercheParPiece;
     private Button btnExplorerParTheme;
     private Button btnDetailsBoite;

@@ -16,8 +16,14 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 
+/**
+ * Contrôleur pour la liste des MOCs (boîtes personnalisées) d'un collectionneur.
+ * Charge les boîtes dont le numéro commence par "PERSO-" et permet une
+ * recherche simple via un champ texte. Rédaction simple adaptée à BUT1.
+ */
 public class MesMOCsControleur {
 
+    // Vue qui affiche les MOCs
     private VueMesMOCs vue;
     private RequetesLEGO modele;
     private Stage fenetrePrincipale;
@@ -30,8 +36,11 @@ public class MesMOCsControleur {
         this.initialiser();
     }
 
+    /**
+     * Initialise la vue : navigation et chargement des boîtes personnalisées.
+     */
     private void initialiser() {
-        // 1. Bouton Retour (Flèche rouge) -> Retour au menu du collectionneur
+        // 1. Bouton Retour (flèche) -> Retour au menu du collectionneur
         vue.getBtnRetour().setOnAction(e -> {
             CollectionneurHomeVue vueHome = new CollectionneurHomeVue();
             new CollectionneurHomeControleur(vueHome, modele, fenetrePrincipale);

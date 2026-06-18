@@ -12,6 +12,11 @@ import javafx.scene.text.FontWeight;
 
 public class ViewNewTheme extends VBox {
 
+    /**
+     * Petite vue d'ajout de thème. Contient un champ nom et un bouton valider.
+    * Simple et adaptée à un rendu étudiant; je me suis aidé de la documentation JavaFX.
+     */
+
     private Button btnHome;
     private Button btnRetour;
     private TextField txtNumero;

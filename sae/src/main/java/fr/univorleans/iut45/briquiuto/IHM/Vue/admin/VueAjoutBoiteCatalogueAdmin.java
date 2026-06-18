@@ -21,6 +21,12 @@ import java.util.List;
 
 public class VueAjoutBoiteCatalogueAdmin extends VBox {
 
+    /**
+     * Vue pour ajouter une boîte au catalogue global (espace admin).
+     * Permet de renseigner numéro, nom, année, thème et contenu (pièces).
+     * Commentaire clair et concis pour un rendu de première année.
+     */
+
     // En-tête et Navigation
     private Button btnHome;
     private Button btnRetour; // LE FAMEUX BOUTON RETOUR

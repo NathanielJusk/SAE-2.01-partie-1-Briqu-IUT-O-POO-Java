@@ -15,6 +15,12 @@ import javafx.scene.text.FontWeight;
 
 public class VueRechercheBoiteParNumero extends VBox {
 
+    /**
+     * Vue pour rechercher une boîte par son numéro (ex: 75192).
+     * Affiche les résultats dans une liste et gère les cas d'erreur simples.
+     * Écrite de façon claire pour un rendu de projet de première année.
+     */
+
     private Button btnHome;
     private Button btnRetour;
     private TextField txtNumeroBoite;

@@ -13,8 +13,13 @@ import javafx.stage.Stage;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 
+/**
+ * Contrôleur pour ajouter une boîte personnalisée (vue collectionneur).
+ * Valide le formulaire, crée une `BoiteComposee` et envoie au modèle.
+ */
 public class AjoutBoiteControleurPerso {
 
+    // Vue du formulaire de nouvelle boîte perso
     private ViewNewBoitePerso vue;
     private RequetesLEGO modele;
     private Stage fenetrePrincipale;
@@ -26,6 +31,9 @@ public class AjoutBoiteControleurPerso {
         this.initialiser();
     }
 
+    /**
+     * Fixe les actions pour valider la création ou retourner à l'accueil.
+     */
     public void initialiser() {
         vue.getValiderButton().setOnAction(event -> handleValiderBoite());
         vue.getHomeButton().setOnAction(event -> actionRetourAdmin());

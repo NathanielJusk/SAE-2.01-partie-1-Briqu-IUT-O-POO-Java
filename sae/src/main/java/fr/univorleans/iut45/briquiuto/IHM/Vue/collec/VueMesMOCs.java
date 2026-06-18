@@ -17,6 +17,11 @@ import javafx.scene.text.FontWeight;
 
 public class VueMesMOCs extends VBox {
 
+    /**
+     * Vue listant les MOCs (boîtes personnalisées) de l'utilisateur.
+     * Simple liste + boutons d'édition/suppression. Idéale pour un TP.
+     */
+
     private Button btnHome;
     private Button btnRetour; // <-- Le bouton retour est déclaré ici
     private TextField txtRecherche;

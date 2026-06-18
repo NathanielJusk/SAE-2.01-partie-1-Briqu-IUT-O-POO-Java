@@ -12,8 +12,14 @@ import fr.univorleans.iut45.briquiuto.IHM.Controlleurs.*;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+/**
+ * Contrôleur principal pour le collectionneur.
+ * Dirige vers les sous-vues : recherche par pièce, thème, numéro,
+ * composition de boîte et liste des MOCs.
+ */
 public class CollectionneurHomeControleur {
 
+    // Vue principale pour le collectionneur
     private CollectionneurHomeVue vue;
     private RequetesLEGO modele;
     private Stage fenetrePrincipale;
@@ -25,6 +31,9 @@ public class CollectionneurHomeControleur {
         this.initialiser();
     }
 
+    /**
+     * Initialise les handlers des boutons du menu collectionneur.
+     */
     private void initialiser() {
         // 1. Bouton "Rechercher par pièce" (Lien vers la vue de Mourad)
         this.vue.getBtnRechercheParPiece().setOnAction(e -> ouvrirRechercheBoite());

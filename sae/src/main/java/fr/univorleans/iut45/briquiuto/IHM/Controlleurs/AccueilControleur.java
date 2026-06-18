@@ -11,7 +11,7 @@ import javafx.stage.Stage;
  * Contrôleur de la vue d'accueil de l'application.
  * Gère les boutons pour accéder à la partie collection, à l'administration
  * et pour quitter l'application. Commentaires rédigés simplement par un
- * étudiant de BUT1. Pour JavaFX, on a consulté la Javadoc officielle.
+ * étudiant de BUT1. Pour JavaFX, je me suis aidé de la Javadoc officielle.
  */
 public class AccueilControleur {
 

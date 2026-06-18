@@ -12,6 +12,12 @@ import javafx.scene.text.FontWeight;
 
 public class AjoutPieceVueAdmin extends VBox {
 
+    /**
+     * Vue pour ajouter une nouvelle pièce/brique dans la base.
+     * Contient les champs de saisie (id, nom, image) et un bouton Valider.
+     * Commentaire concis rédigé comme par un étudiant (BUT1).
+     */
+
     private Button btnHome;
     private Button btnRetour;
     private TextField txtNumeroPiece;

@@ -15,6 +15,12 @@ import javafx.scene.text.FontWeight;
 
 public class VueStatistiquesBoite extends VBox {
 
+    /**
+     * Vue affichant des statistiques sur une boîte choisie (camembert, histogramme).
+     * Utilise les composants JavaFX Chart pour afficher des données agrégées.
+    * Je me suis aidé de la documentation JavaFX (charts) pour ces choix d'API.
+     */
+
     private Button btnHome;
     private Button btnRetour;
     private TextField txtNumBoite;
