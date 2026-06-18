@@ -40,7 +40,7 @@ public class AjoutFigurineVue extends VBox {
             homeView.setFitWidth(35); homeView.setFitHeight(35); homeView.setPreserveRatio(true);
             this.btnHome.setGraphic(homeView);
             this.btnHome.setStyle("-fx-background-color: transparent; -fx-cursor: hand;");
-        } catch (Exception e) { this.btnHome.setText("🏠"); }
+        } catch (Exception e) { this.btnHome.setText("accueil"); }
 
         Label lblTitre = new Label("Ajouter une nouvelle figurine");
         lblTitre.setFont(Font.font("Arial", FontWeight.BOLD, 24));
@@ -93,7 +93,7 @@ public class AjoutFigurineVue extends VBox {
         this.btnRetour = new Button();
         try {
             ImageView retourView = new ImageView(new Image(getClass().getResourceAsStream("/img/logoRetour.png")));
-            retourView.setFitWidth(50); retourView.setFitHeight(50); retourView.setPreserveRatio(true);
+            retourView.setFitWidth(90); retourView.setFitHeight(90); retourView.setPreserveRatio(true);
             this.btnRetour.setGraphic(retourView);
             this.btnRetour.setStyle("-fx-background-color: transparent; -fx-cursor: hand;");
         } catch (Exception e) { 
@@ -107,7 +107,7 @@ public class AjoutFigurineVue extends VBox {
     }
 
     public Button getBtnHome() { return btnHome; }
-    public Button getBtnRetour() { return btnRetour; } // Pour le lier dans le contrôleur !
+    public Button getBtnRetour() { return btnRetour; } 
     public TextField getTxtIdFigurine() { return txtIdFigurine; }
     public TextField getTxtNomFigurine() { return txtNomFigurine; }
     public TextField getTxtNbParties() { return txtNbParties; }

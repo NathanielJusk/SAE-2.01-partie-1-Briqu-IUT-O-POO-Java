@@ -95,8 +95,7 @@ public class AjoutPieceVueAdmin extends VBox {
         this.btnRetour = new Button();
         try {
             ImageView retourView = new ImageView(new Image(getClass().getResourceAsStream("/img/logoRetour.png")));
-            retourView.setFitWidth(50); retourView.setFitHeight(50); retourView.setPreserveRatio(true);
-            this.btnRetour.setGraphic(retourView);
+            retourView.setFitWidth(90); retourView.setFitHeight(90); retourView.setPreserveRatio(true);            this.btnRetour.setGraphic(retourView);
             this.btnRetour.setStyle("-fx-background-color: transparent; -fx-cursor: hand;");
         } catch (Exception e) { 
             this.btnRetour.setText("⬅ Retour"); 

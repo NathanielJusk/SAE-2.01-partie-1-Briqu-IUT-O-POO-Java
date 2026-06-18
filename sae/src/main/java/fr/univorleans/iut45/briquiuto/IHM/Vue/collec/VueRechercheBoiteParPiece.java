@@ -56,7 +56,7 @@ public class VueRechercheBoiteParPiece extends VBox {
             this.btnHome.setGraphic(homeImageView);
             this.btnHome.setStyle("-fx-background-color: transparent; -fx-cursor: hand;");
         } catch (Exception e) {
-            this.btnHome.setText("🏠");
+            this.btnHome.setText("acceuil");
         }
 
         Label lblTitre = new Label("Recherche de Boîte par Pièce");
@@ -154,8 +154,8 @@ public class VueRechercheBoiteParPiece extends VBox {
         this.btnRetour = new Button();
         try {
             ImageView retourImageView = new ImageView(new Image(getClass().getResourceAsStream("/img/logoRetour.png")));
-            retourImageView.setFitWidth(50);
-            retourImageView.setFitHeight(50);
+            retourImageView.setFitWidth(90);
+            retourImageView.setFitHeight(90);
             retourImageView.setPreserveRatio(true);
             this.btnRetour.setGraphic(retourImageView);
             this.btnRetour.setStyle("-fx-background-color: transparent; -fx-cursor: hand;");

@@ -126,8 +126,8 @@ public class VueRechercheBoiteParThemeCollectionneur extends VBox {
         try {
             // Chemin relatif standard utilisé dans tes autres vues
             ImageView retourImageView = new ImageView(new Image(getClass().getResourceAsStream("/img/logoRetour.png")));
-            retourImageView.setFitWidth(50);
-            retourImageView.setFitHeight(50); 
+            retourImageView.setFitWidth(90);
+            retourImageView.setFitHeight(90);
             retourImageView.setPreserveRatio(true);
             this.btnRetour.setGraphic(retourImageView);
             this.btnRetour.setStyle("-fx-background-color: transparent; -fx-cursor: hand;");

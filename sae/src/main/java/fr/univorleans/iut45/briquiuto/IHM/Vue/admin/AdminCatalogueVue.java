@@ -45,7 +45,7 @@ public class AdminCatalogueVue extends VBox {
             homeImageView.setFitWidth(35); homeImageView.setFitHeight(35); homeImageView.setPreserveRatio(true);
             this.btnHome.setGraphic(homeImageView);
             this.btnHome.setStyle("-fx-background-color: transparent; -fx-cursor: hand;");
-        } catch (Exception e) { this.btnHome.setText("🏠"); }
+        } catch (Exception e) { this.btnHome.setText("accueil"); }
 
         Label lblTitre = new Label("Catalogue Global (Mode Administrateur)");
         lblTitre.setFont(Font.font("Arial", FontWeight.BOLD, 24));
@@ -109,7 +109,7 @@ public class AdminCatalogueVue extends VBox {
         this.btnRetour = new Button();
         try {
             ImageView retourView = new ImageView(new Image(getClass().getResourceAsStream("/img/logoRetour.png")));
-            retourView.setFitWidth(50); retourView.setFitHeight(50); retourView.setPreserveRatio(true);
+            retourView.setFitWidth(90); retourView.setFitHeight(90); retourView.setPreserveRatio(true);
             this.btnRetour.setGraphic(retourView);
             this.btnRetour.setStyle("-fx-background-color: transparent; -fx-cursor: hand;");
         } catch (Exception e) { 

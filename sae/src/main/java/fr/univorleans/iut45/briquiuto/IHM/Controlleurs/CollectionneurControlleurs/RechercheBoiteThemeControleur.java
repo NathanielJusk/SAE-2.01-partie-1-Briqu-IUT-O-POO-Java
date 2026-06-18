@@ -1,4 +1,4 @@
-package fr.univorleans.iut45.briquiuto.IHM.Controlleurs;
+package fr.univorleans.iut45.briquiuto.IHM.Controlleurs.CollectionneurControlleurs;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -76,6 +76,6 @@ public class RechercheBoiteThemeControleur {
     private void actionRetourCollectionneur() {
         CollectionneurHomeVue vueCollec = new CollectionneurHomeVue();
         new CollectionneurHomeControleur(vueCollec, modele, fenetrePrincipale);
-        fenetrePrincipale.setScene(new Scene(vueCollec, 1000, 700)); // Mis à 1000x700 pour la cohérence
-    }
+        fenetrePrincipale.setScene(new Scene(vueCollec, 1000, 700)); 
+}
 }

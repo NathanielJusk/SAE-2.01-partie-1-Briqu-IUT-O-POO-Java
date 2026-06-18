@@ -1,7 +1,8 @@
-package fr.univorleans.iut45.briquiuto.IHM.Controlleurs;
+package fr.univorleans.iut45.briquiuto.IHM.Controlleurs.CollectionneurControlleurs;
 
 import java.sql.SQLException;
 
+import fr.univorleans.iut45.briquiuto.IHM.Controlleurs.adminControlleurs.AdminHomeControleur;
 import fr.univorleans.iut45.briquiuto.IHM.Vue.admin.AdminHomeVue;
 import fr.univorleans.iut45.briquiuto.IHM.Vue.collec.ViewNewBoitePerso;
 import fr.univorleans.iut45.briquiuto.JDBC.RequetesLEGO;

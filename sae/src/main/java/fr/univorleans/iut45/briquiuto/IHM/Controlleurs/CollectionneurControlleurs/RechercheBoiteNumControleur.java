@@ -1,9 +1,10 @@
-package fr.univorleans.iut45.briquiuto.IHM.Controlleurs;
+package fr.univorleans.iut45.briquiuto.IHM.Controlleurs.CollectionneurControlleurs;
 
 import fr.univorleans.iut45.briquiuto.JDBC.RequetesLEGO;
 import fr.univorleans.iut45.briquiuto.modele.Boite;
 import fr.univorleans.iut45.briquiuto.IHM.Vue.collec.CollectionneurHomeVue;
 import fr.univorleans.iut45.briquiuto.IHM.Vue.collec.VueRechercheBoiteParNumero;
+import fr.univorleans.iut45.briquiuto.IHM.Controlleurs.AccueilControleur.AccueilControleur;
 import fr.univorleans.iut45.briquiuto.IHM.Vue.AccueilVue;
 
 import javafx.collections.FXCollections;

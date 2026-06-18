@@ -1,4 +1,4 @@
-package fr.univorleans.iut45.briquiuto.IHM.Controlleurs;
+package fr.univorleans.iut45.briquiuto.IHM.Controlleurs.CollectionneurControlleurs;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -10,6 +10,7 @@ import fr.univorleans.iut45.briquiuto.modele.Couleur;
 import fr.univorleans.iut45.briquiuto.modele.Figurine;
 import fr.univorleans.iut45.briquiuto.modele.Piece;
 import fr.univorleans.iut45.briquiuto.modele.Theme;
+import fr.univorleans.iut45.briquiuto.IHM.Controlleurs.AccueilControleur.AccueilControleur;
 import fr.univorleans.iut45.briquiuto.IHM.Vue.AccueilVue;
 import fr.univorleans.iut45.briquiuto.IHM.Vue.collec.CollectionneurHomeVue;
 import fr.univorleans.iut45.briquiuto.IHM.Vue.collec.VueCompositionBoitePerso;

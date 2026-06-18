@@ -50,7 +50,7 @@ public class VueRechercheBoiteParNumero extends VBox {
             homeImageView.setFitWidth(35); homeImageView.setFitHeight(35); homeImageView.setPreserveRatio(true);
             this.btnHome.setGraphic(homeImageView);
             this.btnHome.setStyle("-fx-background-color: transparent; -fx-cursor: hand;");
-        } catch (Exception e) { this.btnHome.setText("🏠"); }
+        } catch (Exception e) { this.btnHome.setText("acceuil"); }
 
         Label lblTitre = new Label("Recherche de Boîte (Collectionneur)");
         lblTitre.setFont(Font.font("Arial", FontWeight.BOLD, 24));
@@ -130,8 +130,8 @@ public class VueRechercheBoiteParNumero extends VBox {
         this.btnRetour = new Button();
         try {
             ImageView retourImageView = new ImageView(new Image(getClass().getResourceAsStream("/img/logoRetour.png")));
-            retourImageView.setFitWidth(50);
-            retourImageView.setFitHeight(50); 
+            retourImageView.setFitWidth(90);
+            retourImageView.setFitHeight(90); 
             retourImageView.setPreserveRatio(true);
             this.btnRetour.setGraphic(retourImageView);
             this.btnRetour.setStyle("-fx-background-color: transparent; -fx-cursor: hand;");

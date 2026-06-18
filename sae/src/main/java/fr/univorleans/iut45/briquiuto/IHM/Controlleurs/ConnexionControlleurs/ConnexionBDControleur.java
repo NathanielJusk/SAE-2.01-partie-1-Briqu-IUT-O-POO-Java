@@ -1,10 +1,11 @@
-package fr.univorleans.iut45.briquiuto.IHM.Controlleurs;
+package fr.univorleans.iut45.briquiuto.IHM.Controlleurs.ConnexionControlleurs;
 
 import java.sql.SQLException;
 import fr.univorleans.iut45.briquiuto.JDBC.ConnexionBD;
 import fr.univorleans.iut45.briquiuto.JDBC.RequetesLEGO;
 import fr.univorleans.iut45.briquiuto.modele.BriqueCollectionManager;
 import fr.univorleans.iut45.briquiuto.IHM.Vue.Connexion.ConnexionBDVue;
+import fr.univorleans.iut45.briquiuto.IHM.Controlleurs.AccueilControleur.AccueilControleur;
 import fr.univorleans.iut45.briquiuto.IHM.Vue.AccueilVue;
 import javafx.scene.Scene;
 import javafx.stage.Stage;

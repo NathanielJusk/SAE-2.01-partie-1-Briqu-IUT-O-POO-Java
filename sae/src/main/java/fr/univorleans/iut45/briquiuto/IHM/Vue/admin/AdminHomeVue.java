@@ -25,7 +25,7 @@ public class AdminHomeVue extends VBox {
     private Button btnAjoutBoite; 
     private Button btnAjoutFigurine; 
     private Button btnCatalogue; 
-    private Button btnStatsAdmin; // <- NOUVEAU BOUTON AJOUTÉ
+    private Button btnStatsAdmin; 
     private Button btnDeconnexion;
     private Button btnHome;
 
@@ -46,7 +46,7 @@ public class AdminHomeVue extends VBox {
             this.btnHome.setGraphic(homeImageView);
             this.btnHome.setStyle("-fx-background-color: transparent; -fx-cursor: hand;");
         } catch (Exception e) {
-            this.btnHome.setText("🏠");
+            this.btnHome.setText("accueil");
         }
 
         Label lblTitre = new Label("Menu Principal - Administrateur");
@@ -64,35 +64,39 @@ public class AdminHomeVue extends VBox {
         conteneurBoutons.setAlignment(Pos.CENTER);
         conteneurBoutons.setPadding(new Insets(10, 0, 0, 0));
 
-        String styleBoutonBleu = "-fx-background-color: #0055BF; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-padding: 12 30; -fx-background-radius: 8; -fx-cursor: hand;";
-
+        String styleBoutonBleu = "-fx-background-color: #0055A4; -fx-border-color: #003D7A; -fx-border-width: 0 0 4 0; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-padding: 12 30; -fx-background-radius: 8; -fx-border-radius: 8; -fx-cursor: hand;";
+        String styleBoutonRouge = "-fx-background-color: #DA291C; -fx-border-color: #A31E14; -fx-border-width: 0 0 4 0; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-padding: 12 30; -fx-background-radius: 8; -fx-border-radius: 8; -fx-cursor: hand;";
+        String styleBoutonVert = "-fx-background-color: #00852B; -fx-border-color: #005C1E; -fx-border-width: 0 0 4 0; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-padding: 12 30; -fx-background-radius: 8; -fx-border-radius: 8; -fx-cursor: hand;";
+        String styleBoutonNoir = "-fx-background-color: #27251F; -fx-border-color: #11100E; -fx-border-width: 0 0 4 0; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-padding: 12 30; -fx-background-radius: 8; -fx-border-radius: 8; -fx-cursor: hand;";
+        String styleBoutonGris = "-fx-background-color: #6C6E68; -fx-border-color: #4A4B47; -fx-border-width: 0 0 4 0; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-padding: 12 30; -fx-background-radius: 8; -fx-border-radius: 8; -fx-cursor: hand;";
+        String styleBoutonOrange = "-fx-background-color: #FF6900; -fx-border-color: #C25000; -fx-border-width: 0 0 4 0; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-padding: 12 30; -fx-background-radius: 8; -fx-border-radius: 8; -fx-cursor: hand;";        
+        
         btnAjoutPiece = new Button("Insérer une nouvelle Pièce");
         btnAjoutPiece.setStyle(styleBoutonBleu);
         btnAjoutPiece.setPrefWidth(350);
 
         btnAjoutTheme = new Button("Créer un nouveau Thème");
-        btnAjoutTheme.setStyle(styleBoutonBleu);
+        btnAjoutTheme.setStyle(styleBoutonVert);
         btnAjoutTheme.setPrefWidth(350);
 
         btnAjoutBoite = new Button("Ajouter une Boîte au Catalogue");
-        btnAjoutBoite.setStyle(styleBoutonBleu);
+        btnAjoutBoite.setStyle(styleBoutonRouge);
         btnAjoutBoite.setPrefWidth(350);
 
         btnAjoutFigurine = new Button("Insérer une nouvelle Figurine");
-        btnAjoutFigurine.setStyle(styleBoutonBleu);
+        btnAjoutFigurine.setStyle(styleBoutonNoir);
         btnAjoutFigurine.setPrefWidth(350);
 
         btnCatalogue = new Button("Consulter le catalogue officiel");
-        btnCatalogue.setStyle(styleBoutonBleu);
+        btnCatalogue.setStyle(styleBoutonGris);
         btnCatalogue.setPrefWidth(350);
 
-        // CONFIGURATION DU NOUVEAU BOUTON STATISTIQUES (Couleur Bleu LEGO standard)
         btnStatsAdmin = new Button("Afficher les Statistiques d'une Boîte");
-        btnStatsAdmin.setStyle(styleBoutonBleu);
+        btnStatsAdmin.setStyle(styleBoutonOrange);
         btnStatsAdmin.setPrefWidth(350);
 
         btnDeconnexion = new Button("Déconnexion");
-        btnDeconnexion.setStyle("-fx-background-color: #E3000B; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 10 20; -fx-background-radius: 5; -fx-cursor: hand;");
+        btnDeconnexion.setStyle(styleBoutonRouge);
         VBox.setMargin(btnDeconnexion, new Insets(30, 0, 0, 0));
 
         // Ajout de tous les boutons au panneau central vertical
@@ -102,7 +106,7 @@ public class AdminHomeVue extends VBox {
                 btnAjoutBoite, 
                 btnAjoutFigurine,
                 btnCatalogue, 
-                btnStatsAdmin, // <- Inséré ici dans l'affichage
+                btnStatsAdmin, 
                 btnDeconnexion
         );
 
@@ -115,7 +119,7 @@ public class AdminHomeVue extends VBox {
     public Button getBtnAjoutBoite() { return btnAjoutBoite; }
     public Button getBtnFigurines() { return btnAjoutFigurine; }
     public Button getBtnCatalogue() { return btnCatalogue; }
-    public Button getBtnStatsAdmin() { return btnStatsAdmin; } // <- Getter pour capter le clic
+    public Button getBtnStatsAdmin() { return btnStatsAdmin; } 
     public Button getBtnDeconnexion() { return btnDeconnexion; }
     public Button getBtnHome() { return btnHome; }
 }

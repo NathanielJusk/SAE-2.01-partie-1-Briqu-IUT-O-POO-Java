@@ -1,4 +1,4 @@
-package fr.univorleans.iut45.briquiuto.IHM.Controlleurs;
+package fr.univorleans.iut45.briquiuto.IHM.Controlleurs.CollectionneurControlleurs;
 
 import fr.univorleans.iut45.briquiuto.IHM.Vue.collec.CollectionneurHomeVue;
 import fr.univorleans.iut45.briquiuto.IHM.Vue.collec.VueCompositionBoitePerso;
@@ -9,6 +9,7 @@ import fr.univorleans.iut45.briquiuto.IHM.Vue.collec.VueRechercheBoiteParThemeCo
 import fr.univorleans.iut45.briquiuto.JDBC.RequetesLEGO;
 import fr.univorleans.iut45.briquiuto.IHM.Vue.AccueilVue;
 import fr.univorleans.iut45.briquiuto.IHM.Controlleurs.*;
+import fr.univorleans.iut45.briquiuto.IHM.Controlleurs.AccueilControleur.AccueilControleur;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
@@ -56,14 +57,14 @@ public class CollectionneurHomeControleur {
         this.vue.getBtnComposerBoite().setOnAction(e -> {
             VueCompositionBoitePerso vueCompo = new VueCompositionBoitePerso();
             new CompositionBoiteControleurPerso(vueCompo, modele, fenetrePrincipale);
-            fenetrePrincipale.setScene(new Scene(vueCompo, 1000, 700)); // Standardisé à 1000x700
+            fenetrePrincipale.setScene(new Scene(vueCompo, 1000, 900)); // Standardisé à 1000x700
         });
 
         // 5. Bouton "Mes MOCs"
         this.vue.getBtnMesMOCs().setOnAction(e -> {
             VueMesMOCs vueMOCs = new VueMesMOCs();
             new MesMOCsControleur(vueMOCs, modele, fenetrePrincipale);
-            fenetrePrincipale.setScene(new Scene(vueMOCs, 1000, 700)); // Standardisé à 1000x700
+            fenetrePrincipale.setScene(new Scene(vueMOCs, 1000, 900)); 
         });
 
         // 6. Actions de retour et déconnexion

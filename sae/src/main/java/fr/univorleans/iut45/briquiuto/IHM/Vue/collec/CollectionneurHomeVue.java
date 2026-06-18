@@ -45,7 +45,7 @@ public class CollectionneurHomeVue extends VBox {
             this.btnHome.setGraphic(homeImageView);
             this.btnHome.setStyle("-fx-background-color: transparent; -fx-cursor: hand;");
         } catch (Exception e) {
-            this.btnHome.setText("🏠");
+            this.btnHome.setText("acceuil");
         }
 
         Label lblTitre = new Label("Espace Collectionneur");
@@ -64,31 +64,36 @@ public class CollectionneurHomeVue extends VBox {
         conteneurBoutons.setAlignment(Pos.CENTER);
         conteneurBoutons.setPadding(new Insets(20, 0, 0, 0));
 
-        String styleBoutonBleu = "-fx-background-color: #0055BF; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-padding: 12 30; -fx-background-radius: 8; -fx-cursor: hand;";
-
+        String styleBoutonBleu = "-fx-background-color: #0055A4; -fx-border-color: #003D7A; -fx-border-width: 0 0 4 0; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-padding: 12 30; -fx-background-radius: 8; -fx-border-radius: 8; -fx-cursor: hand;";
+        String styleBoutonRouge = "-fx-background-color: #DA291C; -fx-border-color: #A31E14; -fx-border-width: 0 0 4 0; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-padding: 12 30; -fx-background-radius: 8; -fx-border-radius: 8; -fx-cursor: hand;";
+        String styleBoutonVert = "-fx-background-color: #00852B; -fx-border-color: #005C1E; -fx-border-width: 0 0 4 0; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-padding: 12 30; -fx-background-radius: 8; -fx-border-radius: 8; -fx-cursor: hand;";
+        String styleBoutonNoir = "-fx-background-color: #27251F; -fx-border-color: #11100E; -fx-border-width: 0 0 4 0; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-padding: 12 30; -fx-background-radius: 8; -fx-border-radius: 8; -fx-cursor: hand;";
+        String styleBoutonGris = "-fx-background-color: #6C6E68; -fx-border-color: #4A4B47; -fx-border-width: 0 0 4 0; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-padding: 12 30; -fx-background-radius: 8; -fx-border-radius: 8; -fx-cursor: hand;";
+        String styleBoutonOrange = "-fx-background-color: #FF6900; -fx-border-color: #C25000; -fx-border-width: 0 0 4 0; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-padding: 12 30; -fx-background-radius: 8; -fx-border-radius: 8; -fx-cursor: hand;";        
+       
         btnRechercheParPiece = new Button("Rechercher une boîte par pièce");
         btnRechercheParPiece.setStyle(styleBoutonBleu);
         btnRechercheParPiece.setPrefWidth(350);
 
         btnExplorerParTheme = new Button("Explorer le catalogue par Thème");
-        btnExplorerParTheme.setStyle(styleBoutonBleu);
+        btnExplorerParTheme.setStyle(styleBoutonVert);
         btnExplorerParTheme.setPrefWidth(350);
 
         btnDetailsBoite = new Button("Statistiques et Détails d'une Boîte");
-        btnDetailsBoite.setStyle(styleBoutonBleu);
+        btnDetailsBoite.setStyle(styleBoutonNoir);
         btnDetailsBoite.setPrefWidth(350);
 
         btnComposerBoite = new Button("Composer une boîte personnalisée (MOC)");
-        btnComposerBoite.setStyle("-fx-background-color: #287F46; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-padding: 12 30; -fx-background-radius: 8; -fx-cursor: hand;");
+        btnComposerBoite.setStyle(styleBoutonGris);
         btnComposerBoite.setPrefWidth(350);
 
-        // --- NOUVEAU BOUTON MOC ---
+    
         btnMesMOCs = new Button("Consulter mes Créations (MOCs)");
-        btnMesMOCs.setStyle("-fx-background-color: #F6D304; -fx-text-fill: black; -fx-font-weight: bold; -fx-font-size: 14px; -fx-padding: 12 30; -fx-background-radius: 8; -fx-cursor: hand;");
+        btnMesMOCs.setStyle(styleBoutonOrange);
         btnMesMOCs.setPrefWidth(350);
 
         btnDeconnexion = new Button("Déconnexion");
-        btnDeconnexion.setStyle("-fx-background-color: #E3000B; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 10 20; -fx-background-radius: 5; -fx-cursor: hand;");
+        btnDeconnexion.setStyle(styleBoutonRouge);
         VBox.setMargin(btnDeconnexion, new Insets(30, 0, 0, 0));
 
         conteneurBoutons.getChildren().addAll(btnRechercheParPiece, btnExplorerParTheme, btnDetailsBoite, btnComposerBoite, btnMesMOCs, btnDeconnexion);

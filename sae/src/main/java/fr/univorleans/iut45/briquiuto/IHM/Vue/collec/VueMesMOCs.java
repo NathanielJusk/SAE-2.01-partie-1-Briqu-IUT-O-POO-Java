@@ -42,7 +42,7 @@ public class VueMesMOCs extends VBox {
             homeView.setFitWidth(30); homeView.setFitHeight(30); homeView.setPreserveRatio(true);
             this.btnHome.setGraphic(homeView);
             this.btnHome.setStyle("-fx-background-color: transparent; -fx-cursor: hand;");
-        } catch (Exception e) { this.btnHome.setText("🏠"); }
+        } catch (Exception e) { this.btnHome.setText("acceuil"); }
 
         Label lblTitre = new Label("Mes Créations (MOCs)");
         lblTitre.setFont(Font.font("Arial", FontWeight.BOLD, 24));
@@ -93,9 +93,7 @@ public class VueMesMOCs extends VBox {
         this.btnRetour = new Button();
         try {
             ImageView retourImageView = new ImageView(new Image(getClass().getResourceAsStream("/img/logoRetour.png")));
-            retourImageView.setFitWidth(50);
-            retourImageView.setFitHeight(50); 
-            retourImageView.setPreserveRatio(true);
+            retourImageView.setFitWidth(90); retourImageView.setFitHeight(90); retourImageView.setPreserveRatio(true);
             this.btnRetour.setGraphic(retourImageView);
             this.btnRetour.setStyle("-fx-background-color: transparent; -fx-cursor: hand;");
         } catch (Exception e) { 

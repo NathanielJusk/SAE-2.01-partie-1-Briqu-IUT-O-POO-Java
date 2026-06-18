@@ -38,8 +38,8 @@ import java.util.List;
 
         // Contenu avec 2 pièces
         contenu = new Contenu(1, 1);
-        contenu.getContenirPieces().add(new ContenirP(null, piece1, 5, false));
-        contenu.getContenirPieces().add(new ContenirP(null, piece2, 3, true));
+        contenu.getContenirPieces().add(new ContenirP(null, piece1, 5, false, null));
+        contenu.getContenirPieces().add(new ContenirP(null, piece2, 3, true, null));
 
         // Boîte avec contenu
         boiteAvecContenu = new BoitePersonnalisee("BP-002", 8, "Tour Médiévale", 2023);

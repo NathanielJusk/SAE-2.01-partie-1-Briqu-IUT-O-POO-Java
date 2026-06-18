@@ -20,7 +20,7 @@ public class ContenirPTest {
     void setUp() {
         categorie = new Categorie(1, "Structure");
         piece = new Piece("P-001", "Brique Rouge", categorie);
-        contenirP = new ContenirP(null, piece, 5, false);
+        contenirP = new ContenirP(null, piece, 5, false, null);
     }
 
     // ── getPiece / setPiece ────────────────────────────────────────────────
@@ -94,7 +94,7 @@ public class ContenirPTest {
     @Test
     void testConstructeur_tousAttributsCorrects() {
         Couleur couleur = new Couleur(2, "Bleu", "#0000FF", false);
-        ContenirP cp = new ContenirP(couleur, piece, 7, true);
+        ContenirP cp = new ContenirP(couleur, piece, 7, true, null);
 
         assertEquals(couleur, cp.getCouleur());
         assertEquals(piece, cp.getPiece());

@@ -1,6 +1,7 @@
-package fr.univorleans.iut45.briquiuto.IHM.Controlleurs;
+package fr.univorleans.iut45.briquiuto.IHM.Controlleurs.AccueilControleur;
 
 import fr.univorleans.iut45.briquiuto.JDBC.RequetesLEGO;
+import fr.univorleans.iut45.briquiuto.IHM.Controlleurs.ConnexionControlleurs.ConnexionControleur;
 import fr.univorleans.iut45.briquiuto.IHM.Vue.AccueilVue;
 import fr.univorleans.iut45.briquiuto.IHM.Vue.Connexion.VueConnexion;
 import javafx.application.Platform;

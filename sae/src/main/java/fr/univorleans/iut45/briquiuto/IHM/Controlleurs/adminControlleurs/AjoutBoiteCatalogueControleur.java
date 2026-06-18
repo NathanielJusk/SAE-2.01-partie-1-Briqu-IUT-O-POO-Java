@@ -1,8 +1,9 @@
-package fr.univorleans.iut45.briquiuto.IHM.Controlleurs;
+package fr.univorleans.iut45.briquiuto.IHM.Controlleurs.adminControlleurs;
 
 import fr.univorleans.iut45.briquiuto.JDBC.RequetesLEGO;
 import fr.univorleans.iut45.briquiuto.IHM.Vue.admin.AdminHomeVue;
 import fr.univorleans.iut45.briquiuto.IHM.Vue.admin.VueAjoutBoiteCatalogueAdmin;
+import fr.univorleans.iut45.briquiuto.IHM.Controlleurs.AccueilControleur.AccueilControleur;
 import fr.univorleans.iut45.briquiuto.IHM.Vue.AccueilVue;
 import fr.univorleans.iut45.briquiuto.modele.Boite;
 import fr.univorleans.iut45.briquiuto.modele.BoiteComposee;

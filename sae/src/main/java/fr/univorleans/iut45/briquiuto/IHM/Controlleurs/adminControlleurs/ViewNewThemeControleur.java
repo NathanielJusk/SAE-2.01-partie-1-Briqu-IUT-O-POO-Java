@@ -1,10 +1,11 @@
-package fr.univorleans.iut45.briquiuto.IHM.Controlleurs;
+package fr.univorleans.iut45.briquiuto.IHM.Controlleurs.adminControlleurs;
 
 import java.sql.SQLException;
 import fr.univorleans.iut45.briquiuto.JDBC.RequetesLEGO;
 import fr.univorleans.iut45.briquiuto.modele.Theme;
 import fr.univorleans.iut45.briquiuto.IHM.Vue.admin.ViewNewTheme;
 import fr.univorleans.iut45.briquiuto.IHM.Vue.admin.AdminHomeVue;
+import fr.univorleans.iut45.briquiuto.IHM.Controlleurs.AccueilControleur.AccueilControleur;
 import fr.univorleans.iut45.briquiuto.IHM.Vue.AccueilVue;
 import javafx.collections.FXCollections;
 import javafx.scene.Scene;

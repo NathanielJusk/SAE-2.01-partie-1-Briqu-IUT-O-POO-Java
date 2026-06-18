@@ -1,9 +1,12 @@
-package fr.univorleans.iut45.briquiuto.IHM.Controlleurs;
+package fr.univorleans.iut45.briquiuto.IHM.Controlleurs.ConnexionControlleurs;
 
 import fr.univorleans.iut45.briquiuto.JDBC.RequetesLEGO;
 import fr.univorleans.iut45.briquiuto.IHM.Vue.Connexion.VueConnexion;
 import fr.univorleans.iut45.briquiuto.IHM.Vue.admin.AdminHomeVue;
 import fr.univorleans.iut45.briquiuto.IHM.Vue.collec.CollectionneurHomeVue;
+import fr.univorleans.iut45.briquiuto.IHM.Controlleurs.AccueilControleur.AccueilControleur;
+import fr.univorleans.iut45.briquiuto.IHM.Controlleurs.CollectionneurControlleurs.CollectionneurHomeControleur;
+import fr.univorleans.iut45.briquiuto.IHM.Controlleurs.adminControlleurs.AdminHomeControleur;
 import fr.univorleans.iut45.briquiuto.IHM.Vue.AccueilVue;
 import javafx.scene.Scene;
 import javafx.stage.Stage;

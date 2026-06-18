@@ -1,4 +1,4 @@
-package fr.univorleans.iut45.briquiuto.IHM.Controlleurs;
+package fr.univorleans.iut45.briquiuto.IHM.Controlleurs.adminControlleurs;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -6,6 +6,7 @@ import fr.univorleans.iut45.briquiuto.JDBC.RequetesLEGO;
 import fr.univorleans.iut45.briquiuto.modele.Boite;
 import fr.univorleans.iut45.briquiuto.IHM.Vue.admin.VueStatistiquesBoite;
 import fr.univorleans.iut45.briquiuto.IHM.Vue.admin.AdminHomeVue;
+import fr.univorleans.iut45.briquiuto.IHM.Controlleurs.AccueilControleur.AccueilControleur;
 import fr.univorleans.iut45.briquiuto.IHM.Vue.AccueilVue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;

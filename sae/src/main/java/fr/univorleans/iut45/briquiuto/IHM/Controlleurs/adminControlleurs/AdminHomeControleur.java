@@ -1,6 +1,7 @@
-package fr.univorleans.iut45.briquiuto.IHM.Controlleurs;
+package fr.univorleans.iut45.briquiuto.IHM.Controlleurs.adminControlleurs;
 
 import fr.univorleans.iut45.briquiuto.JDBC.RequetesLEGO;
+import fr.univorleans.iut45.briquiuto.IHM.Controlleurs.AccueilControleur.AccueilControleur;
 import fr.univorleans.iut45.briquiuto.IHM.Vue.AccueilVue;
 import fr.univorleans.iut45.briquiuto.IHM.Vue.admin.AdminCatalogueVue;
 import fr.univorleans.iut45.briquiuto.IHM.Vue.admin.AdminHomeVue;
@@ -61,9 +62,7 @@ public class AdminHomeControleur {
             fenetrePrincipale.setScene(new Scene(vueTheme, 1000, 700));
         });
 
-        // ========================================================
-        // --- LA CORRECTION EST ICI (Fin du message console !) ---
-        // ========================================================
+
         this.vue.getBtnAjoutBoite().setOnAction(e -> {
             VueAjoutBoiteCatalogueAdmin vueAjoutBoite = new VueAjoutBoiteCatalogueAdmin();
             new AjoutBoiteCatalogueControleur(vueAjoutBoite, modele, fenetrePrincipale);

@@ -71,7 +71,7 @@ public class VueAjoutBoiteCatalogueAdmin extends VBox {
             this.btnHome.setGraphic(homeImageView);
             this.btnHome.setStyle("-fx-background-color: transparent; -fx-cursor: hand;");
         } catch (Exception e) {
-            this.btnHome.setText("🏠");
+            this.btnHome.setText("acceuil");
         }
 
         lblTitre = new Label("Ajouter une nouvelle boîte au catalogue");
@@ -153,8 +153,8 @@ public class VueAjoutBoiteCatalogueAdmin extends VBox {
         this.btnRetour = new Button();
         try {
             ImageView retourImageView = new ImageView(new Image(getClass().getResourceAsStream("/img/logoRetour.png")));
-            retourImageView.setFitWidth(50);
-            retourImageView.setFitHeight(50); 
+            retourImageView.setFitWidth(90);
+            retourImageView.setFitHeight(90); 
             retourImageView.setPreserveRatio(true);
             this.btnRetour.setGraphic(retourImageView);
             this.btnRetour.setStyle("-fx-background-color: transparent; -fx-cursor: hand;");

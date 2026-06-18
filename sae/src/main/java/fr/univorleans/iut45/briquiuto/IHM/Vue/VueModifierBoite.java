@@ -29,14 +29,11 @@ public class VueModifierBoite extends VBox {
 
     // Formulaire (GridPane)
     private GridPane gridForm;
-    
-    // Éléments de recherche (État 1 & 3)
     private Label lblNumero;
     private TextField txtNumero;
     private Button btnRechercher;
     private Label lblErreur;
 
-    // Éléments d'édition (État 2)
     private Label lblNbPieces;
     private TextField txtNbPieces;
     private Label lblNom;
@@ -50,7 +47,7 @@ public class VueModifierBoite extends VBox {
         this.setSpacing(20);
         this.setPadding(new Insets(30));
         this.setAlignment(Pos.TOP_CENTER);
-        this.setStyle("-fx-background-color: #F8F9FA;"); // Couleur de fond gris clair typique des maquettes
+        this.setStyle("-fx-background-color: #F8F9FA;"); 
 
         // 2. Création de l'en-tête avec le titre et le bouton "Home"
         HBox header = new HBox();
@@ -61,7 +58,7 @@ public class VueModifierBoite extends VBox {
         lblTitre = new Label("Modifier une boite");
         lblTitre.setFont(Font.font("System", FontWeight.BOLD, 18));
 
-        btnHome = new Button("🏠"); // Représente l'icône maison de la maquette
+        btnHome = new Button("accueil"); 
         btnHome.setStyle("-fx-background-color: transparent; -fx-font-size: 20px; -fx-cursor: hand;");
 
         header.getChildren().addAll(lblTitre, btnHome);

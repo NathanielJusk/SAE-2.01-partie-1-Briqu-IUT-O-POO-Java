@@ -41,7 +41,7 @@ public class ViewNewBoitePerso extends VBox {
             this.homeButton.setGraphic(homeImageView);
             this.homeButton.setStyle("-fx-background-color: transparent; -fx-cursor: hand;");
         } catch (Exception e) {
-            this.homeButton.setText("🏠");
+            this.homeButton.setText("accueil");
         }
 
         Label lblTitre = new Label("Ajouter une nouvelle Boîte LEGO");

@@ -16,14 +16,8 @@ import javafx.scene.text.FontWeight;
 
 public class VueCompositionBoitePerso extends VBox {
 
-    /**
-     * Vue pour composer une boîte personnalisée (MOC).
-     * Permet de sélectionner pièces/figurines, voir le panier et valider.
-     * Conçue de manière simple pour être comprise par un étudiant BUT1.
-     */
-
     private Button btnHome;
-    private Button btnRetour; // Ajout du bouton
+    private Button btnRetour;
     
     private TextField txtNumero;
     private TextField txtNom;
@@ -46,9 +40,14 @@ public class VueCompositionBoitePerso extends VBox {
     private Label lblMessage;
 
     public VueCompositionBoitePerso() {
-        this.setSpacing(15);
-        this.setPadding(new Insets(20));
+        // 1. Réduction de l'espacement global pour tasser l'interface
+        this.setSpacing(10);
+        this.setPadding(new Insets(15, 20, 15, 20));
         this.setStyle("-fx-background-color: #FFFFFF;");
+
+        // --- STYLES LEGO ---
+        String styleBoutonBleu = "-fx-background-color: #0055A4; -fx-border-color: #003D7A; -fx-border-width: 0 0 4 0; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 13px; -fx-padding: 8 15; -fx-background-radius: 5; -fx-border-radius: 5; -fx-cursor: hand;";
+        String styleBoutonVert = "-fx-background-color: #00852B; -fx-border-color: #005C1E; -fx-border-width: 0 0 4 0; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 16px; -fx-padding: 10 20; -fx-background-radius: 8; -fx-border-radius: 8; -fx-cursor: hand;";
 
         // 1. EN-TÊTE
         HBox header = new HBox(15);
@@ -60,7 +59,7 @@ public class VueCompositionBoitePerso extends VBox {
             homeView.setFitWidth(30); homeView.setFitHeight(30); homeView.setPreserveRatio(true);
             this.btnHome.setGraphic(homeView);
             this.btnHome.setStyle("-fx-background-color: transparent; -fx-cursor: hand;");
-        } catch (Exception e) { this.btnHome.setText("🏠"); }
+        } catch (Exception e) { this.btnHome.setText("accueil"); }
 
         Label lblTitre = new Label("Composer ma Boîte Personnalisée (MOC)");
         lblTitre.setFont(Font.font("Arial", FontWeight.BOLD, 24));
@@ -90,7 +89,7 @@ public class VueCompositionBoitePerso extends VBox {
 
         // 3. ZONE DE COMPOSITION
         HBox boxComposition = new HBox(20);
-        VBox.setVgrow(boxComposition, Priority.ALWAYS);
+        // Suppression du Priority.ALWAYS ici pour éviter de pousser l'écran vers le bas !
 
         VBox boxAjouts = new VBox(20);
         boxAjouts.setPrefWidth(350);
@@ -107,10 +106,11 @@ public class VueCompositionBoitePerso extends VBox {
         HBox hbQtePiece = new HBox(10);
         hbQtePiece.setAlignment(Pos.CENTER_LEFT);
         txtQuantitePiece = new TextField(); txtQuantitePiece.setPromptText("Qté"); txtQuantitePiece.setPrefWidth(60);
-        btnAjouterPiece = new Button("Ajouter au panier");
-        btnAjouterPiece.setStyle("-fx-background-color: #0055BF; -fx-text-fill: white; -fx-cursor: hand;");
-        hbQtePiece.getChildren().addAll(new Label("Quantité :"), txtQuantitePiece, btnAjouterPiece);
         
+        btnAjouterPiece = new Button("Ajouter au panier");
+        btnAjouterPiece.setStyle(styleBoutonBleu); 
+        
+        hbQtePiece.getChildren().addAll(new Label("Quantité :"), txtQuantitePiece, btnAjouterPiece);
         blockPieces.getChildren().addAll(lblPiecesTitre, cbPieces, cbCouleurs, hbQtePiece);
 
         // -> Bloc Figurines
@@ -124,11 +124,13 @@ public class VueCompositionBoitePerso extends VBox {
         HBox hbQteFig = new HBox(10);
         hbQteFig.setAlignment(Pos.CENTER_LEFT);
         txtQuantiteFigurine = new TextField(); txtQuantiteFigurine.setPromptText("Qté"); txtQuantiteFigurine.setPrefWidth(60);
-        btnAjouterFigurine = new Button("Ajouter au panier");
-        btnAjouterFigurine.setStyle("-fx-background-color: #0055BF; -fx-text-fill: white; -fx-cursor: hand;");
-        hbQteFig.getChildren().addAll(new Label("Quantité :"), txtQuantiteFigurine, btnAjouterFigurine);
         
+        btnAjouterFigurine = new Button("Ajouter au panier");
+        btnAjouterFigurine.setStyle(styleBoutonBleu); 
+        
+        hbQteFig.getChildren().addAll(new Label("Quantité :"), txtQuantiteFigurine, btnAjouterFigurine);
         blockFigurines.getChildren().addAll(lblFigTitre, cbFigurines, hbQteFig);
+        
         boxAjouts.getChildren().addAll(blockPieces, blockFigurines);
 
         // -> Le Panier
@@ -139,6 +141,8 @@ public class VueCompositionBoitePerso extends VBox {
         
         listeContenuTemporaire = new ListView<>();
         VBox.setVgrow(listeContenuTemporaire, Priority.ALWAYS);
+        // On limite la hauteur du panier à 120 pour faire de la place au bouton retour
+        listeContenuTemporaire.setPrefHeight(120);
         
         lblTotalPieces = new Label("Total : 0 élément(s)");
         lblTotalPieces.setStyle("-fx-font-weight: bold; -fx-text-fill: #555555;");
@@ -147,24 +151,34 @@ public class VueCompositionBoitePerso extends VBox {
         boxComposition.getChildren().addAll(boxAjouts, boxPanier);
 
         // 4. ZONE DE VALIDATION
-        VBox boxValidation = new VBox(10);
+        // Réduction des marges ici aussi
+        VBox boxValidation = new VBox(5);
         boxValidation.setAlignment(Pos.CENTER);
-        boxValidation.setPadding(new Insets(10, 0, 0, 0));
+        boxValidation.setPadding(new Insets(5, 0, 0, 0));
         
         btnValiderBoite = new Button("Créer la boîte personnalisée !");
-        btnValiderBoite.setStyle("-fx-background-color: #287F46; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 16px; -fx-padding: 10 20; -fx-cursor: hand;");
+        btnValiderBoite.setStyle(styleBoutonVert); 
         
         lblMessage = new Label("");
         lblMessage.setFont(Font.font("Arial", FontWeight.BOLD, 14));
         boxValidation.getChildren().addAll(btnValiderBoite, lblMessage);
 
+        // --- RESSORT MAGIQUE ---
+        // Le ressort pousse la HBox footer tout en bas
+        Region ressort = new Region();
+        VBox.setVgrow(ressort, Priority.ALWAYS);
+
         // --- 5. PIED DE PAGE : RETOUR ---
         HBox footer = new HBox();
         footer.setAlignment(Pos.BOTTOM_LEFT); 
+        VBox.setMargin(footer, new Insets(5, 0, 0, 0)); 
         this.btnRetour = new Button();
         try {
             ImageView retourImageView = new ImageView(new Image(getClass().getResourceAsStream("/img/logoRetour.png")));
-            retourImageView.setFitWidth(50); retourImageView.setFitHeight(50); retourImageView.setPreserveRatio(true);
+            // Le bouton est à 40x40, la taille idéale
+            retourImageView.setFitWidth(90); 
+            retourImageView.setFitHeight(90); 
+            retourImageView.setPreserveRatio(true);            
             this.btnRetour.setGraphic(retourImageView);
             this.btnRetour.setStyle("-fx-background-color: transparent; -fx-cursor: hand;");
         } catch (Exception e) { 
@@ -173,11 +187,12 @@ public class VueCompositionBoitePerso extends VBox {
         }
         footer.getChildren().add(btnRetour);
 
-        this.getChildren().addAll(header, new Separator(), boxInfos, boxComposition, boxValidation, footer);
+        // Assemblage final avec le ressort ajouté avant le footer
+        this.getChildren().addAll(header, new Separator(), boxInfos, boxComposition, boxValidation, ressort, footer);
     }
 
     public Button getBtnHome() { return btnHome; }
-    public Button getBtnRetour() { return btnRetour; } // Ajout du getter !
+    public Button getBtnRetour() { return btnRetour; }
     
     public TextField getTxtNumero() { return txtNumero; }
     public TextField getTxtNom() { return txtNom; }
