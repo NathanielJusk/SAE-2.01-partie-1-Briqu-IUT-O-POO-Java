@@ -12,8 +12,14 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
 
+/**
+ * Contrôleur pour ajouter une nouvelle pièce dans le catalogue (vue admin).
+ * Valide le formulaire, crée un objet `Piece` et demande au modèle
+ * (RequetesLEGO) d'ajouter la pièce en base.
+ */
 public class AjoutPieceControleur {
 
+    // Vue pour le formulaire d'ajout de pièce
     private AjoutPieceVueAdmin vue;
     private RequetesLEGO modele;
     private Stage fenetrePrincipale;
@@ -25,6 +31,10 @@ public class AjoutPieceControleur {
         this.initialiser();
     }
 
+    /**
+     * Initialise la vue : charge la liste des catégories et fixe les actions
+     * des boutons (valider, retour, home).
+     */
     private void initialiser() {
         chargerCategories();
 
@@ -34,6 +44,9 @@ public class AjoutPieceControleur {
         vue.getBtnHome().setOnAction(e -> actionRetourAccueil());
     }
 
+    /**
+     * Charge les catégories depuis le modèle et les place dans le combo-box.
+     */
     private void chargerCategories() {
         try {
             vue.getCbCategorie().setItems(FXCollections.observableArrayList(modele.getAllCategories()));
@@ -46,6 +59,10 @@ public class AjoutPieceControleur {
         }
     }
 
+    /**
+     * Récupère les valeurs du formulaire et tente d'ajouter une pièce.
+     * Affiche des messages d'erreur simples si besoin.
+     */
     private void actionValiderPiece() {
         String num = vue.getTxtNumeroPiece().getText().trim();
         String nom = vue.getTxtNomPiece().getText().trim();

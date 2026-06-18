@@ -15,8 +15,14 @@ import javafx.stage.Stage;
 import java.sql.SQLException;
 import java.util.List;
 
+/**
+ * Contrôleur pour la gestion du catalogue (vue admin).
+ * Charge les boîtes, pièces et figurines depuis le modèle
+ * et gère la navigation vers les autres vues.
+ */
 public class AdminCatalogueControleur {
 
+    // Vue du catalogue côté admin
     private AdminCatalogueVue vue;
     private RequetesLEGO modele;
     private Stage fenetrePrincipale;
@@ -28,15 +34,22 @@ public class AdminCatalogueControleur {
         this.initialiser();
     }
 
+    /**
+     * Initialise les actions et charge les données pour le tableau.
+     */
     private void initialiser() {
-        // --- GESTION DES BOUTONS DE NAVIGATION ---
+        // Navigation
         vue.getBtnRetour().setOnAction(e -> actionRetourAdmin());
         vue.getBtnHome().setOnAction(e -> actionRetourAccueil());
 
-        // --- CHARGEMENT DES DONNÉES ---
+        // Chargement des données depuis la base (RequetesLEGO)
         chargerDonnees();
     }
 
+    /**
+     * Charge les boîtes, pièces et figurines depuis le modèle et les place
+     * dans les tables JavaFX de la vue. Affiche une alerte en cas d'erreur.
+     */
     private void chargerDonnees() {
         try {
             // 1. Charger les Boîtes
@@ -61,6 +74,7 @@ public class AdminCatalogueControleur {
     }
 
     // --- NAVIGATION ---
+    // Navigation helpers
     private void actionRetourAdmin() {
         AdminHomeVue vueAdmin = new AdminHomeVue();
         new AdminHomeControleur(vueAdmin, modele, fenetrePrincipale);

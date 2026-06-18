@@ -16,8 +16,14 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
 
+/**
+ * Vue d'accueil de l'application.
+ * Présente un écran de bienvenue et les boutons principaux
+ * (collection, administration, quitter). Simple et lisible.
+ */
 public class AccueilVue extends VBox {
 
+    // Boutons accessibles depuis l'accueil
     private Button btnCollection;
     private Button btnAdmin;
     private Button btnQuit;

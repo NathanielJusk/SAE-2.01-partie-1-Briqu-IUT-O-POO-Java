@@ -13,8 +13,18 @@ import fr.univorleans.iut45.briquiuto.IHM.Vue.admin.VueStatistiquesBoite;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+/**
+ * Contrôleur de la vue d'accueil de l'administrateur.
+ * <p>
+ * Gère les actions simples des boutons (ouvrir catalogue, ajouter des pièces,
+ * thèmes, boîtes, figurines, afficher les statistiques et se déconnecter).
+ * Commentaires écrits de façon simple, comme par un étudiant de BUT1.
+ * Pour l'utilisation des classes JavaFX, on s'est aidé de la Javadoc officielle
+ * (javafx.scene, javafx.stage) pour comprendre les méthodes de base.
+ */
 public class AdminHomeControleur {
 
+    // La vue associée à ce contrôleur
     private AdminHomeVue vue;
     private RequetesLEGO modele;
     private Stage fenetrePrincipale;
@@ -26,6 +36,11 @@ public class AdminHomeControleur {
         this.initialiser();
     }
 
+    /**
+     * Initialise les handlers des boutons de la vue.
+     * On crée de nouvelles vues/contrôleurs et on change la scène principale.
+     * Méthode volontairement simple et lisible pour un projet de première année.
+     */
     private void initialiser() {
 
         this.vue.getBtnCatalogue().setOnAction(e -> {
@@ -71,6 +86,10 @@ public class AdminHomeControleur {
         this.vue.getBtnHome().setOnAction(e -> deconnexion());
     }
 
+    /**
+     * Déconnecte l'utilisateur et revient à la vue d'accueil.
+     * Crée une nouvelle `AccueilVue` et son contrôleur, puis change la scène.
+     */
     private void deconnexion() {
         AccueilVue vueAccueil = new AccueilVue();
         new AccueilControleur(vueAccueil, modele, fenetrePrincipale);

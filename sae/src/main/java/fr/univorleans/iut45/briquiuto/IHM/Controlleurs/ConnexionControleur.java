@@ -8,8 +8,14 @@ import fr.univorleans.iut45.briquiuto.IHM.Vue.AccueilVue;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+/**
+ * Contrôleur pour la vue de connexion.
+ * Gère l'authentification simple (admin/collec) et la navigation
+ * vers les vues correspondantes. Commentaires simples pour BUT1.
+ */
 public class ConnexionControleur {
 
+    // Vue du formulaire de connexion
     private VueConnexion vue;
     private RequetesLEGO modele;
     private Stage fenetrePrincipale; 
@@ -22,10 +28,13 @@ public class ConnexionControleur {
         this.initialiser();
     }
 
+    /**
+     * Initialise les handlers de la vue de connexion.
+     */
     public void initialiser() {
         this.vue.getBtnSeConnecter().setOnAction(event -> actionConnexion());
-        
-        // Action pour le bouton Home (l'icône de maison)
+
+        // Action pour le bouton Home (icône)
         this.vue.getBtnHome().setOnAction(event -> actionRetourAccueil());
     }
 
@@ -35,6 +44,10 @@ public class ConnexionControleur {
         fenetrePrincipale.setScene(new Scene(vueAccueil, 1000, 700));
     }
 
+    /**
+     * Valide les identifiants saisis et redirige vers la page appropriée.
+     * Méthode volontairement simple (login hardcodé pour les tests).
+     */
     public void actionConnexion() {
         String login = vue.getTxtIdentifiant().getText().trim();
         String mdp = vue.getTxtMotDePasse().getText().trim();

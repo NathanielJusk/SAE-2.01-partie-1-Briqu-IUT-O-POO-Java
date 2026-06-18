@@ -9,6 +9,11 @@ import fr.univorleans.iut45.briquiuto.IHM.Vue.AccueilVue;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+/**
+ * Contrôleur pour la vue de connexion à la base de données (profils IUT).
+ * Tente une connexion distante, crée le modèle RequetesLEGO et charge
+ * les données initiales. Rédigé simplement pour un étudiant de BUT1.
+ */
 public class ConnexionBDControleur {
 
     private ConnexionBDVue vue;
@@ -22,11 +27,18 @@ public class ConnexionBDControleur {
         this.initialiser();
     }
 
+    /**
+     * Initialise le handler du bouton de connexion à la BD.
+     */
     private void initialiser() {
         this.vue.getBtnConnecterBD().setOnAction(e -> validerConnexion());
     }
 
-private void validerConnexion() {
+    /**
+     * Tente de se connecter à la base MariaDB fournie par l'IUT.
+     * Si la connexion réussit, on charge les données et affiche l'accueil.
+     */
+    private void validerConnexion() {
         String login = vue.getTxtLoginBD().getText().trim();
         String mdp = vue.getTxtMdpBD().getText().trim();
 

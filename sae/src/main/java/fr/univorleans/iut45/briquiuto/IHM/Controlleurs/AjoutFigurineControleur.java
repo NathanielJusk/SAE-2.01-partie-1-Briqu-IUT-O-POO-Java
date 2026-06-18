@@ -9,8 +9,13 @@ import fr.univorleans.iut45.briquiuto.IHM.Vue.AccueilVue;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+/**
+ * Contrôleur pour ajouter une nouvelle figurine depuis la vue admin.
+ * Valide le formulaire et demande au modèle d'enregistrer la figurine.
+ */
 public class AjoutFigurineControleur {
 
+    // Vue pour ajouter une figurine
     private AjoutFigurineVue vue;
     private RequetesLEGO modele;
     private Stage fenetrePrincipale;
@@ -22,12 +27,19 @@ public class AjoutFigurineControleur {
         this.initialiser();
     }
 
+    /**
+     * Initialise les actions des boutons pour la vue d'ajout de figurine.
+     */
     private void initialiser() {
         vue.getBtnValider().setOnAction(e -> actionValiderFigurine());
         vue.getBtnRetour().setOnAction(e -> actionRetourAdmin());
         vue.getBtnHome().setOnAction(e -> actionRetourAccueil());
     }
 
+    /**
+     * Lit le formulaire, crée une `Figurine` et demande au modèle de l'ajouter.
+     * Gère les erreurs d'entrée simples et les erreurs SQL basiques.
+     */
     private void actionValiderFigurine() {
         String idFig = vue.getTxtIdFigurine().getText().trim();
         String nom = vue.getTxtNomFigurine().getText().trim();

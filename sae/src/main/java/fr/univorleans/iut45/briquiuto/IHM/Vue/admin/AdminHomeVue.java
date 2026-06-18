@@ -12,6 +12,11 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 
+/**
+ * Vue principale pour l'administrateur (menu).
+ * Contient les boutons pour ajouter des éléments et naviguer.
+ * Mise en page simple et lisible, conçue pour un projet de première année.
+ */
 public class AdminHomeVue extends VBox {
 
     // Boutons correspondant aux exigences de la SAE et statistiques
