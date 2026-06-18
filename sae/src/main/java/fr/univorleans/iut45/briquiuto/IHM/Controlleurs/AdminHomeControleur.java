@@ -7,6 +7,7 @@ import fr.univorleans.iut45.briquiuto.IHM.Vue.admin.AdminHomeVue;
 import fr.univorleans.iut45.briquiuto.IHM.Vue.admin.AjoutFigurineVue;
 import fr.univorleans.iut45.briquiuto.IHM.Vue.admin.AjoutPieceVueAdmin;
 import fr.univorleans.iut45.briquiuto.IHM.Vue.admin.ViewNewTheme;
+import fr.univorleans.iut45.briquiuto.IHM.Vue.admin.*;
 import fr.univorleans.iut45.briquiuto.IHM.Vue.admin.VueAjoutBoiteCatalogueAdmin;
 import fr.univorleans.iut45.briquiuto.IHM.Vue.admin.VueStatistiquesBoite;
 import javafx.scene.Scene;
@@ -41,7 +42,7 @@ public class AdminHomeControleur {
 
         this.vue.getBtnAjoutTheme().setOnAction(e -> {
             ViewNewTheme vueTheme = new ViewNewTheme();
-            new NewThemeControleur(vueTheme, modele, fenetrePrincipale);
+            new ViewNewThemeControleur(vueTheme, modele, fenetrePrincipale);
             fenetrePrincipale.setScene(new Scene(vueTheme, 1000, 700));
         });
 

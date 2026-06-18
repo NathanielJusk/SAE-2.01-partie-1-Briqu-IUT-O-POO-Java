@@ -4,8 +4,8 @@ import java.sql.SQLException;
 import java.util.List;
 import fr.univorleans.iut45.briquiuto.JDBC.RequetesLEGO;
 import fr.univorleans.iut45.briquiuto.modele.Boite;
-import fr.univorleans.iut45.briquiuto.IHM.Vue.admin.AdminHomeVue;
 import fr.univorleans.iut45.briquiuto.IHM.Vue.admin.VueStatistiquesBoite;
+import fr.univorleans.iut45.briquiuto.IHM.Vue.admin.AdminHomeVue;
 import fr.univorleans.iut45.briquiuto.IHM.Vue.AccueilVue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -27,8 +27,6 @@ public class StatistiquesBoiteControleur {
 
     private void initialiser() {
         this.vue.getBtnRechercher().setOnAction(e -> actionAnalyserBoite());
-        
-        // --- C'EST ICI QUE LE RETOUR EST DÉFINI POUR L'ADMINISTRATEUR ---
         this.vue.getBtnRetour().setOnAction(e -> actionRetourAdmin());
         this.vue.getBtnHome().setOnAction(e -> actionRetourAccueil());
     }
@@ -48,20 +46,34 @@ public class StatistiquesBoiteControleur {
                 vue.afficherStatsBoite(boiteTrouvee, boiteTrouvee.getNbPiece(), nomTheme);
                 vue.afficherImageBoite(boiteTrouvee.getImgUrl());
 
-                // On charge les données structurées pour les 5 colonnes
-                ObservableList<String[]> detailsBoite = FXCollections.observableArrayList();
+                // --- CORRECTION ICI : On utilise la fameuse LigneAffichage ---
+                ObservableList<VueStatistiquesBoite.LigneAffichage> detailsBoite = FXCollections.observableArrayList();
                 
+                // On récupère les pièces et on les transforme
                 List<String[]> pieces = modele.getDetailsPiecesBoite(numeroSaisi);
-                detailsBoite.addAll(pieces);
+                for (String[] p : pieces) {
+                    // On fusionne les infos textes (Qté, Nom, Couleur, Supplément) en une seule phrase propre
+                    String description = p[2] + "x  " + p[0] + "  (Couleur: " + p[1] + ")  -  Supplément: " + p[3];
+                    String urlImage = (p.length > 4) ? p[4] : "";
+                    
+                    detailsBoite.add(new VueStatistiquesBoite.LigneAffichage(description, urlImage));
+                }
                 
+                // On récupère les figurines et on les transforme
                 List<String[]> figurines = modele.getDetailsFigurinesBoite(numeroSaisi);
-                detailsBoite.addAll(figurines);
+                for (String[] f : figurines) {
+                    String description = f[2] + "x  " + f[0] + "  (Couleur: " + f[1] + ")  -  Supplément: " + f[3];
+                    String urlImage = (f.length > 4) ? f[4] : "";
+                    
+                    detailsBoite.add(new VueStatistiquesBoite.LigneAffichage(description, urlImage));
+                }
 
                 if (detailsBoite.isEmpty()) {
-                    detailsBoite.add(new String[]{"Cette boîte est vide.", "-", "-", "-", ""});
+                    detailsBoite.add(new VueStatistiquesBoite.LigneAffichage("Cette boîte est vide.", ""));
                 }
 
                 vue.getTableContenu().setItems(detailsBoite);
+                // -------------------------------------------------------------
 
             } else {
                 vue.afficherErreur("Aucune boîte ne porte le numéro : " + numeroSaisi);
@@ -72,14 +84,12 @@ public class StatistiquesBoiteControleur {
     }
 
     private void actionRetourAdmin() {
-        // Redirige vers la page d'accueil de l'Admin !
         AdminHomeVue vueAdmin = new AdminHomeVue();
         new AdminHomeControleur(vueAdmin, modele, fenetrePrincipale);
         fenetrePrincipale.setScene(new Scene(vueAdmin, 1000, 700));
     }
 
     private void actionRetourAccueil() {
-        // Redirige vers la page de connexion de départ
         AccueilVue vueAccueil = new AccueilVue();
         new AccueilControleur(vueAccueil, modele, fenetrePrincipale);
         fenetrePrincipale.setScene(new Scene(vueAccueil, 1000, 700));

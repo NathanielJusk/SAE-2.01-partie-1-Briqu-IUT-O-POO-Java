@@ -16,31 +16,26 @@ import javafx.scene.text.FontWeight;
 
 public class VueCompositionBoitePerso extends VBox {
 
-    // --- En-tête ---
     private Button btnHome;
-
-    // --- Informations Générales ---
+    private Button btnRetour; // Ajout du bouton
+    
     private TextField txtNumero;
     private TextField txtNom;
     private TextField txtAnnee;
     private ComboBox<Theme> cbTheme;
 
-    // --- Ajout de Pièces ---
     private ComboBox<Piece> cbPieces;
     private ComboBox<Couleur> cbCouleurs;
     private TextField txtQuantitePiece;
     private Button btnAjouterPiece;
 
-    // --- Ajout de Figurines ---
     private ComboBox<Figurine> cbFigurines;
     private TextField txtQuantiteFigurine;
     private Button btnAjouterFigurine;
 
-    // --- Panier / Résumé ---
     private ListView<String> listeContenuTemporaire;
     private Label lblTotalPieces;
 
-    // --- Validation Finale ---
     private Button btnValiderBoite;
     private Label lblMessage;
 
@@ -87,11 +82,10 @@ public class VueCompositionBoitePerso extends VBox {
         
         boxInfos.getChildren().addAll(lblInfosTitre, gridInfos);
 
-        // 3. ZONE DE COMPOSITION (Pièces, Figurines, et Panier)
+        // 3. ZONE DE COMPOSITION
         HBox boxComposition = new HBox(20);
         VBox.setVgrow(boxComposition, Priority.ALWAYS);
 
-        // --- Colonne de gauche (Formulaires d'ajout) ---
         VBox boxAjouts = new VBox(20);
         boxAjouts.setPrefWidth(350);
 
@@ -129,10 +123,9 @@ public class VueCompositionBoitePerso extends VBox {
         hbQteFig.getChildren().addAll(new Label("Quantité :"), txtQuantiteFigurine, btnAjouterFigurine);
         
         blockFigurines.getChildren().addAll(lblFigTitre, cbFigurines, hbQteFig);
-
         boxAjouts.getChildren().addAll(blockPieces, blockFigurines);
 
-        // --- Colonne de droite (Le Panier / Contenu) ---
+        // -> Le Panier
         VBox boxPanier = new VBox(10);
         HBox.setHgrow(boxPanier, Priority.ALWAYS);
         Label lblPanierTitre = new Label("Contenu de la boîte");
@@ -145,7 +138,6 @@ public class VueCompositionBoitePerso extends VBox {
         lblTotalPieces.setStyle("-fx-font-weight: bold; -fx-text-fill: #555555;");
 
         boxPanier.getChildren().addAll(lblPanierTitre, listeContenuTemporaire, lblTotalPieces);
-        
         boxComposition.getChildren().addAll(boxAjouts, boxPanier);
 
         // 4. ZONE DE VALIDATION
@@ -158,14 +150,29 @@ public class VueCompositionBoitePerso extends VBox {
         
         lblMessage = new Label("");
         lblMessage.setFont(Font.font("Arial", FontWeight.BOLD, 14));
-        
         boxValidation.getChildren().addAll(btnValiderBoite, lblMessage);
 
-        this.getChildren().addAll(header, new Separator(), boxInfos, boxComposition, boxValidation);
+        // --- 5. PIED DE PAGE : RETOUR ---
+        HBox footer = new HBox();
+        footer.setAlignment(Pos.BOTTOM_LEFT); 
+        this.btnRetour = new Button();
+        try {
+            ImageView retourImageView = new ImageView(new Image(getClass().getResourceAsStream("/img/logoRetour.png")));
+            retourImageView.setFitWidth(50); retourImageView.setFitHeight(50); retourImageView.setPreserveRatio(true);
+            this.btnRetour.setGraphic(retourImageView);
+            this.btnRetour.setStyle("-fx-background-color: transparent; -fx-cursor: hand;");
+        } catch (Exception e) { 
+            this.btnRetour.setText("⬅ Retour"); 
+            this.btnRetour.setStyle("-fx-background-color: #E3000B; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand; -fx-padding: 10 20; -fx-background-radius: 5;");
+        }
+        footer.getChildren().add(btnRetour);
+
+        this.getChildren().addAll(header, new Separator(), boxInfos, boxComposition, boxValidation, footer);
     }
 
-    // --- GETTERS POUR LE CONTRÔLEUR ---
     public Button getBtnHome() { return btnHome; }
+    public Button getBtnRetour() { return btnRetour; } // Ajout du getter !
+    
     public TextField getTxtNumero() { return txtNumero; }
     public TextField getTxtNom() { return txtNom; }
     public TextField getTxtAnnee() { return txtAnnee; }
@@ -183,7 +190,6 @@ public class VueCompositionBoitePerso extends VBox {
     public ListView<String> getListeContenuTemporaire() { return listeContenuTemporaire; }
     public Button getBtnValiderBoite() { return btnValiderBoite; }
 
-    // --- MÉTHODES UTILITAIRES ---
     public void afficherMessage(String msg, Color couleur) {
         lblMessage.setTextFill(couleur);
         lblMessage.setText(msg);

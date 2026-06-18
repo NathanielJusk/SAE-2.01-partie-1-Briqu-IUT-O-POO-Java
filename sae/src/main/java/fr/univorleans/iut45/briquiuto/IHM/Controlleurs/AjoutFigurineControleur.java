@@ -1,12 +1,12 @@
 package fr.univorleans.iut45.briquiuto.IHM.Controlleurs;
 
 import java.sql.SQLException;
-import fr.univorleans.iut45.briquiuto.modele.Figurine;
 import fr.univorleans.iut45.briquiuto.JDBC.RequetesLEGO;
-import fr.univorleans.iut45.briquiuto.IHM.Vue.admin.AdminHomeVue;
+import fr.univorleans.iut45.briquiuto.modele.Figurine;
 import fr.univorleans.iut45.briquiuto.IHM.Vue.admin.AjoutFigurineVue;
+import fr.univorleans.iut45.briquiuto.IHM.Vue.admin.AdminHomeVue;
+import fr.univorleans.iut45.briquiuto.IHM.Vue.AccueilVue;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 
 public class AjoutFigurineControleur {
@@ -23,40 +23,34 @@ public class AjoutFigurineControleur {
     }
 
     private void initialiser() {
-        this.vue.getBtnValider().setOnAction(event -> handleValiderFigurine());
-        this.vue.getBtnHome().setOnAction(event -> actionRetourAdmin());
+        vue.getBtnValider().setOnAction(e -> actionValiderFigurine());
+        vue.getBtnRetour().setOnAction(e -> actionRetourAdmin());
+        vue.getBtnHome().setOnAction(e -> actionRetourAccueil());
     }
 
-    public void handleValiderFigurine() {
-        String id = vue.getTxtIdFig().getText().trim();
-        String nom = vue.getTxtNomFig().getText().trim();
+    private void actionValiderFigurine() {
+        String idFig = vue.getTxtIdFigurine().getText().trim();
+        String nom = vue.getTxtNomFigurine().getText().trim();
         String nbPartiesStr = vue.getTxtNbParties().getText().trim();
 
-        // 1. Validation de la saisie
-        if (id.isEmpty() || nom.isEmpty() || nbPartiesStr.isEmpty()) {
-            afficherAlerte(Alert.AlertType.WARNING, "Champs incomplets", "Veuillez remplir tous les champs.");
-            return;
-        }
-
-        int nbParties;
-        try {
-            nbParties = Integer.parseInt(nbPartiesStr);
-        } catch (NumberFormatException e) {
-            afficherAlerte(Alert.AlertType.WARNING, "Erreur de format", "Le nombre de pièces doit être un entier.");
+        if (idFig.isEmpty() || nom.isEmpty() || nbPartiesStr.isEmpty()) {
+            vue.afficherMessage("Veuillez remplir tous les champs !", "red");
             return;
         }
 
         try {
-            // 2. Création et insertion via le modèle
-            Figurine nouvelleFigurine = new Figurine(id, nom, nbParties);
-            modele.ajouterFigurine(nouvelleFigurine);
+            int nbParties = Integer.parseInt(nbPartiesStr);
+            Figurine f = new Figurine(idFig, nom, nbParties);
             
-            // 3. Succès
-            afficherAlerte(Alert.AlertType.INFORMATION, "Succès", "La figurine '" + nom + "' a été ajoutée.");
+            // Assure-toi d'avoir cette méthode dans RequetesLEGO
+            modele.ajouterFigurine(f);
+            
+            vue.afficherMessage("Figurine ajoutée avec succès !", "green");
             vue.reinitialiserFormulaire();
-
-        } catch (SQLException e) {
-            afficherAlerte(Alert.AlertType.ERROR, "Erreur Base de Données", "Impossible d'ajouter la figurine.");
+        } catch (NumberFormatException ex) {
+            vue.afficherMessage("Le nombre de parties doit être un entier.", "red");
+        } catch (SQLException ex) {
+            vue.afficherMessage("Erreur BD : Identifiant peut-être déjà utilisé.", "red");
         }
     }
 
@@ -66,11 +60,9 @@ public class AjoutFigurineControleur {
         fenetrePrincipale.setScene(new Scene(vueAdmin, 1000, 700));
     }
 
-    private void afficherAlerte(Alert.AlertType type, String titre, String message) {
-        Alert alerte = new Alert(type);
-        alerte.setTitle(titre);
-        alerte.setHeaderText(null);
-        alerte.setContentText(message);
-        alerte.showAndWait();
+    private void actionRetourAccueil() {
+        AccueilVue vueAccueil = new AccueilVue();
+        new AccueilControleur(vueAccueil, modele, fenetrePrincipale);
+        fenetrePrincipale.setScene(new Scene(vueAccueil, 1000, 700));
     }
 }

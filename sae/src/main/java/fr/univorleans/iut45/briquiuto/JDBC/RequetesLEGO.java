@@ -213,23 +213,27 @@ public class RequetesLEGO {
         ps.close();
     }
 
-    public List<Piece> getAllPieces() throws SQLException {
-        List<Piece> pieces = new ArrayList<>();
-        Statement st = laConnexion.createStatement();
-        ResultSet rs = st.executeQuery("SELECT p.numpiece, p.nompiece, p.idcat, c.nomcat FROM PIECE p LEFT JOIN CATEGORIE c ON p.idcat = c.idcat");
+public List<Piece> getAllPieces() throws SQLException {
+    List<Piece> pieces = new ArrayList<>();
+    // La sous-requête magique pour aller chercher 1 image d'exemple pour cette pièce !
+String sql = "SELECT p.numpiece, p.nompiece, p.idcat, " +
+                 "(SELECT imgUrl FROM CONTENIRP cp WHERE cp.numpiece = p.numpiece AND cp.imgUrl IS NOT NULL LIMIT 1) as imgUrl " +
+                 "FROM PIECE p LIMIT 500";
+    
+    try (Statement stmt = laConnexion.createStatement();
+         ResultSet rs = stmt.executeQuery(sql)) {
         while (rs.next()) {
-            Piece p = new Piece(rs.getString("numpiece"), rs.getString("nompiece"));
-            int idCat = rs.getInt("idcat");
-            if (!rs.wasNull()) {
-                p.setCategorie(new Categorie(idCat, rs.getString("nomcat")));
-            }
+            Piece p = new Piece(
+                rs.getString("numpiece"),
+                rs.getString("nompiece")
+            );
+            // Si tu as la catégorie, ajoute-la ici selon ton code actuel
+            p.setImgUrl(rs.getString("imgUrl"));
             pieces.add(p);
         }
-        rs.close();
-        st.close();
-        return pieces;
     }
-
+    return pieces;
+}
     public List<Categorie> getAllCategories() throws SQLException {
         List<Categorie> categories = new ArrayList<>();
         Statement st = laConnexion.createStatement();
@@ -242,18 +246,26 @@ public class RequetesLEGO {
         return categories;
     }
 
-    public List<Figurine> getAllFigurines() throws SQLException {
-        List<Figurine> figurines = new ArrayList<>();
-        Statement st = laConnexion.createStatement();
-        ResultSet rs = st.executeQuery("SELECT idfig, nomfig, nbparties FROM FIGURINE");
+public List<Figurine> getAllFigurines() throws SQLException {
+    List<Figurine> figurines = new ArrayList<>();
+    // On ajoute imgUrl dans le SELECT
+    String sql = "SELECT idfig, nomfig, nbparties, imgUrl FROM FIGURINE LIMIT 500";
+    
+    try (Statement stmt = laConnexion.createStatement();
+         ResultSet rs = stmt.executeQuery(sql)) {
         while (rs.next()) {
-            figurines.add(new Figurine(rs.getString("idfig"), rs.getString("nomfig"), rs.getInt("nbparties")));
+            Figurine f = new Figurine(
+                rs.getString("idfig"),
+                rs.getString("nomfig"),
+                rs.getInt("nbparties")
+            );
+            // On injecte l'image !
+            f.setImgUrl(rs.getString("imgUrl"));
+            figurines.add(f);
         }
-        rs.close();
-        st.close();
-        return figurines;
     }
-
+    return figurines;
+}
     public void ajouterFigurine(Figurine f) throws SQLException {
         PreparedStatement ps = laConnexion.prepareStatement("INSERT INTO FIGURINE (idfig, nomfig, nbparties) VALUES (?, ?, ?)");
         ps.setString(1, f.getIdFig());

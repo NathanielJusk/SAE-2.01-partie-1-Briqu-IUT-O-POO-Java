@@ -1,10 +1,8 @@
 package fr.univorleans.iut45.briquiuto.IHM.Vue.admin;
 
 import fr.univorleans.iut45.briquiuto.modele.Boite;
-import fr.univorleans.iut45.briquiuto.modele.Piece;
-import fr.univorleans.iut45.briquiuto.modele.Theme;
-import fr.univorleans.iut45.briquiuto.modele.Categorie;
 import fr.univorleans.iut45.briquiuto.modele.Figurine;
+import fr.univorleans.iut45.briquiuto.modele.Piece;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -14,175 +12,170 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import javafx.util.Callback;
 
 public class AdminCatalogueVue extends VBox {
 
     private Button btnHome;
-    private TabPane tabPane;
+    private Button btnRetour;
     
+    // Les tableaux pour chaque catégorie
     private TableView<Boite> tableBoites;
     private TableView<Piece> tablePieces;
-    private TableView<Theme> tableThemes;
     private TableView<Figurine> tableFigurines;
-
-    private ComboBox<Theme> cbFiltreThemeBoite;
-    private TextField txtFiltreNomBoite;
-    private Button btnClearBoite;
-
-    private ComboBox<Categorie> cbFiltreCatPiece;
-    private TextField txtFiltreNomPiece;
-    private Button btnClearPiece;
-
-    private TextField txtFiltreNomTheme;
-    private TextField txtFiltreNomFigurine;
 
     public AdminCatalogueVue() {
         this.setSpacing(15);
         this.setPadding(new Insets(20));
         this.setStyle("-fx-background-color: #FFFFFF;");
 
-        HBox header = new HBox(20);
+        // ==========================================
+        // 1. EN-TÊTE
+        // ==========================================
+        HBox header = new HBox(15);
         header.setAlignment(Pos.CENTER_LEFT);
-
-        Label lblTitre = new Label("Catalogue Global");
-        lblTitre.setFont(Font.font("Arial", FontWeight.BOLD, 24));
-        lblTitre.setStyle("-fx-text-fill: #0055BF;"); 
-        header.getChildren().add(lblTitre);
-
-        tabPane = new TabPane();
-        tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
-        VBox.setVgrow(tabPane, Priority.ALWAYS);
-
-        // Onglet Boîtes
-        Tab tabBoites = new Tab("Boîtes");
         
-        cbFiltreThemeBoite = new ComboBox<>();
-        cbFiltreThemeBoite.setPromptText("Filtrer par Thème");
-        txtFiltreNomBoite = new TextField();
-        txtFiltreNomBoite.setPromptText("Filtrer par nom/numéro...");
-        btnClearBoite = new Button("Effacer"); 
-        
-        HBox filtresBoite = new HBox(10, cbFiltreThemeBoite, txtFiltreNomBoite, btnClearBoite);
-        filtresBoite.setAlignment(Pos.CENTER_LEFT);
-
-        tableBoites = new TableView<>();
-        TableColumn<Boite, String> colNumBoite = new TableColumn<>("Numéro"); colNumBoite.setCellValueFactory(new PropertyValueFactory<>("numero"));
-        TableColumn<Boite, String> colNomBoite = new TableColumn<>("Nom"); colNomBoite.setCellValueFactory(new PropertyValueFactory<>("nom"));
-        TableColumn<Boite, Integer> colAnneeBoite = new TableColumn<>("Année"); colAnneeBoite.setCellValueFactory(new PropertyValueFactory<>("annee"));
-        TableColumn<Boite, Integer> colNbPiecesBoite = new TableColumn<>("Pièces"); colNbPiecesBoite.setCellValueFactory(new PropertyValueFactory<>("nbPiece"));
-        
-        TableColumn<Boite, String> colThemeBoite = new TableColumn<>("Thème");
-        colThemeBoite.setCellValueFactory(cellData -> {
-            Theme t = cellData.getValue().getTheme();
-            return new SimpleStringProperty(t != null ? t.getNom() : "Aucun");
-        });
-
-        tableBoites.getColumns().addAll(colNumBoite, colNomBoite, colAnneeBoite, colNbPiecesBoite, colThemeBoite);
-        tableBoites.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-        
-        VBox vbBoites = new VBox(10, filtresBoite, tableBoites);
-        vbBoites.setPadding(new Insets(10));
-        VBox.setVgrow(tableBoites, Priority.ALWAYS);
-        tabBoites.setContent(vbBoites);
-
-        // Onglet Pièces
-        Tab tabPieces = new Tab("Pièces");
-        
-        cbFiltreCatPiece = new ComboBox<>();
-        cbFiltreCatPiece.setPromptText("Filtrer par Catégorie");
-        txtFiltreNomPiece = new TextField();
-        txtFiltreNomPiece.setPromptText("Filtrer par nom/numéro...");
-        btnClearPiece = new Button("Effacer");
-
-        HBox filtresPiece = new HBox(10, cbFiltreCatPiece, txtFiltreNomPiece, btnClearPiece);
-        filtresPiece.setAlignment(Pos.CENTER_LEFT);
-
-        tablePieces = new TableView<>();
-        TableColumn<Piece, String> colNumPiece = new TableColumn<>("Numéro"); colNumPiece.setCellValueFactory(new PropertyValueFactory<>("numPiece"));
-        TableColumn<Piece, String> colNomPiece = new TableColumn<>("Nom"); colNomPiece.setCellValueFactory(new PropertyValueFactory<>("nomPiece"));
-        
-        TableColumn<Piece, String> colCatPiece = new TableColumn<>("Catégorie");
-        colCatPiece.setCellValueFactory(cellData -> {
-            Categorie c = cellData.getValue().getCategorie();
-            return new SimpleStringProperty(c != null ? c.getNomCat() : "Aucune");
-        });
-
-        tablePieces.getColumns().addAll(colNumPiece, colNomPiece, colCatPiece);
-        tablePieces.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-        
-        VBox vbPieces = new VBox(10, filtresPiece, tablePieces);
-        vbPieces.setPadding(new Insets(10));
-        VBox.setVgrow(tablePieces, Priority.ALWAYS);
-        tabPieces.setContent(vbPieces);
-
-        // Onglet Thèmes
-        Tab tabThemes = new Tab("Thèmes");
-        txtFiltreNomTheme = new TextField();
-        txtFiltreNomTheme.setPromptText("Filtrer par ID ou nom de thème...");
-
-        tableThemes = new TableView<>();
-        TableColumn<Theme, Integer> colIdTheme = new TableColumn<>("ID"); colIdTheme.setCellValueFactory(new PropertyValueFactory<>("idTheme"));
-        TableColumn<Theme, String> colNomTheme = new TableColumn<>("Nom du Thème"); colNomTheme.setCellValueFactory(new PropertyValueFactory<>("nom"));
-        tableThemes.getColumns().addAll(colIdTheme, colNomTheme);
-        tableThemes.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-        
-        VBox vbThemes = new VBox(10, txtFiltreNomTheme, tableThemes);
-        vbThemes.setPadding(new Insets(10));
-        VBox.setVgrow(tableThemes, Priority.ALWAYS);
-        tabThemes.setContent(vbThemes);
-
-        // Onglet Figurines
-        Tab tabFigurines = new Tab("Figurines");
-        txtFiltreNomFigurine = new TextField();
-        txtFiltreNomFigurine.setPromptText("Filtrer par ID ou nom de figurine...");
-
-        tableFigurines = new TableView<>();
-        TableColumn<Figurine, String> colIdFig = new TableColumn<>("ID Figurine"); colIdFig.setCellValueFactory(new PropertyValueFactory<>("idFig"));
-        TableColumn<Figurine, String> colNomFig = new TableColumn<>("Nom"); colNomFig.setCellValueFactory(new PropertyValueFactory<>("nomFig"));
-        TableColumn<Figurine, Integer> colNbParties = new TableColumn<>("Nb Parties"); colNbParties.setCellValueFactory(new PropertyValueFactory<>("nbParties"));
-        
-        tableFigurines.getColumns().addAll(colIdFig, colNomFig, colNbParties);
-        tableFigurines.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-        
-        VBox vbFigurines = new VBox(10, txtFiltreNomFigurine, tableFigurines);
-        vbFigurines.setPadding(new Insets(10));
-        VBox.setVgrow(tableFigurines, Priority.ALWAYS);
-        tabFigurines.setContent(vbFigurines);
-
-        tabPane.getTabs().addAll(tabBoites, tabPieces, tabThemes, tabFigurines);
-        // --- BOUTON RETOUR EN BAS ---
         this.btnHome = new Button();
         try {
-            ImageView homeView = new ImageView(new Image(getClass().getResourceAsStream("/img/logoRetour.png")));
-            homeView.setFitWidth(35); homeView.setFitHeight(35); homeView.setPreserveRatio(true);
-            this.btnHome.setGraphic(homeView);
+            ImageView homeImageView = new ImageView(new Image(getClass().getResourceAsStream("/img/70083.png")));
+            homeImageView.setFitWidth(35); homeImageView.setFitHeight(35); homeImageView.setPreserveRatio(true);
+            this.btnHome.setGraphic(homeImageView);
             this.btnHome.setStyle("-fx-background-color: transparent; -fx-cursor: hand;");
-        } catch (Exception e) { this.btnHome.setText("Retour"); }
-        HBox zoneRetour = new HBox(btnHome);
-        zoneRetour.setAlignment(Pos.CENTER_LEFT);
-        VBox.setMargin(zoneRetour, new Insets(10, 0, 0, 0));
+        } catch (Exception e) { this.btnHome.setText("🏠"); }
 
-        this.getChildren().addAll(header, new Separator(), tabPane, zoneRetour);
+        Label lblTitre = new Label("Catalogue Global (Mode Administrateur)");
+        lblTitre.setFont(Font.font("Arial", FontWeight.BOLD, 24));
+        lblTitre.setStyle("-fx-text-fill: #0055BF;");
+        header.getChildren().addAll(btnHome, lblTitre);
+
+        // ==========================================
+        // 2. LES ONGLETS ET LES TABLEAUX
+        // ==========================================
+        TabPane tabPane = new TabPane();
+        tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
+        VBox.setVgrow(tabPane, Priority.ALWAYS); // Prend toute la place possible
+
+        // --- ONGLET BOÎTES ---
+        Tab tabBoites = new Tab("Boîtes LEGO");
+        tableBoites = new TableView<>();
+        
+        TableColumn<Boite, String> colImgB = creerColonneImage("Aperçu");
+        TableColumn<Boite, String> colNumB = new TableColumn<>("Numéro"); colNumB.setCellValueFactory(new PropertyValueFactory<>("numero"));
+        TableColumn<Boite, String> colNomB = new TableColumn<>("Nom de la Boîte"); colNomB.setCellValueFactory(new PropertyValueFactory<>("nom")); colNomB.setPrefWidth(250);
+        TableColumn<Boite, Integer> colAnneeB = new TableColumn<>("Année"); colAnneeB.setCellValueFactory(new PropertyValueFactory<>("annee"));
+        TableColumn<Boite, Integer> colPiecesB = new TableColumn<>("Nb Pièces"); colPiecesB.setCellValueFactory(new PropertyValueFactory<>("nbPiece"));
+        
+        tableBoites.getColumns().addAll(colImgB, colNumB, colNomB, colAnneeB, colPiecesB);
+        tabBoites.setContent(tableBoites);
+
+        // --- ONGLET PIÈCES ---
+        Tab tabPieces = new Tab("Pièces / Briques");
+        tablePieces = new TableView<>();
+        
+        TableColumn<Piece, String> colImgP = creerColonneImage("Aperçu");
+        TableColumn<Piece, String> colNumP = new TableColumn<>("ID Pièce"); colNumP.setCellValueFactory(new PropertyValueFactory<>("numPiece"));
+        TableColumn<Piece, String> colNomP = new TableColumn<>("Nom de la Pièce"); colNomP.setCellValueFactory(new PropertyValueFactory<>("nomPiece")); colNomP.setPrefWidth(300);
+        
+        tablePieces.getColumns().addAll(colImgP, colNumP, colNomP);
+        tabPieces.setContent(tablePieces);
+
+        // --- ONGLET FIGURINES ---
+        Tab tabFigurines = new Tab("Figurines");
+        tableFigurines = new TableView<>();
+        
+        TableColumn<Figurine, String> colImgF = creerColonneImage("Aperçu");
+        TableColumn<Figurine, String> colNumF = new TableColumn<>("ID Figurine"); colNumF.setCellValueFactory(new PropertyValueFactory<>("idFig"));
+        TableColumn<Figurine, String> colNomF = new TableColumn<>("Nom de la Figurine"); colNomF.setCellValueFactory(new PropertyValueFactory<>("nomFig")); colNomF.setPrefWidth(300);
+        TableColumn<Figurine, Integer> colPartiesF = new TableColumn<>("Nb Parties"); colPartiesF.setCellValueFactory(new PropertyValueFactory<>("nbParties"));
+        
+        tableFigurines.getColumns().addAll(colImgF, colNumF, colNomF, colPartiesF);
+        tabFigurines.setContent(tableFigurines);
+
+        // On ajoute les onglets au conteneur
+        tabPane.getTabs().addAll(tabBoites, tabPieces, tabFigurines);
+
+        // ==========================================
+        // 3. LE RESSORT MAGIQUE ET LE FOOTER
+        // ==========================================
+        Region ressort = new Region();
+        VBox.setVgrow(ressort, Priority.ALWAYS);
+
+        HBox footer = new HBox();
+        footer.setAlignment(Pos.BOTTOM_LEFT); 
+        this.btnRetour = new Button();
+        try {
+            ImageView retourView = new ImageView(new Image(getClass().getResourceAsStream("/img/logoRetour.png")));
+            retourView.setFitWidth(50); retourView.setFitHeight(50); retourView.setPreserveRatio(true);
+            this.btnRetour.setGraphic(retourView);
+            this.btnRetour.setStyle("-fx-background-color: transparent; -fx-cursor: hand;");
+        } catch (Exception e) { 
+            this.btnRetour.setText("⬅ Retour"); 
+            this.btnRetour.setStyle("-fx-background-color: #E3000B; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand; -fx-padding: 10 20; -fx-background-radius: 5;");
+        }
+        footer.getChildren().add(btnRetour);
+
+        // Assemblage Final
+        this.getChildren().addAll(header, new Separator(), tabPane, ressort, footer);
     }
 
+    // ── MÉTHODE UNIVERSELLE POUR CRÉER UNE COLONNE IMAGE ──
+    private <T> TableColumn<T, String> creerColonneImage(String titre) {
+        TableColumn<T, String> colImage = new TableColumn<>(titre);
+        
+        // On récupère dynamiquement le champ imgUrl peu importe l'objet
+        colImage.setCellValueFactory(data -> {
+            Object objet = data.getValue();
+            String url = null;
+            if (objet instanceof Boite) url = ((Boite) objet).getImgUrl();
+            else if (objet instanceof Piece) url = ((Piece) objet).getImgUrl();
+            else if (objet instanceof Figurine) url = ((Figurine) objet).getImgUrl();
+            return new SimpleStringProperty(url);
+        });
+        
+        colImage.setStyle("-fx-alignment: CENTER;");
+        colImage.setPrefWidth(120);
+
+        colImage.setCellFactory(new Callback<TableColumn<T, String>, TableCell<T, String>>() {
+            @Override
+            public TableCell<T, String> call(TableColumn<T, String> param) {
+                return new TableCell<T, String>() {
+                    private final ImageView imgView = new ImageView();
+                    @Override
+                    protected void updateItem(String url, boolean empty) {
+                        super.updateItem(url, empty);
+                        if (empty || url == null || url.trim().isEmpty() || url.equals("null")) {
+                            setGraphic(null);
+                            setText("Pas d'image");
+                        } else {
+                            try {
+                                Image image = new Image(url.trim(), true);
+                                imgView.setImage(image); 
+                                imgView.setFitWidth(60); imgView.setFitHeight(60); imgView.setPreserveRatio(true);
+                                setGraphic(imgView);
+                                setText(null);
+                                image.errorProperty().addListener((obs, oldV, newV) -> {
+                                    if (newV) { setGraphic(null); setText("Erreur URL"); }
+                                });
+                            } catch (Exception e) {
+                                setGraphic(null);
+                                setText("Erreur");
+                            }
+                        }
+                    }
+                };
+            }
+        });
+        return colImage;
+    }
+
+    // ── GETTERS POUR LE CONTRÔLEUR ──
     public Button getBtnHome() { return btnHome; }
+    public Button getBtnRetour() { return btnRetour; }
     public TableView<Boite> getTableBoites() { return tableBoites; }
     public TableView<Piece> getTablePieces() { return tablePieces; }
-    public TableView<Theme> getTableThemes() { return tableThemes; }
     public TableView<Figurine> getTableFigurines() { return tableFigurines; }
-    
-    public ComboBox<Theme> getCbFiltreThemeBoite() { return cbFiltreThemeBoite; }
-    public TextField getTxtFiltreNomBoite() { return txtFiltreNomBoite; }
-    public Button getBtnClearBoite() { return btnClearBoite; }
-
-    public ComboBox<Categorie> getCbFiltreCatPiece() { return cbFiltreCatPiece; }
-    public TextField getTxtFiltreNomPiece() { return txtFiltreNomPiece; }
-    public Button getBtnClearPiece() { return btnClearPiece; }
-
-    public TextField getTxtFiltreNomTheme() { return txtFiltreNomTheme; }
-    public TextField getTxtFiltreNomFigurine() { return txtFiltreNomFigurine; }
 }

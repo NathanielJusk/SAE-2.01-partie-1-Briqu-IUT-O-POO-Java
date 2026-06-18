@@ -123,8 +123,8 @@ public class Theme {
      *
      * @param themePere nouveau thème parent
      */
-    public void setThemePere(Theme themePere) {
-        this.themePere = themePere;
+    public void setThemePere(int themePere) {
+        this.themePere = themePere != 0 ? new Theme(themePere, "") : null; // Crée un thème parent avec un nom vide si l'ID est non nul
     }
 
     /**

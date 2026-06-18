@@ -1,10 +1,12 @@
 package fr.univorleans.iut45.briquiuto.IHM.Controlleurs;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import fr.univorleans.iut45.briquiuto.JDBC.RequetesLEGO;
 import fr.univorleans.iut45.briquiuto.modele.Boite;
+import fr.univorleans.iut45.briquiuto.IHM.Vue.AccueilVue;
 import fr.univorleans.iut45.briquiuto.IHM.Vue.collec.CollectionneurHomeVue;
 import fr.univorleans.iut45.briquiuto.IHM.Vue.collec.VueMesMOCs;
 import javafx.collections.FXCollections;
@@ -29,32 +31,49 @@ public class MesMOCsControleur {
     }
 
     private void initialiser() {
-        // 1. Retour Accueil
-        vue.getBtnHome().setOnAction(e -> {
+        // 1. Bouton Retour (Flèche rouge) -> Retour au menu du collectionneur
+        vue.getBtnRetour().setOnAction(e -> {
             CollectionneurHomeVue vueHome = new CollectionneurHomeVue();
             new CollectionneurHomeControleur(vueHome, modele, fenetrePrincipale);
-            fenetrePrincipale.setScene(new Scene(vueHome, 600, 500));
+            fenetrePrincipale.setScene(new Scene(vueHome, 1000, 700));
         });
 
-        // 2. Charger les données
+        // 2. Bouton Home (Maison) -> Déconnexion vers l'accueil de l'application
+        vue.getBtnHome().setOnAction(e -> {
+            AccueilVue vueAccueil = new AccueilVue();
+            new AccueilControleur(vueAccueil, modele, fenetrePrincipale);
+            fenetrePrincipale.setScene(new Scene(vueAccueil, 1000, 700));
+        });
+
+        // 3. Charger les données et configurer la recherche filtrable
         try {
-            List<Boite> boites = modele.getAllBoites();
-            listeToutesBoites = FXCollections.observableArrayList(boites);
+            List<Boite> toutesLesBoites = modele.getAllBoites();
+            List<Boite> seulementMesMocs = new ArrayList<>();
+
+            // === LE FILTRE MAGIQUE EST ICI ===
+            // On ne garde que les boîtes dont le numéro commence par "PERSO-"
+            for (Boite b : toutesLesBoites) {
+                if (b.getNumero() != null && b.getNumero().toUpperCase().startsWith("PERSO-")) {
+                    seulementMesMocs.add(b);
+                }
+            }
+
+            listeToutesBoites = FXCollections.observableArrayList(seulementMesMocs);
             
-            // Création d'une liste filtrable
+            // Création d'une liste filtrable (pour la barre de recherche)
             FilteredList<Boite> filteredData = new FilteredList<>(listeToutesBoites, b -> true);
             
-            // Lier le champ de texte au filtre
+            // Lier le champ de texte au prédicat de filtrage dynamique
             vue.getTxtRecherche().textProperty().addListener((observable, oldValue, newValue) -> {
                 filteredData.setPredicate(boite -> {
-                    // Si le champ est vide, on affiche tout
+                    // Si le champ est vide, on affiche tous les MOCs
                     if (newValue == null || newValue.trim().isEmpty()) {
                         return true;
                     }
                     
                     String rechercheMinuscule = newValue.toLowerCase().trim();
                     
-                    // On filtre par Numéro OU par Nom
+                    // Filtrage par Numéro OU par Nom
                     if (boite.getNumero() != null && boite.getNumero().toLowerCase().contains(rechercheMinuscule)) {
                         return true;
                     } else if (boite.getNom() != null && boite.getNom().toLowerCase().contains(rechercheMinuscule)) {
@@ -64,12 +83,13 @@ public class MesMOCsControleur {
                 });
             });
 
-            // Afficher dans le tableau
+            // Injection des données filtrées dans le tableau
             vue.getTableBoites().setItems(filteredData);
 
         } catch (SQLException e) {
             Alert alerte = new Alert(Alert.AlertType.ERROR);
             alerte.setTitle("Erreur BD");
+            alerte.setHeaderText(null);
             alerte.setContentText("Impossible de charger les boîtes depuis la base de données.");
             alerte.showAndWait();
         }

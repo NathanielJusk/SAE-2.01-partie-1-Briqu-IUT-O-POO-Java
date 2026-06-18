@@ -8,6 +8,7 @@ public class Piece {
     private String numPiece;
     private String nomPiece;
     private Categorie categorie;
+    private String imgUrl;
 
     /**
      * Crée une pièce avec un numéro, un nom et une catégorie.
@@ -77,6 +78,13 @@ public class Piece {
     public Categorie getCategorie() {
         return categorie;
     }
+    public String getImgUrl() {
+    return imgUrl;
+}
+
+public void setImgUrl(String imgUrl) {
+    this.imgUrl = imgUrl;
+}
     
     /**
      * Définit la catégorie de la pièce.

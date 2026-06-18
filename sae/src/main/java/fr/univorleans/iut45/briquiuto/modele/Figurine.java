@@ -8,6 +8,7 @@ public class Figurine {
     private String idFig;
     private String nomFig;
     private int nbParties;
+    private String imgUrl;
 
     /**
      * Crée une figurine avec un identifiant, un nom et un nombre de pièces.
@@ -96,7 +97,13 @@ public class Figurine {
         Figurine figurine = (Figurine) o;
         return idFig.equals(figurine.idFig);
     }
-
+    // Ajoute ces deux méthodes en bas de ta classe
+public String getImgUrl() {
+    return imgUrl;
+}
+public void setImgUrl(String imgUrl) {
+    this.imgUrl = imgUrl;
+}
     @Override
     public int hashCode() {
         return idFig.hashCode();

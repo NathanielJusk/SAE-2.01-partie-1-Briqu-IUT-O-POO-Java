@@ -10,6 +10,7 @@ import fr.univorleans.iut45.briquiuto.modele.Couleur;
 import fr.univorleans.iut45.briquiuto.modele.Figurine;
 import fr.univorleans.iut45.briquiuto.modele.Piece;
 import fr.univorleans.iut45.briquiuto.modele.Theme;
+import fr.univorleans.iut45.briquiuto.IHM.Vue.AccueilVue;
 import fr.univorleans.iut45.briquiuto.IHM.Vue.collec.CollectionneurHomeVue;
 import fr.univorleans.iut45.briquiuto.IHM.Vue.collec.VueCompositionBoitePerso;
 import javafx.collections.FXCollections;
@@ -43,11 +44,16 @@ public class CompositionBoiteControleurPerso {
     private void initialiser() {
         chargerComboBoxes();
 
-        // Liaisons des boutons
+        // Liaisons des boutons d'action
         vue.getBtnAjouterPiece().setOnAction(e -> handleAjouterPiece());
         vue.getBtnAjouterFigurine().setOnAction(e -> handleAjouterFigurine());
         vue.getBtnValiderBoite().setOnAction(e -> handleValiderCreation());
-        vue.getBtnHome().setOnAction(e -> actionRetour());
+        
+        // --- NOUVEAU : GESTION DES BOUTONS DE NAVIGATION ---
+        // Le bouton Maison ramène à l'écran de connexion
+        vue.getBtnHome().setOnAction(e -> actionRetourAccueil());
+        // Le bouton Retour ramène au menu du collectionneur
+        vue.getBtnRetour().setOnAction(e -> actionRetourCollectionneur());
     }
 
     private void chargerComboBoxes() {
@@ -102,11 +108,9 @@ public class CompositionBoiteControleurPerso {
             panierPieces.add(new ChoixPiece(piece, couleur, qte));
             totalElements += qte;
             
-            // Mise à jour de l'affichage
             vue.getListeContenuTemporaire().getItems().add("[Pièce] " + qte + "x " + piece.getNomPiece() + " (" + couleur.getNomCoul() + ")");
             vue.majTotal(totalElements);
             
-            // Nettoyage rapide pour l'ajout suivant
             vue.getTxtQuantitePiece().clear();
             vue.afficherMessage("Pièce ajoutée au panier !", Color.GREEN);
 
@@ -161,29 +165,21 @@ public class CompositionBoiteControleurPerso {
         try {
             int annee = Integer.parseInt(anneeStr);
 
-            // 1. Création de l'objet Boite
             BoitePersonnalisee moc = new BoitePersonnalisee(num, totalElements, nom, annee);
             moc.setTheme(theme);
 
-            // 2. Insertion de la boîte principale dans la BD
             modele.ajouterBoite(moc);
-
-            // --- CRÉATION DE L'INVENTAIRE POUR PERMETTRE L'AJOUT DES PIÈCES ---
             modele.creerContenuPourBoite(num);
 
-            // 3. Ajout des pièces liées au CONTENU
             for (ChoixPiece cp : panierPieces) {
                 modele.ajouterPieceDansBoite(num, cp.piece.getNumPiece(), cp.couleur.getIdCoul(), cp.qte, false);
             }
 
-            // 4. Ajout des figurines liées au CONTENU
             for (ChoixFigurine cf : panierFigurines) {
                 modele.ajouterFigurineDansBoite(num, cf.figurine.getIdFig(), cf.qte);
             }
 
             vue.afficherMessage("Félicitations ! Votre MOC a été enregistrée avec succès.", Color.GREEN);
-            
-            // On bloque le bouton pour éviter les doublons accidentels
             vue.getBtnValiderBoite().setDisable(true);
 
         } catch (NumberFormatException e) {
@@ -194,10 +190,18 @@ public class CompositionBoiteControleurPerso {
         }
     }
 
-    private void actionRetour() {
+    // --- NOUVELLES MÉTHODES DE NAVIGATION ---
+    
+    private void actionRetourCollectionneur() {
         CollectionneurHomeVue vueHome = new CollectionneurHomeVue();
         new CollectionneurHomeControleur(vueHome, modele, fenetrePrincipale);
-        fenetrePrincipale.setScene(new Scene(vueHome, 600, 500));
+        fenetrePrincipale.setScene(new Scene(vueHome, 1000, 700)); // Taille standardisée !
+    }
+
+    private void actionRetourAccueil() {
+        AccueilVue vueAccueil = new AccueilVue();
+        new AccueilControleur(vueAccueil, modele, fenetrePrincipale);
+        fenetrePrincipale.setScene(new Scene(vueAccueil, 1000, 700)); // Taille standardisée !
     }
 
     // --- Classes internes pour stocker temporairement les choix (Panier) ---

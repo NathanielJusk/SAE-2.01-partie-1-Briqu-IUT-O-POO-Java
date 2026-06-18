@@ -18,6 +18,7 @@ import javafx.scene.text.FontWeight;
 public class VueMesMOCs extends VBox {
 
     private Button btnHome;
+    private Button btnRetour; // <-- Le bouton retour est déclaré ici
     private TextField txtRecherche;
     private TableView<Boite> tableBoites;
 
@@ -78,10 +79,34 @@ public class VueMesMOCs extends VBox {
         tableBoites.getColumns().addAll(colNum, colNom, colAnnee, colPieces, colTheme);
         tableBoites.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
-        this.getChildren().addAll(header, new Separator(), zoneRecherche, tableBoites);
+        // ==========================================
+        // --- PIED DE PAGE : BOUTON RETOUR ---
+        // ==========================================
+        HBox footer = new HBox();
+        footer.setAlignment(Pos.BOTTOM_LEFT); 
+        
+        this.btnRetour = new Button();
+        try {
+            ImageView retourImageView = new ImageView(new Image(getClass().getResourceAsStream("/img/logoRetour.png")));
+            retourImageView.setFitWidth(50);
+            retourImageView.setFitHeight(50); 
+            retourImageView.setPreserveRatio(true);
+            this.btnRetour.setGraphic(retourImageView);
+            this.btnRetour.setStyle("-fx-background-color: transparent; -fx-cursor: hand;");
+        } catch (Exception e) { 
+            this.btnRetour.setText("⬅ Retour"); 
+            this.btnRetour.setStyle("-fx-background-color: #E3000B; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand; -fx-padding: 10 20; -fx-background-radius: 5;");
+        }
+        
+        footer.getChildren().add(btnRetour);
+
+        // --- ASSEMBLAGE FINAL ---
+        this.getChildren().addAll(header, new Separator(), zoneRecherche, tableBoites, footer);
     }
 
+    // --- GETTERS ---
     public Button getBtnHome() { return btnHome; }
+    public Button getBtnRetour() { return btnRetour; } // <-- Getter pour le contrôleur
     public TextField getTxtRecherche() { return txtRecherche; }
     public TableView<Boite> getTableBoites() { return tableBoites; }
 }
