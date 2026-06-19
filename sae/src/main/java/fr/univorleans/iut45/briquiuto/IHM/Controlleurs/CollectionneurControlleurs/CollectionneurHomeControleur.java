@@ -8,7 +8,6 @@ import fr.univorleans.iut45.briquiuto.IHM.Vue.collec.VueRechercheBoiteParPiece;
 import fr.univorleans.iut45.briquiuto.IHM.Vue.collec.VueRechercheBoiteParThemeCollectionneur;
 import fr.univorleans.iut45.briquiuto.JDBC.RequetesLEGO;
 import fr.univorleans.iut45.briquiuto.IHM.Vue.AccueilVue;
-import fr.univorleans.iut45.briquiuto.IHM.Controlleurs.*;
 import fr.univorleans.iut45.briquiuto.IHM.Controlleurs.AccueilControleur.AccueilControleur;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
